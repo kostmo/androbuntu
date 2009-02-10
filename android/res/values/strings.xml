@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello, Ubuntu</string>
+    <string name="app_name">Ubuntu Remote Control</string>
+</resources>
