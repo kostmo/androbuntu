@@ -21,12 +21,28 @@ class HelloWorld(gtk.Window):
 		print "destroy signal occurred"
 		gtk.main_quit()
 
-	def cb_row_activated(self, treeview, path, view_column):
 
+
+		import socket
+		from master import port
+
+#		host = 'localhost'
+		host = '192.168.0.9'
+
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.connect( (host, port) )
+
+		s.send( "quit" )
+		s.close()
+		print 'Received:', data
+
+
+
+
+	def cb_row_activated(self, treeview, path, view_column):
 
 		ts = treeview.get_model()
 		command_to_send = ts.get_value(ts.get_iter(path), 0)
-
 
 
 		import socket
@@ -41,7 +57,7 @@ class HelloWorld(gtk.Window):
 		s.send( command_to_send )
 		data = s.recv(size)
 		s.close()
-		print 'Received:', data
+		print 'Received:', data,
 
 
 
@@ -95,5 +111,5 @@ class HelloWorld(gtk.Window):
 
 
 if __name__ == "__main__":
-    hello = HelloWorld()
+	hello = HelloWorld()
 	gtk.main()
