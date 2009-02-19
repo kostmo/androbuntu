@@ -10,7 +10,6 @@ import java.net.Socket;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -36,24 +35,46 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        et.setText( "192.168.0.9" );
        
        Button button = new Button(this);
-
        button.setOnClickListener(this);
        button.setText("booya!");
 
 
+       Button x10_button = new Button(this);
+       x10_button.setOnClickListener(x10_button_listener);
+       x10_button.setText("x10 Controls");
       
+       Button scripts_button = new Button(this);
+       scripts_button.setOnClickListener(scripts_button_listener);
+       scripts_button.setText("Scripts");
         
         LinearLayout myfoo = new LinearLayout(this);
         myfoo.setOrientation(LinearLayout.VERTICAL);
         
+        
+        myfoo.addView(x10_button);
+        myfoo.addView(scripts_button);
+        
         myfoo.addView(tv);
         myfoo.addView(et);
-        
         myfoo.addView(button);
        
        
        setContentView(myfoo);
    }
+   
+   
+   private View.OnClickListener x10_button_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	      // do something when the button is clicked
+	    }
+	};
+
+   private View.OnClickListener scripts_button_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	      // do something when the button is clicked
+	    }
+	};
+	
    
    private String send_message() {
 	   
@@ -89,6 +110,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    }
 	    catch (IOException e) {
 	        System.out.println(e);
+	        
+	        message = "Failed.";
 	    }
 	    return message;
    }
