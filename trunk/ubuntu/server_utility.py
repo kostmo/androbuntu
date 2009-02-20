@@ -8,8 +8,6 @@ import threading
 import socket
 import os
 
-from master import port
-
 
 # =========================
 
@@ -17,19 +15,23 @@ class WebServerThread(threading.Thread):
 
 	"""Web Server thread"""
 
+
+
 	stopthread = threading.Event()
-	def __init__(self):
+	def __init__(self, controller_window):
 		threading.Thread.__init__(self)
 
 		self.setDaemon(True)
 
-
+		self.controller_window = controller_window
 		hostname = ''
 
 		backlog = 5
 		self.size = 1024
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.s.bind((hostname, port))
+		self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+		self.s.bind( (hostname, self.controller_window.DEFAULT_PORT) )
 		self.s.listen(backlog)
 
 
@@ -43,18 +45,61 @@ class WebServerThread(threading.Thread):
 
 				print "Got a message:", data
 
-				if data == "quit":
+				# We should send the response back immediately; the Android application will hang while waiting.
+				# This is especially important when we make GUI updates, such as the "libnotify" bubble;
+				# it seems that if we send more than one of this event, the second is not processed until we put focus
+				# on either the GTK window or its StatusIcon residing in the tray.  Weird!
 
-					client.close()
+				client.send(data + "\n")
+				client.close()
+
+				if data == "quit":
 					break
 
-				string = 'xte "key ' + data + '"'
-				os.system( string )
+				elif data == "screen_blank":
+					os.system( "gnome-screensaver-command --activate" )
 
-				client.send(data+"\n")
+				elif data == "greet":
+
+					self.controller_window.hello(None)
+
+#					while gtk.events_pending():
+#						gtk.main_iteration(False)
 
 
-			client.close()
+#					gtk.gdk.threads_enter()	# Is this needed?
+
+#					gobject.idle_add(self.controller_window.hello, None)
+
+					'''
+					self.controller_window.hello(None)
+
+
+					'''
+#					gtk.gdk.threads_leave()
+
+
+				else:
+
+					gtk.gdk.threads_enter()	# Is this needed?
+					osd_enabled = self.controller_window.osd_enabled.get_active()
+					gtk.gdk.threads_leave()
+
+
+					cmd_string = ""
+					if osd_enabled:
+						cmd_string = 'xte "key ' + data + '"'
+
+					else:
+						cmd_string = "amixer sset Master,0 toggle"	# Mute
+#						cmd_string = "amixer sset Master,0 5%+"	# Increase
+#						cmd_string = "amixer sset Master,0 5%-"	# Decrease
+
+					os.system( cmd_string )
+
+
+			else:
+				client.close()
 
 	def stop(self):
 		"""send QUIT request to http server running on localhost:<port>"""
@@ -63,8 +108,14 @@ class WebServerThread(threading.Thread):
 
 # =========================
 
-class HelloWorld(gtk.Window):
+class AndroBuntuServer(gtk.Window):
 
+
+	def cb_dummy(self, widget):
+		print "Dummy callback."
+
+
+	DEFAULT_PORT = 46645
 	X11_KEY_DEFINITIONS = "/usr/share/X11/XKeysymDB"
 	ANDROID_ICON = "android_normal.png"
 
@@ -75,10 +126,24 @@ class HelloWorld(gtk.Window):
 		n = pynotify.Notification("Title", "message")
 
 		pixbuf = gtk.gdk.pixbuf_new_from_file( self.ANDROID_ICON )
+#		n.set_urgency(pynotify.URGENCY_CRITICAL)
+#		n.set_category("device")
 		n.set_icon_from_pixbuf( pixbuf )
-		n.set_timeout(3000)
-		n.attach_to_status_icon( self.my_status_icon )
-		n.show()
+ 		n.set_timeout(3000)
+
+		print n.get_children()
+		#gtk.Label("Foobar!")
+
+		# Note: When this is enabled, the notification bubble may be delayed
+		# until the app regains focus, which may be a long time and requires user interaction
+#		n.attach_to_status_icon( self.my_status_icon )
+
+
+		# Note: The "pie" countdown only shows up when we add a button, like this:
+		n.add_action("empty", "Empty Trash", self.cb_dummy)
+
+		if not n.show():
+			print "Well then..."
 
 
 	def delete_event(self, widget, event, data=None):
@@ -91,13 +156,13 @@ class HelloWorld(gtk.Window):
 
 
 		import socket
-		from master import port
+
 
 #		host = 'localhost'
 		host = '192.168.0.9'
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect( (host, port) )
+		s.connect( (host, self.DEFAULT_PORT) )
 
 		s.send( "quit" )
 		s.close()
@@ -112,20 +177,16 @@ class HelloWorld(gtk.Window):
 		command_to_send = ts.get_value(ts.get_iter(path), 0)
 
 
-		import socket
-		from master import port
-
 		host = 'localhost'
 
 		size = 1024
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect( (host, port) )
+		s.connect( (host, self.DEFAULT_PORT) )
 
 		s.send( command_to_send )
 		data = s.recv(size)
 		s.close()
 		print 'Received:', data,
-
 
 
 
@@ -166,6 +227,10 @@ class HelloWorld(gtk.Window):
 		button.connect("clicked", self.hello, None)
 		vbox.pack_start(button, False, False)
 
+
+		self.osd_enabled = gtk.CheckButton("OSD Enabled")
+		self.osd_enabled.set_active(True)
+		vbox.pack_start(self.osd_enabled, False, False)
 
 		vbox.pack_start(gtk.Label("Double-click a row to test the server command:"), False, False)
 
@@ -244,10 +309,11 @@ if __name__ == "__main__":
 
 	gobject.threads_init()
 
-	web_server_thread = WebServerThread()
+	hello = AndroBuntuServer()
+
+	web_server_thread = WebServerThread(hello)
 	web_server_thread.start()
 
-	hello = HelloWorld()
 	gtk.main()
 
 	web_server_thread.stop()
