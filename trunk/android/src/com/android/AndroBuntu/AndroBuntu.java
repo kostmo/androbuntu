@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -67,27 +68,23 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         LinearLayout myfoo2 = new LinearLayout(this);
         myfoo2.setOrientation(LinearLayout.HORIZONTAL);
 //        myfoo2.setGravity(Gravity.FILL);	// FIXME: Useless
-        
-        
+
+        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
+        l.weight = 1f;
         
         Button voldown_button = new Button(this);
-
-//        voldown_button.setGravity(Gravity.FILL);
         voldown_button.setOnClickListener(voldown_listener);
         voldown_button.setText("VolDown");
-        myfoo2.addView(voldown_button);
+		myfoo2.addView(voldown_button, l );
         
         Button volup_button = new Button(this);
-//        volup_button.setGravity(Gravity.FILL);
         volup_button.setOnClickListener(volup_listener);
         volup_button.setText("VolUp");
-        myfoo2.addView(volup_button);
-        
-
-
+        myfoo2.addView(volup_button, l );
 
 
         myfoo.addView(myfoo2);
+        myfoo.addView(button);	// Mute
         
         Button screen_blank_button = new Button(this);
         screen_blank_button.setOnClickListener(screen_blank_listener);
@@ -99,7 +96,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         
         myfoo.addView(tv);
         myfoo.addView(et);
-        myfoo.addView(button);
+
        
         
         ListView lv = new ListView(this);

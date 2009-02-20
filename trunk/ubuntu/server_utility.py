@@ -131,8 +131,6 @@ class AndroBuntuServer(gtk.Window):
 		n.set_icon_from_pixbuf( pixbuf )
  		n.set_timeout(3000)
 
-		print n.get_children()
-		#gtk.Label("Foobar!")
 
 		# Note: When this is enabled, the notification bubble may be delayed
 		# until the app regains focus, which may be a long time and requires user interaction
