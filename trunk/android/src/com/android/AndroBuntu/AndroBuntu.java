@@ -28,7 +28,6 @@ import com.android.AndroBuntu.R;
 
 
 
-import com.android.AndroBuntu.ScriptList;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
@@ -142,8 +141,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    private View.OnClickListener scripts_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	
-	    	ScriptList s = new ScriptList();
 	    	
 	    	// TODO: fark
 	    }
