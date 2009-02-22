@@ -11,7 +11,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+    <activity android:theme="@style/Theme.Translucent" android:name="com.android.Turntable3D.TurntableWidget"></activity>
+</application>
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest> 

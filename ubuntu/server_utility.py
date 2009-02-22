@@ -57,27 +57,12 @@ class WebServerThread(threading.Thread):
 					break
 
 				elif data == "screen_blank":
-					os.system( "gnome-screensaver-command --activate" )
+#					os.system( "gnome-screensaver-command --activate" )
+					os.system( "xset dpms force off" )
+
 
 				elif data == "greet":
-
 					self.controller_window.hello(None)
-
-#					while gtk.events_pending():
-#						gtk.main_iteration(False)
-
-
-#					gtk.gdk.threads_enter()	# Is this needed?
-
-#					gobject.idle_add(self.controller_window.hello, None)
-
-					'''
-					self.controller_window.hello(None)
-
-
-					'''
-#					gtk.gdk.threads_leave()
-
 
 				else:
 
