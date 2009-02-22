@@ -12,11 +12,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,7 +24,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.AndroBuntu.R;
-
+import com.android.Turntable3D.TurntableWidget;
 
 
 
@@ -35,8 +33,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private EditText et;
 
     private String[] mStrings = {
-            "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
-            "Acorn"
+            "Abbaye de Belloc", "Abondance", "Ackawi", "Acorn"
     };
     
     
@@ -67,7 +64,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         myfoo.setOrientation(LinearLayout.VERTICAL);
         LinearLayout myfoo2 = new LinearLayout(this);
         myfoo2.setOrientation(LinearLayout.HORIZONTAL);
-//        myfoo2.setGravity(Gravity.FILL);	// FIXME: Useless
 
         LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
         l.weight = 1f;
@@ -138,15 +134,16 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    private View.OnClickListener scripts_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	
-	    	// TODO: fark
+	    	Intent i = new Intent();
+	    	i.setClass(AndroBuntu.this, TurntableWidget.class); 
+	    	startActivity(i);
 	    }
 	};
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-		
+	
 		menu.add("Server Options");
 		menu.add("Frankenstein");
 
