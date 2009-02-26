@@ -11,7 +11,7 @@ import os
 
 # =========================
 
-class WebServerThread(threading.Thread):
+class ServerThread(threading.Thread):
 
 	"""Web Server thread"""
 
@@ -64,6 +64,12 @@ class WebServerThread(threading.Thread):
 				elif data == "greet":
 					self.controller_window.hello(None)
 
+				elif data == "lights_off":
+					os.system( "heyu alloff " + self.controller_window.housecode )
+
+				elif data == "lights_on":
+					os.system( "heyu allon " + self.controller_window.housecode )
+
 				else:
 
 					gtk.gdk.threads_enter()	# Is this needed?
@@ -104,13 +110,16 @@ class AndroBuntuServer(gtk.Window):
 	X11_KEY_DEFINITIONS = "/usr/share/X11/XKeysymDB"
 	ANDROID_ICON = "android_normal.png"
 
+	prog_title = "AndroBuntu Server"
+
+
 	# This is a callback function. The data arguments are ignored
 	# in this example. More on callbacks below.
 	def hello(self, widget, data=None):
 
 		n = pynotify.Notification("Title", "message")
 
-		pixbuf = gtk.gdk.pixbuf_new_from_file( self.ANDROID_ICON )
+		pixbuf = gtk.gdk.pixbuf_new_from_file( self.icon_path )
 #		n.set_urgency(pynotify.URGENCY_CRITICAL)
 #		n.set_category("device")
 		n.set_icon_from_pixbuf( pixbuf )
@@ -178,6 +187,14 @@ class AndroBuntuServer(gtk.Window):
 	def __init__(self):
 		gtk.Window.__init__(self)
 
+
+		import sys
+		self.img_directory = sys.path[0]
+		from os import path
+		self.icon_path = path.join(self.img_directory, self.ANDROID_ICON)
+		
+
+
 		self.connect("delete_event", self.delete_event)
 		self.connect("destroy", self.destroy)
 		self.set_border_width(10)
@@ -185,6 +202,9 @@ class AndroBuntuServer(gtk.Window):
 		self.hidden_window = False
 		self.pynotify_enabled = False
 
+
+		# TODO
+		self.housecode = "k"
 		
 		
 		try:
@@ -206,7 +226,7 @@ class AndroBuntuServer(gtk.Window):
 
 		vbox = gtk.VBox()
 
-		button = gtk.Button("Hello World")
+		button = gtk.Button("Message popup")
 		button.connect("clicked", self.hello, None)
 		vbox.pack_start(button, False, False)
 
@@ -242,16 +262,15 @@ class AndroBuntuServer(gtk.Window):
 		self.add(vbox)
 
 
-
 		self.my_status_icon = gtk.StatusIcon()
-		self.my_status_icon.set_from_stock(gtk.STOCK_NO)
-		self.my_status_icon.set_tooltip("Table: Free")
+		self.my_status_icon.set_from_file( self.icon_path )
+		self.my_status_icon.set_tooltip( self.prog_title )
 
 		self.my_status_icon.connect("activate", self.toggle_window)
 		self.my_status_icon.connect("popup-menu", self.systray_popup_callback)
 
-		self.set_icon_from_file( self.ANDROID_ICON )
-		self.set_title("AndroBuntu Server")
+		self.set_icon_from_file( self.icon_path )
+		self.set_title( self.prog_title )
 
 
 		self.show_all()
@@ -261,7 +280,7 @@ class AndroBuntuServer(gtk.Window):
 	def build_menu(self):
 		menu = gtk.Menu()
 
-		temp_item = gtk.MenuItem("Simulate bounce detection")
+		temp_item = gtk.MenuItem("Configure")
 #		temp_item.connect("activate", self.receive_bounce)
 		menu.append(temp_item)
 
@@ -281,10 +300,10 @@ class AndroBuntuServer(gtk.Window):
 
 	def toggle_window(self, status_icon):
 		if self.hidden_window:
-			self.window.show()
+			self.show()
 			self.hidden_window = False
 		else:
-			self.window.hide()
+			self.hide()
 			self.hidden_window = True
 
 
@@ -294,7 +313,7 @@ if __name__ == "__main__":
 
 	hello = AndroBuntuServer()
 
-	web_server_thread = WebServerThread(hello)
+	web_server_thread = ServerThread(hello)
 	web_server_thread.start()
 
 	gtk.main()

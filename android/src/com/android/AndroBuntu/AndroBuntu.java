@@ -40,12 +40,23 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    @Override
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
+       
+       
+       
+       
        TextView tv = new TextView(this);
        et = new EditText(this);
-       
        tv.setText( R.string.goodbye );
-       
        et.setText( "192.168.0.9" );
+       
+       
+       
+       
+
+       LinearLayout myfoo = new LinearLayout(this);
+       myfoo.setOrientation(LinearLayout.VERTICAL);
+       
+       
        
        Button button = new Button(this);
        button.setOnClickListener(this);
@@ -55,18 +66,19 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        Button x10_button = new Button(this);
        x10_button.setOnClickListener(x10_button_listener);
        x10_button.setText("x10 Controls");
+       
+       
       
        Button scripts_button = new Button(this);
        scripts_button.setOnClickListener(scripts_button_listener);
        scripts_button.setText("Scripts");
         
-        LinearLayout myfoo = new LinearLayout(this);
-        myfoo.setOrientation(LinearLayout.VERTICAL);
+       LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
+       l.weight = 1f;
+       
+       // --------------------------
         LinearLayout myfoo2 = new LinearLayout(this);
         myfoo2.setOrientation(LinearLayout.HORIZONTAL);
-
-        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
-        l.weight = 1f;
         
         Button voldown_button = new Button(this);
         voldown_button.setOnClickListener(voldown_listener);
@@ -77,6 +89,24 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         volup_button.setOnClickListener(volup_listener);
         volup_button.setText("VolUp");
         myfoo2.addView(volup_button, l );
+        // --------------------------
+        
+        LinearLayout myfoo3 = new LinearLayout(this);
+        myfoo3.setOrientation(LinearLayout.HORIZONTAL);
+
+        
+        Button lightson_button = new Button(this);
+        lightson_button.setOnClickListener(lightson_listener);
+        lightson_button.setText("LightsOn");
+		myfoo3.addView(lightson_button, l );
+        
+        Button lightsoff_button = new Button(this);
+        lightsoff_button.setOnClickListener(lightsoff_listener);
+        lightsoff_button.setText("LightsOff");
+        myfoo3.addView(lightsoff_button, l );
+        // --------------------------
+        
+        
 
 
         myfoo.addView(myfoo2);
@@ -86,6 +116,10 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         screen_blank_button.setOnClickListener(screen_blank_listener);
         screen_blank_button.setText("Blank Screen");
         myfoo.addView(screen_blank_button);
+        
+        
+        myfoo.addView(myfoo3);
+        
         
         myfoo.addView(x10_button);
         myfoo.addView(scripts_button);
@@ -110,6 +144,26 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
+	
+	
+	
+	
+   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	 	   String reply = send_message("lights_off");
+		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	    }
+	};
+	
+   private View.OnClickListener lightson_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	 	   String reply = send_message("lights_on");
+		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	    }
+	};
+	
+	
+	
 	
    private View.OnClickListener voldown_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
