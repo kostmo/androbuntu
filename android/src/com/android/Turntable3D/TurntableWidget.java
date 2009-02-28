@@ -41,6 +41,7 @@ public class TurntableWidget extends Activity {
 	
 	// Karl
 	public float[] last_tap;
+	boolean finger_touching = false;
 
 	
 	UbuntuLogoRenderer spriterenderer;
@@ -58,12 +59,12 @@ public class TurntableWidget extends Activity {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         
-        mGLSurfaceView = new GLSurfaceView(this, last_tap);
+        mGLSurfaceView = new GLSurfaceView(this);
         mGLSurfaceView.setGLWrapper(new GLSurfaceView.GLWrapper() {
             public GL wrap(GL gl) {
                 return new MatrixTrackingGL(gl);
             }});
-        spriterenderer = new UbuntuLogoRenderer(this, last_tap);
+        spriterenderer = new UbuntuLogoRenderer(this);
         
         mGLSurfaceView.setRenderer(spriterenderer);
         

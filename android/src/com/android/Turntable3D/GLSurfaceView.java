@@ -46,14 +46,17 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
-	private float[] last_tap_ref;
+	private TurntableWidget parent;
 	
-	public GLSurfaceView(Context context, float[] last_tap) {
+	public GLSurfaceView(Context context) {
         super(context);
  
-        last_tap_ref = last_tap;
+        
+        parent = (TurntableWidget) context;
+
 
         init();
+        
         
 
     }
@@ -65,7 +68,11 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         int action = event.getAction();
         boolean mCurDown = action == MotionEvent.ACTION_DOWN
                 || action == MotionEvent.ACTION_MOVE;
+        
+        parent.finger_touching = mCurDown;
+//        MotionEvent.ACTION_UP;
 
+        
         /*
         int N = event.getHistorySize();
         for (int i=0; i<N; i++) {
@@ -77,8 +84,8 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         */
 
 
-        last_tap_ref[0] = event.getX();
-        last_tap_ref[1] = event.getY();
+        parent.last_tap[0] = event.getX();
+        parent.last_tap[1] = event.getY();
 
 
 //        drawPoint(event.getX(), event.getY(), event.getPressure(), event.getSize());

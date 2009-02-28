@@ -13,7 +13,7 @@ import os
 
 class ServerThread(threading.Thread):
 
-	"""Web Server thread"""
+	"""Server thread"""
 
 
 

@@ -12,6 +12,8 @@
             </intent-filter>
         </activity>
     <activity android:theme="@style/Theme.Translucent" android:name="com.android.Turntable3D.TurntableWidget"></activity>
+<activity android:name="X10"></activity>
+<activity android:name="SocketMonitor"></activity>
 </application>
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>

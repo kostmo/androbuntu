@@ -27,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Random;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.opengles.GL10;
@@ -45,9 +46,9 @@ class Point2d {
 
 public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
 
+	private TurntableWidget parent;
 	
 	float eye_z, frust_near, frust_far;
-	private float[] last_tap_ref;
 	public boolean spin_direction;
 	public int spin_increment_multiplier;
 
@@ -55,21 +56,23 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
 	private float last_angular_position;	// On a scale from 0 to 1
 	
 	
-    public UbuntuLogoRenderer(Context context, float[] last_tap) {
+    public UbuntuLogoRenderer(Context context) {
+
+    	parent = (TurntableWidget) context;
+    	
 
     	last_frame_time = SystemClock.uptimeMillis();
  
     	spin_direction = false;
     	spin_increment_multiplier = 0;
-    	
-        last_tap_ref = last_tap;
         
-        mUbuntu = new UbuntuLogo();
+        mUbuntu = new UbuntuLogo(parent);
         mProjector = new Projector();
 
         eye_z = -1.0f;
         frust_near = 1.0f;
         frust_far = 2.0f;
+        
     }
 
     public int[] getConfigSpec() {
@@ -117,6 +120,9 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
         
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glEnable(GL10.GL_DEPTH_TEST);
+        
+
+		gl.glLineWidth(10.0f);
     }
 
     public void drawFrame(GL10 gl) {
@@ -152,8 +158,8 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
 
 		
         float[] desired_reprojection_coords = new float[3];
-        desired_reprojection_coords[0] = last_tap_ref[0];
-        desired_reprojection_coords[1] = viewport[3] - last_tap_ref[1];
+        desired_reprojection_coords[0] = parent.last_tap[0];
+        desired_reprojection_coords[1] = viewport[3] - parent.last_tap[1];
         desired_reprojection_coords[2] = frust_near - eye_z;
 
 //        Log.d("bork0", "Desired window coords: (" + String.valueOf(desired_reprojection_coords[0]) + ", " + String.valueOf(desired_reprojection_coords[1]) + ")");
@@ -181,6 +187,11 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
         
         float direction = spin_direction ? 1 : -1;
         float traversed_angle = spin_increment_multiplier * direction * base_angular_speed * elapsed_wall_seconds;
+ 
+        
+        if (parent.finger_touching)
+        	traversed_angle /= 3;
+        
         float angle = (last_angular_position + traversed_angle) % 1f;
         last_angular_position = angle;
         
@@ -231,6 +242,8 @@ class UbuntuLogo {
     private FloatBuffer GapChunkVertexBuffer;
     private ShortBuffer GapChunkIndexBuffer;
   
+    private FloatBuffer LightningVertexBuffer;
+    private ShortBuffer LightningIndexBuffer;
 
     
     private float head_radius;	// This is the distance of the head centers from the origin
@@ -238,7 +251,7 @@ class UbuntuLogo {
     private float arm_thickness;
     private float arm_radius;
     private float arm_gap;
-    private float head_gap;
+    private float head_border_radius;
     
     private int VERTS;
     private int VERTS2;
@@ -249,17 +262,24 @@ class UbuntuLogo {
     	255, 99, 9,	// Orange
     	201, 0, 22,	// Red
     };
+
+	private int LIGHTNING_VERTS = 16;
+	Random rand;
+	TurntableWidget parent;
     
-    
-    public UbuntuLogo() {
+    public UbuntuLogo(TurntableWidget parent) {
     	
-    	head_distance = 0.5f;
+    	this.parent = parent;
+    	
+    	head_distance = 0.45f;
     	head_radius = 0.12f;
-    	head_gap = 1.3f;
+    	head_border_radius = 1.2f;
     	arm_thickness = 0.2f;
     	arm_radius = 0.3f;
     	arm_gap = 1/35f;
     	
+		rand = new Random();
+        
     	// This should be drawn with "TRIANGLE_FAN"
     	Point2d[] circle_vertices = generate_circle_vertices(16, head_radius);
     	VERTS = circle_vertices.length;
@@ -283,7 +303,7 @@ class UbuntuLogo {
 //   	Point2d[] arc_vertices = generate_annulus_vertices(16, arm_radius, arm_thickness);
 //      Point2d[] arc_vertices = generate_partial_annulus_vertices(16, arm_radius, arm_thickness, 1/3f);
 //      Point2d[] arc_vertices = generate_ubuntu_arms(16, arm_radius, arm_thickness);
-        Point2d[] arc_vertices = generate_headless_ubuntu_arms(16, arm_radius, arm_thickness, head_gap*head_radius, head_distance);
+        Point2d[] arc_vertices = generate_headless_ubuntu_arms(16, arm_radius, arm_thickness, head_border_radius*head_radius, head_distance);
         VERTS2 = arc_vertices.length;
     		
         ByteBuffer vbb2 = ByteBuffer.allocateDirect(VERTS2 * 3 * 4);
@@ -302,7 +322,7 @@ class UbuntuLogo {
 
         // -----------------------------------------
         
-        Point2d[] gap_vertices = generate_gap_chunk(16, arm_radius, arm_thickness, head_gap*head_radius, head_distance);
+        Point2d[] gap_vertices = generate_gap_chunk(16, arm_radius, arm_thickness, head_border_radius*head_radius, head_distance);
         VERTS3 = gap_vertices.length;
     		
         ByteBuffer vbb3 = ByteBuffer.allocateDirect(VERTS3 * 3 * 4);
@@ -317,6 +337,14 @@ class UbuntuLogo {
 
         GapChunkVertexBuffer.position(0);
         GapChunkIndexBuffer = indexgen(VERTS3);
+        
+        
+        
+        ByteBuffer vbb4 = ByteBuffer.allocateDirect(LIGHTNING_VERTS * 3 * 4);
+        vbb4.order(ByteOrder.nativeOrder());
+        LightningVertexBuffer = vbb4.asFloatBuffer();
+
+		LightningIndexBuffer = indexgen(VERTS3);
     }
     
     private ShortBuffer indexgen(int count) {
@@ -558,8 +586,35 @@ class UbuntuLogo {
 	}
 
 	
+	private void regenerate_lightning() {
+
+		float lightning_radius = head_distance;
+		float bolt_width = head_radius;
+		
+        for (int i = 0; i < LIGHTNING_VERTS; i++) {
+        	
+			float angle = (i + rand.nextFloat()) / LIGHTNING_VERTS;
+			float arg = 2*angle*(float)Math.PI;
+			
+			float perturbed_radius = lightning_radius + bolt_width * (rand.nextFloat() - 0.5f);
+			float x = perturbed_radius * (float) Math.cos(arg);
+			float y = perturbed_radius * (float) Math.sin(arg);
+			
+        	LightningVertexBuffer.put(x);
+        	LightningVertexBuffer.put(y);
+        	LightningVertexBuffer.put(0);
+        }
+        LightningVertexBuffer.position(0);
+	}
+	
+	private void redraw_lightning(GL10 gl) {
+
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, LightningVertexBuffer);
+		gl.glDrawElements(GL10.GL_LINE_LOOP, LIGHTNING_VERTS, GL10.GL_UNSIGNED_SHORT, LightningIndexBuffer);
+	}
 	
     public void draw(GL10 gl) {
+    	
         
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glFrontFace(GL10.GL_CW);
@@ -603,5 +658,19 @@ class UbuntuLogo {
     	
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, GapChunkVertexBuffer);
 		gl.glDrawElements(GL10.GL_TRIANGLE_FAN, VERTS3, GL10.GL_UNSIGNED_SHORT, GapChunkIndexBuffer);
+ 
+    
+		if (parent.finger_touching) {
+			regenerate_lightning();
+			
+			gl.glDisable(GL10.GL_DEPTH_TEST);
+			
+			gl.glColor4f(0, 0.9f, 0.7f, 1f);
+			redraw_lightning(gl);
+			
+			gl.glDisable(GL10.GL_DEPTH_TEST);
+		}
+    
     }
+    
 }
