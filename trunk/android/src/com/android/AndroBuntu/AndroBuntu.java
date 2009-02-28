@@ -31,16 +31,17 @@ import com.android.Turntable3D.TurntableWidget;
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	private EditText et;
+	
+	private int androbuntu_socket = 46645;
 
     private String[] mStrings = {
-            "Abbaye de Belloc", "Abondance", "Ackawi", "Acorn"
+            "Abondance", "Ackawi", "Acorn"
     };
     
     
    @Override
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
-       
        
        
        
@@ -91,19 +92,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         myfoo2.addView(volup_button, l );
         // --------------------------
         
-        LinearLayout myfoo3 = new LinearLayout(this);
-        myfoo3.setOrientation(LinearLayout.HORIZONTAL);
 
-        
-        Button lightson_button = new Button(this);
-        lightson_button.setOnClickListener(lightson_listener);
-        lightson_button.setText("LightsOn");
-		myfoo3.addView(lightson_button, l );
-        
-        Button lightsoff_button = new Button(this);
-        lightsoff_button.setOnClickListener(lightsoff_listener);
-        lightsoff_button.setText("LightsOff");
-        myfoo3.addView(lightsoff_button, l );
         // --------------------------
         
         
@@ -118,7 +107,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         myfoo.addView(screen_blank_button);
         
         
-        myfoo.addView(myfoo3);
         
         
         myfoo.addView(x10_button);
@@ -148,19 +136,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
 	
 	
-   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
-	    public void onClick(View v) {
-	 	   String reply = send_message("lights_off");
-		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
-	    }
-	};
-	
-   private View.OnClickListener lightson_listener = new View.OnClickListener() {
-	    public void onClick(View v) {
-	 	   String reply = send_message("lights_on");
-		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
-	    }
-	};
 	
 	
 	
@@ -182,6 +157,14 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    private View.OnClickListener x10_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	      // do something when the button is clicked
+	    	
+	    	Intent i = new Intent();
+	    	i.setClass(AndroBuntu.this, X10.class);
+	    	
+
+	    	i.putExtra("keyName", "somevalue");	// TODO
+	    	
+	    	startActivity(i);
 	    }
 	};
 
@@ -213,7 +196,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		return true;
     
     }
-	
+    
 	
    private String send_message(String command) {
 	   
@@ -222,7 +205,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	    	String farkwad = et.getText().toString();
 	    	InetAddress addr = InetAddress.getByName( farkwad );
-	    	Socket MyClient = new Socket(addr, 46645);
+	    	Socket MyClient = new Socket(addr, androbuntu_socket);
 	    	
 	        try {
 	        	BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(MyClient.getOutputStream()));   
