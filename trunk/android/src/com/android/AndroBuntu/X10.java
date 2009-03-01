@@ -1,20 +1,42 @@
 package com.android.AndroBuntu;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 public class X10 extends Activity implements View.OnClickListener {
-	
+
+		private SocketMonitor service_binder;
 	
 	   @Override
 	   public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
 
 
+		   
+		   
+		   
+		   
+	       Intent i = new Intent();
+	       i.setClass(X10.this, SocketMonitor.class);
+	       i.putExtra("keyName", "somevalue");	// TODO
+	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
+	       
+		   
+		   
+		   
+		   
+		   
+		   
    
 		   this.getIntent().getClass();	// FIXME
 		   
@@ -46,17 +68,44 @@ public class X10 extends Activity implements View.OnClickListener {
 			setContentView(myfoo);
 	   }
 
+	   
+	   
+	   
+	   
+	   
+	   
+	   private ServiceConnection my_relay_service = new ServiceConnection() {
+	       public void onServiceConnected(ComponentName className, IBinder service) {
+
+
+	    	   service_binder = ((SocketMonitor.LocalBinder) service).getService();
+	    	   
+	    	   Log.d("forker", "Successfully connected to SocketMonitor service.");
+	       }
+
+	       public void onServiceDisconnected(ComponentName componentName) {
+
+
+	    	   Log.d("forker", "SocketMonitor service disconnected.");
+	       }
+	   };
+
+	   
+	   
+	   
+	   
+	   
 	   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-//		 	   String reply = send_message("lights_off");
-//			   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+		 	   String reply = service_binder.send_message("lights_off");
+			   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
 		    }
 		};
 		
 	   private View.OnClickListener lightson_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-//		 	   String reply = send_message("lights_on");
-//			   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+			 	   String reply = service_binder.send_message("lights_on");
+				   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
 		    }
 		};
 	       

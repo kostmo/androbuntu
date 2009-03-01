@@ -9,8 +9,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +34,7 @@ import com.android.Turntable3D.TurntableWidget;
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	private EditText et;
+	private SocketMonitor service_binder;
 	
 	private int androbuntu_socket = 46645;
 
@@ -49,6 +53,18 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        et = new EditText(this);
        tv.setText( R.string.goodbye );
        et.setText( "192.168.0.9" );
+       
+       
+       
+       
+       // FIXME
+       Intent i = new Intent();
+       i.setClass(AndroBuntu.this, SocketMonitor.class);
+       i.putExtra("keyName", "somevalue");	// TODO
+		
+		
+       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
+       
        
        
        
@@ -126,9 +142,33 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    }
    
    
+   
+
+   private ServiceConnection my_relay_service = new ServiceConnection() {
+       public void onServiceConnected(ComponentName className, IBinder service) {
+
+
+    	   service_binder = ((SocketMonitor.LocalBinder) service).getService();
+    	   
+    	   Log.d("forker", "Successfully connected to SocketMonitor service.");
+       }
+
+       public void onServiceDisconnected(ComponentName componentName) {
+
+
+    	   Log.d("forker", "SocketMonitor service disconnected.");
+       }
+   };
+
+   
+   
+   
+   
+   
    private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
-	 	   String reply = send_message("screen_blank");
+	    	
+	    	String reply = service_binder.send_message("screen_blank");    	
 		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
@@ -142,14 +182,15 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
    private View.OnClickListener voldown_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
-	 	   String reply = send_message("XF86AudioLowerVolume");
+	    	String reply = service_binder.send_message("XF86AudioLowerVolume");    	
 		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
 
    private View.OnClickListener volup_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
-	 	   String reply = send_message("XF86AudioRaiseVolume");
+	    	
+	    	String reply = service_binder.send_message("XF86AudioRaiseVolume");    	
 		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
@@ -179,7 +220,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
 	
 		menu.add("Server Options");
 		menu.add("Frankenstein");
@@ -190,58 +230,23 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     
     public boolean  onOptionsItemSelected  (MenuItem item)  {
     	
-    	String reply = send_message("greet");
+    	String reply = service_binder.send_message("screen_blank");    	
+
     	Toast.makeText(AndroBuntu.this, item.getTitle() + ": "+reply, Toast.LENGTH_SHORT).show();
  	   
 		return true;
     
     }
     
-	
-   private String send_message(String command) {
-	   
-	   	String message = "";
-	    try {
-
-	    	String farkwad = et.getText().toString();
-	    	InetAddress addr = InetAddress.getByName( farkwad );
-	    	Socket MyClient = new Socket(addr, androbuntu_socket);
-	    	
-	        try {
-	        	BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(MyClient.getOutputStream()));   
-		        BufferedReader rd = new BufferedReader(new InputStreamReader(MyClient.getInputStream()));
-		    	
-	            wr.write( command );
-	            wr.flush();
-	    	
-		    	
-		        String str;
-		        while ((str = rd.readLine()) != null)
-		        	message += str;
-
-
-		        rd.close();	
-				wr.close();
-				
-	        } catch (IOException e) {
-		    	Log.d("fark", "The buffered reader/writer failed somehow...");
-	        }
-	
-			MyClient.close();
-			
-	    }
-	    catch (IOException e) {
-	        System.out.println(e);
-	        
-	        message = "Failed.";
-	    }
-	    return message;
-   }
-   
-   
+    
+    
    public void onClick(View v) {
 	
-	   String reply = send_message("XF86AudioMute");
+	   // FIXME
+	   
+	   String reply = service_binder.send_message("XF86AudioMute");
+
+	   
 	   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
    }
 
