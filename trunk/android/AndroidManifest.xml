@@ -15,6 +15,9 @@
 <activity android:name="X10"></activity>
 
 <service android:name="SocketMonitor"></service>
+<activity android:name="ServerPanel"></activity>
+<activity android:name="ScriptListActivity"></activity>
+<activity android:name="MediaPanel"></activity>
 </application>
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>

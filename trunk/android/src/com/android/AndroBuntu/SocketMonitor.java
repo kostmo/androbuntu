@@ -22,6 +22,10 @@ public class SocketMonitor extends Service {
 	private BufferedWriter wr;
 	private BufferedReader rd;
 	
+
+	private InetAddress addr;
+	private int port;
+	
     public class LocalBinder extends Binder {
     	SocketMonitor getService() {
             return SocketMonitor.this;
@@ -34,7 +38,7 @@ public class SocketMonitor extends Service {
 		
 		super.onCreate();
 	    
-	    
+
 	}
 	
 	
@@ -52,6 +56,22 @@ public class SocketMonitor extends Service {
 	
     @Override
     public IBinder onBind(Intent intent) {
+    	
+    	
+    	String host = intent.getStringExtra("hostname");
+    	
+	    try {
+
+	    	addr = InetAddress.getByName( host );
+	    		
+	    } catch (IOException e) {
+	        System.out.println(e);
+	        
+//         message = "Host lookup failed.";
+	    }
+    	
+    	port = intent.getIntExtra("port", 45546);
+    	
         return mBinder;
     }
 
@@ -62,17 +82,10 @@ public class SocketMonitor extends Service {
 	
 
 	public String send_message(String command) {
-	   
-		
-//    	String farkwad = et.getText().toString();
-    	String farkwad = "192.168.0.9";
-    	
-    	int androbuntu_socket = 46645;
     	
 	    try {
-	    	InetAddress addr = InetAddress.getByName( farkwad );
 
-	    	MyClient = new Socket(addr, androbuntu_socket);
+	    	MyClient = new Socket(addr, port);
 	    	
 
         	wr = new BufferedWriter(new OutputStreamWriter(MyClient.getOutputStream()), 256);   
@@ -85,7 +98,6 @@ public class SocketMonitor extends Service {
 //	        message = "Connection failed.";
 	    }
 	    
-		
 		
 		
 		Log.d("fork", "about to send a message");

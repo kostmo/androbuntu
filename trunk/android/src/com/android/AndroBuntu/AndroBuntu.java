@@ -1,13 +1,5 @@
 package com.android.AndroBuntu;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -15,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,12 +29,13 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private EditText et;
 	private SocketMonitor service_binder;
 	
-	private int androbuntu_socket = 46645;
+	private int androbuntu_port = 46645;
 
     private String[] mStrings = {
             "Abondance", "Ackawi", "Acorn"
     };
     
+    private int rotowidget_request_code = -1;
     
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +54,11 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        // FIXME
        Intent i = new Intent();
        i.setClass(AndroBuntu.this, SocketMonitor.class);
-       i.putExtra("keyName", "somevalue");	// TODO
+       
+       
+       String host = et.getText().toString();
+       i.putExtra("hostname", host);
+       i.putExtra("port", androbuntu_port);
 		
 		
        boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
@@ -75,47 +73,31 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        
        
        
-       Button button = new Button(this);
-       button.setOnClickListener(this);
-       button.setText("Mute");
 
+       Button media_button = new Button(this);
+       media_button.setOnClickListener(media_button_listener);
+       media_button.setText("Media Controls");
 
        Button x10_button = new Button(this);
        x10_button.setOnClickListener(x10_button_listener);
        x10_button.setText("x10 Controls");
        
        
+       Button logo_button = new Button(this);
+       logo_button.setOnClickListener(logo_button_listener);
+       logo_button.setText("Logo");
+       
       
        Button scripts_button = new Button(this);
        scripts_button.setOnClickListener(scripts_button_listener);
-       scripts_button.setText("Scripts");
+       scripts_button.setText("Invoke Script");
         
+       
+       
        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
        l.weight = 1f;
        
-       // --------------------------
-        LinearLayout myfoo2 = new LinearLayout(this);
-        myfoo2.setOrientation(LinearLayout.HORIZONTAL);
-        
-        Button voldown_button = new Button(this);
-        voldown_button.setOnClickListener(voldown_listener);
-        voldown_button.setText("VolDown");
-		myfoo2.addView(voldown_button, l );
-        
-        Button volup_button = new Button(this);
-        volup_button.setOnClickListener(volup_listener);
-        volup_button.setText("VolUp");
-        myfoo2.addView(volup_button, l );
-        // --------------------------
-        
 
-        // --------------------------
-        
-        
-
-
-        myfoo.addView(myfoo2);
-        myfoo.addView(button);	// Mute
         
         Button screen_blank_button = new Button(this);
         screen_blank_button.setOnClickListener(screen_blank_listener);
@@ -125,8 +107,10 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         
         
         
+        myfoo.addView(media_button);
         myfoo.addView(x10_button);
         myfoo.addView(scripts_button);
+        myfoo.addView(logo_button);
         
         myfoo.addView(tv);
         myfoo.addView(et);
@@ -162,8 +146,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
    
    
-   
-   
+
    
    private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
@@ -176,45 +159,69 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
 	
 	
-	
-	
-	
-	
-   private View.OnClickListener voldown_listener = new View.OnClickListener() {
-	    public void onClick(View v) {
-	    	String reply = service_binder.send_message("XF86AudioLowerVolume");    	
-		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
-	    }
-	};
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	
+    	String reply;
+    	switch (keyCode) {
 
-   private View.OnClickListener volup_listener = new View.OnClickListener() {
+    	case KeyEvent.KEYCODE_VOLUME_DOWN:
+    		reply = service_binder.send_message("XF86AudioLowerVolume");    	
+    		break;
+    		
+    	case KeyEvent.KEYCODE_VOLUME_UP:
+    		reply = service_binder.send_message("XF86AudioRaiseVolume");    	
+    		break;
+    		
+    	case KeyEvent.KEYCODE_CAMERA:
+    		reply = service_binder.send_message("XF86AudioMute");
+    		break;
+    		
+    	default:
+    		return super.onKeyDown(keyCode, event);
+    	}
+    	
+    	Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+    	
+    	return true;
+    }
+	
+    private View.OnClickListener media_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	String reply = service_binder.send_message("XF86AudioRaiseVolume");    	
-		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	    	Intent i = new Intent();
+	    	i.setClass(AndroBuntu.this, MediaPanel.class);
+	    	
+	    	startActivity(i);
 	    }
 	};
    
    private View.OnClickListener x10_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
-	      // do something when the button is clicked
 	    	
 	    	Intent i = new Intent();
 	    	i.setClass(AndroBuntu.this, X10.class);
-	    	
-
-	    	i.putExtra("keyName", "somevalue");	// TODO
-	    	
 	    	startActivity(i);
 	    }
 	};
 
+   private View.OnClickListener logo_button_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	    	
+	    	Intent i = new Intent();
+	    	i.setClass(AndroBuntu.this, TurntableWidget.class);
+	    	
+	    	rotowidget_request_code = 42;
+	    	AndroBuntu.this.startActivityForResult(i, rotowidget_request_code);
+	    }
+	};
+	
+	
    private View.OnClickListener scripts_button_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
 	    	Intent i = new Intent();
-	    	i.setClass(AndroBuntu.this, TurntableWidget.class); 
-	    	startActivity(i);
+	    	i.setClass(AndroBuntu.this, ScriptListActivity.class);
 	    }
 	};
 	
@@ -222,20 +229,28 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     public boolean onCreateOptionsMenu(Menu menu) {
 	
 		menu.add("Server Options");
-		menu.add("Frankenstein");
+		menu.add("Greet!");
 
 		return true;
 
     }
     
-    public boolean  onOptionsItemSelected  (MenuItem item)  {
+    public boolean onOptionsItemSelected(MenuItem item) {
     	
-    	String reply = service_binder.send_message("screen_blank");    	
+    	int itemid = item.getItemId();
+    	if (itemid == 0) {	// FIXME
+    		
+	    	Intent i = new Intent();
+	    	i.setClass(this, ServerPanel.class);
+	    	startActivity(i);
 
-    	Toast.makeText(AndroBuntu.this, item.getTitle() + ": "+reply, Toast.LENGTH_SHORT).show();
- 	   
+    	} else {
+    		
+        	String reply = service_binder.send_message("greet");    	
+        	Toast.makeText(AndroBuntu.this, Integer.toString(itemid) + ": "+reply, Toast.LENGTH_SHORT).show();
+    	}
+
 		return true;
-    
     }
     
     
@@ -245,9 +260,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	   // FIXME
 	   
 	   String reply = service_binder.send_message("XF86AudioMute");
-
-	   
-	   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	   Toast.makeText(this, reply, Toast.LENGTH_SHORT).show();
    }
 
    
@@ -257,13 +270,20 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    // TODO
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+	   
+	   if (requestCode == rotowidget_request_code) {
+		   
+
            if (resultCode == RESULT_OK) {
                // A contact was picked.  Here we will just display it
                // to the user.
         	   Toast.makeText(AndroBuntu.this, "Nice weather, today.", Toast.LENGTH_SHORT).show();
-           }
-   }
+           } else {
 
+        	   Toast.makeText(AndroBuntu.this, "Roto-cancel.", Toast.LENGTH_SHORT).show();
+           }
+	   }
+   }
 }
 
 
