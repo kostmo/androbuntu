@@ -26,7 +26,7 @@ import com.android.Turntable3D.TurntableWidget;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
-	private EditText et;
+
 	private SocketMonitor service_binder;
 	
 	private int androbuntu_port = 46645;
@@ -42,13 +42,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        super.onCreate(savedInstanceState);
        
        
-       
-       TextView tv = new TextView(this);
-       et = new EditText(this);
-       tv.setText( R.string.goodbye );
-       et.setText( "192.168.0.9" );
-       
-       
+
+      
        
        
        // FIXME
@@ -56,7 +51,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        i.setClass(AndroBuntu.this, SocketMonitor.class);
        
        
-       String host = et.getText().toString();
+       String host = "192.168.0.9";
        i.putExtra("hostname", host);
        i.putExtra("port", androbuntu_port);
 		
@@ -112,10 +107,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         myfoo.addView(scripts_button);
         myfoo.addView(logo_button);
         
-        myfoo.addView(tv);
-        myfoo.addView(et);
 
-       
         
         ListView lv = new ListView(this);
         lv.setAdapter( new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrings) );

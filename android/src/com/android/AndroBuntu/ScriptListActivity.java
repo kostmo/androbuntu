@@ -15,7 +15,7 @@ public class ScriptListActivity extends ListActivity {
 
         // We'll define a custom screen layout here (the one shown above), but
         // typically, you could just use the standard ListActivity layout.
-//        setContentView(R.layout.custom_list_activity_view);
+        setContentView(android.R.layout.simple_list_item_1);
 
         // Query for all people contacts using the Contacts.People convenience class.
         // Put a managed wrapper around the retrieved cursor so we don't have to worry about

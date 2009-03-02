@@ -2,4 +2,22 @@
 <resources>
     <string name="hello">Hello, Ubuntu</string><string name="goodbye">Server Address:</string>
     <string name="app_name">Ubuntu Remote Control</string>
+    
+    
+    <string name="inline_preferences">In-line preferences</string>
+    <string name="dialog_based_preferences">Dialog-based preferences</string>
+    
+    
+    <string name="title_toggle_preference">Toggle preference</string>
+    <string name="summary_toggle_preference">This is a toggle button</string>
+    
+    
+        <string name="title_edittext_preference">Edit text preference</string>
+    <string name="summary_edittext_preference">An example that uses an edit text dialog</string>
+    <string name="dialog_title_edittext_preference">Enter your favorite animal</string>
+
+    <string name="title_list_preference">List preference</string>
+    <string name="summary_list_preference">An example that uses a list dialog</string>
+    <string name="dialog_title_list_preference">Choose one</string>
+    
 </resources>
