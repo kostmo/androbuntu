@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-public class X10 extends Activity implements View.OnClickListener {
+public class MediaPanel extends Activity implements View.OnClickListener {
 
 		private SocketMonitor service_binder;
 	
@@ -24,36 +24,49 @@ public class X10 extends Activity implements View.OnClickListener {
 
 		   
 	       Intent i = new Intent();
-	       i.setClass(X10.this, SocketMonitor.class);
+	       i.setClass(MediaPanel.this, SocketMonitor.class);
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
 		   
 		   
+	       
+	       
+	       
+	       
+	       Button button = new Button(this);
+	       button.setOnClickListener(this);
+	       button.setText("Mute");
 		   
-		  
-		   
+	
 		   
 	       LinearLayout myfoo = new LinearLayout(this);
 	       myfoo.setOrientation(LinearLayout.VERTICAL);
    
-			   
-			LinearLayout myfoo3 = new LinearLayout(this);
-			myfoo3.setOrientation(LinearLayout.HORIZONTAL);
-			
+	       
+	       
+	       
 			
 			LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
 			l.weight = 1f;
 			
-			Button lightson_button = new Button(this);
-			lightson_button.setOnClickListener(lightson_listener);
-			lightson_button.setText("LightsOn");
-			myfoo3.addView(lightson_button, l );
-			
-			Button lightsoff_button = new Button(this);
-			lightsoff_button.setOnClickListener(lightsoff_listener);
-			lightsoff_button.setText("LightsOff");
-			myfoo3.addView(lightsoff_button, l );
-			myfoo.addView(myfoo3);
+		       // --------------------------
+	        LinearLayout myfoo2 = new LinearLayout(this);
+	        myfoo2.setOrientation(LinearLayout.HORIZONTAL);
+	        
+	        Button voldown_button = new Button(this);
+	        voldown_button.setOnClickListener(voldown_listener);
+	        voldown_button.setText("VolDown");
+			myfoo2.addView(voldown_button, l );
+	        
+	        Button volup_button = new Button(this);
+	        volup_button.setOnClickListener(volup_listener);
+	        volup_button.setText("VolUp");
+	        myfoo2.addView(volup_button, l );
+	        // --------------------------
+
+
+	        myfoo.addView(myfoo2);
+	        myfoo.addView(button);	// Mute
 			   
 	        
 			setContentView(myfoo);
@@ -84,26 +97,25 @@ public class X10 extends Activity implements View.OnClickListener {
 	   
 	   
 	   
-	   
-	   
-	   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
+		
+	   private View.OnClickListener voldown_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-		 	   String reply = service_binder.send_message("lights_off");
-			   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
+		    	String reply = service_binder.send_message("XF86AudioLowerVolume");    	
+			   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
 		    }
 		};
-		
-	   private View.OnClickListener lightson_listener = new View.OnClickListener() {
+
+	   private View.OnClickListener volup_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-			 	   String reply = service_binder.send_message("lights_on");
-				   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
+		    	
+		    	String reply = service_binder.send_message("XF86AudioRaiseVolume");    	
+			   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
 		    }
 		};
 	       
 	   public void onClick(View v) {
-		   
-		   
+
+		   String reply = service_binder.send_message("XF86AudioMute");
+		   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
 	   }
-
-
 }
