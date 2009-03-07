@@ -28,8 +28,7 @@ public class X10 extends Activity implements View.OnClickListener {
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
 		   
-		   
-		   
+
 		  
 		   
 		   
@@ -105,5 +104,13 @@ public class X10 extends Activity implements View.OnClickListener {
 		   
 	   }
 
+	   
+	   
+
+	    @Override
+	    protected void onDestroy() {
+
+	    	unbindService(my_relay_service);
+	    }
 
 }

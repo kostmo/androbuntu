@@ -28,10 +28,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
 		   
-		   
-	       
-	       
-	       
+
 	       
 	       Button button = new Button(this);
 	       button.setOnClickListener(this);
@@ -118,4 +115,11 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		   String reply = service_binder.send_message("XF86AudioMute");
 		   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
 	   }
+	   
+	   
+	    @Override
+	    protected void onDestroy() {
+
+	    	unbindService(my_relay_service);
+	    }
 }

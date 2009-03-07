@@ -5,16 +5,22 @@
     
     
     <string name="inline_preferences">In-line preferences</string>
-    <string name="dialog_based_preferences">Dialog-based preferences</string>
+    <string name="dialog_based_preferences">Server connection</string>
     
     
     <string name="title_toggle_preference">Toggle preference</string>
     <string name="summary_toggle_preference">This is a toggle button</string>
     
     
-        <string name="title_edittext_preference">Edit text preference</string>
-    <string name="summary_edittext_preference">An example that uses an edit text dialog</string>
-    <string name="dialog_title_edittext_preference">Enter your favorite animal</string>
+    <string name="title_edittext_preference">Server address</string>
+    <string name="summary_edittext_preference">Set hostname or IP address</string>
+    <string name="dialog_title_edittext_preference">Enter hostname or IP address</string>
+    <string name="default_hostname_string">192.168.0.9</string>
+    
+    <string name="title_editint_preference">Server port</string>
+    <string name="summary_editint_preference">Set port</string>
+    <string name="dialog_title_editint_preference">Enter port</string>
+    <string name="default_port_number">46645</string>
 
     <string name="title_list_preference">List preference</string>
     <string name="summary_list_preference">An example that uses a list dialog</string>
