@@ -660,7 +660,7 @@ class UbuntuLogo {
 		gl.glDrawElements(GL10.GL_TRIANGLE_FAN, VERTS3, GL10.GL_UNSIGNED_SHORT, GapChunkIndexBuffer);
  
     
-		if (parent.finger_touching) {
+		if (parent.finger_touching && false) {	// This looks kinda dumb at the moment
 			regenerate_lightning();
 			
 			gl.glDisable(GL10.GL_DEPTH_TEST);
@@ -672,5 +672,4 @@ class UbuntuLogo {
 		}
     
     }
-    
 }

@@ -11,12 +11,20 @@ import java.net.Socket;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SocketMonitor extends Service {
 	
+	
+	public static final String PREFS_NAME = "MyPrefsFile";
+	public static final String DEFAULT_HOSTNAME = "192.168.0.9";
+	
+	
+
 	private Socket MyClient;
 	
 	private BufferedWriter wr;
@@ -48,7 +56,6 @@ public class SocketMonitor extends Service {
 		
 		super.onDestroy();
 	
-
 		Log.d("fork", "server onDestroy called.");
 	}
 	
@@ -57,8 +64,19 @@ public class SocketMonitor extends Service {
     @Override
     public IBinder onBind(Intent intent) {
     	
+		Log.d("fork", "About to retrieve preferences.");
+		
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
     	
-    	String host = intent.getStringExtra("hostname");
+		Log.d("fork", "Retrieved preferences.");
+    	String host = settings.getString("hostname_preference", "");
+		Log.d("fork", "Retrieved hostname: " + host);
+
+		String portstring = settings.getString("port_preference", "");
+		
+        port = Integer.parseInt(portstring);
+		Log.d("fork", "Retrieved port: " + Integer.toString(port));
+        
     	
 	    try {
 
@@ -69,8 +87,6 @@ public class SocketMonitor extends Service {
 	        
 //         message = "Host lookup failed.";
 	    }
-    	
-    	port = intent.getIntExtra("port", 45546);
     	
         return mBinder;
     }
@@ -87,6 +103,7 @@ public class SocketMonitor extends Service {
 
 	    	MyClient = new Socket(addr, port);
 	    	
+			Log.d("fork", "Created socket.");
 
         	wr = new BufferedWriter(new OutputStreamWriter(MyClient.getOutputStream()), 256);   
 	        rd = new BufferedReader(new InputStreamReader(MyClient.getInputStream()), 256);
@@ -95,7 +112,7 @@ public class SocketMonitor extends Service {
 	    catch (IOException e) {
 	        System.out.println(e);
 	        
-//	        message = "Connection failed.";
+	        return "Socket instantiation failed.";
 	    }
 	    
 		
@@ -104,8 +121,15 @@ public class SocketMonitor extends Service {
 	   	String message = "";
     	
         try {
+        	
+
+			Log.d("fork", "About to write.");
 
             wr.write( command );
+            
+
+			Log.d("fork", "Succeeded in write.");
+			
             wr.flush();
     	
 	    	Log.d("fark", "Test1");

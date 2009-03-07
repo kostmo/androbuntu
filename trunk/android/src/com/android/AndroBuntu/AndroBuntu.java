@@ -29,7 +29,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	private SocketMonitor service_binder;
 	
-	private int androbuntu_port = 46645;
 
     private String[] mStrings = {
             "Abondance", "Ackawi", "Acorn"
@@ -41,26 +40,18 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        
-       
 
-      
        
        
        // FIXME
        Intent i = new Intent();
        i.setClass(AndroBuntu.this, SocketMonitor.class);
        
-       
-       String host = "192.168.0.9";
-       i.putExtra("hostname", host);
-       i.putExtra("port", androbuntu_port);
-		
 		
        boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
        
        
-       
-       
+
        
 
        LinearLayout myfoo = new LinearLayout(this);
