@@ -18,12 +18,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SocketMonitor extends Service {
-	
-	
-	public static final String PREFS_NAME = "MyPrefsFile";
-	public static final String DEFAULT_HOSTNAME = "192.168.0.9";
-	
-	
 
 	private Socket MyClient;
 	
@@ -46,7 +40,6 @@ public class SocketMonitor extends Service {
 		
 		super.onCreate();
 	    
-
 	}
 	
 	
@@ -64,19 +57,11 @@ public class SocketMonitor extends Service {
     @Override
     public IBinder onBind(Intent intent) {
     	
-		Log.d("fork", "About to retrieve preferences.");
-		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-    	
-		Log.d("fork", "Retrieved preferences.");
     	String host = settings.getString("hostname_preference", "");
-		Log.d("fork", "Retrieved hostname: " + host);
-
-		String portstring = settings.getString("port_preference", "");
-		
+		String portstring = settings.getString("port_preference", "0");
         port = Integer.parseInt(portstring);
-		Log.d("fork", "Retrieved port: " + Integer.toString(port));
-        
+    
     	
 	    try {
 
@@ -85,7 +70,7 @@ public class SocketMonitor extends Service {
 	    } catch (IOException e) {
 	        System.out.println(e);
 	        
-//         message = "Host lookup failed.";
+	        return null;
 	    }
     	
         return mBinder;
@@ -103,7 +88,6 @@ public class SocketMonitor extends Service {
 
 	    	MyClient = new Socket(addr, port);
 	    	
-			Log.d("fork", "Created socket.");
 
         	wr = new BufferedWriter(new OutputStreamWriter(MyClient.getOutputStream()), 256);   
 	        rd = new BufferedReader(new InputStreamReader(MyClient.getInputStream()), 256);
@@ -116,65 +100,42 @@ public class SocketMonitor extends Service {
 	    }
 	    
 		
-		
-		Log.d("fork", "about to send a message");
 	   	String message = "";
     	
         try {
         	
 
-			Log.d("fork", "About to write.");
-
             wr.write( command );
-            
-
-			Log.d("fork", "Succeeded in write.");
-			
             wr.flush();
     	
-	    	Log.d("fark", "Test1");
-	    	
 
 	        while (true) {
 	        	
-		    	Log.d("fark", "Top of while loop");
 	        	
 		        String str = null;
 	        
 	        	str = rd.readLine();
 
 	        	
-		    	Log.d("fark", "Read the string.");
 
-	        	if (str == null) {
-			    	Log.d("fark", "String is null.  Breaking.");
+	        	if (str == null)
 	        		break;
-	        	}
-		    	Log.d("fark", "Read the string; it is: "+str);
-	        	
+
 	        	
 	        	message += str;
 	        	
-		    	Log.d("fark", "Aggregate message is: " + str);
 	        }
 	        
 	        
-	    	Log.d("fark", "Test2");
 
 			
         } catch (IOException e) {
 	    	Log.d("fark", "The buffered reader/writer failed somehow...");
         }
-
-
-		Log.d("fork", "The message reply is: "+message);
-		
-		
 		
 		
 		
 	    try {
-	    	
 
 	        rd.close();	
 			wr.close();
@@ -186,7 +147,7 @@ public class SocketMonitor extends Service {
 	    catch (IOException e) {
 	        System.out.println(e);
 	        
-//       	message = "Closing connection failed.";
+	        message = "Closing connection failed.";
 	    }
 		
 		

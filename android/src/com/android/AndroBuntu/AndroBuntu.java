@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -14,12 +16,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.android.AndroBuntu.R;
 import com.android.Turntable3D.TurntableWidget;
 
 
@@ -34,23 +32,41 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
             "Abondance", "Ackawi", "Acorn"
     };
     
-    private int rotowidget_request_code = -1;
+    private final int rotowidget_request_code = 42;
+
+    private final int initialize_prefs_code = 43;
+    
+
+    private boolean do_binding() {
+        Intent i = new Intent();
+        i.setClass(AndroBuntu.this, SocketMonitor.class);
+        return bindService(i, my_relay_service, BIND_AUTO_CREATE);
+
+    }
     
    @Override
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
-       
 
-       
-       
-       // FIXME
-       Intent i = new Intent();
-       i.setClass(AndroBuntu.this, SocketMonitor.class);
-       
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		String host = settings.getString("hostname_preference", null);
+
 		
-       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
-       
-       
+	       if (host == null) {
+	    	   	
+		    	Toast.makeText(AndroBuntu.this, "Please specify server.", Toast.LENGTH_SHORT).show();
+		    	
+		    	Intent i2 = new Intent();
+		    	i2.setClass(this, ServerPanel.class);
+
+		    	AndroBuntu.this.startActivityForResult(i2, initialize_prefs_code);
+	       }
+	       else do_binding();
+	       
+		
+
+
 
        
 
@@ -194,7 +210,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	Intent i = new Intent();
 	    	i.setClass(AndroBuntu.this, TurntableWidget.class);
 	    	
-	    	rotowidget_request_code = 42;
 	    	AndroBuntu.this.startActivityForResult(i, rotowidget_request_code);
 	    }
 	};
@@ -254,8 +269,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 	   
-	   if (requestCode == rotowidget_request_code) {
-		   
+	   switch (requestCode) {
+	   		case rotowidget_request_code:
 
            if (resultCode == RESULT_OK) {
                // A contact was picked.  Here we will just display it
@@ -265,7 +280,22 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
         	   Toast.makeText(AndroBuntu.this, "Roto-cancel.", Toast.LENGTH_SHORT).show();
            }
+           
+               break;
+		   case initialize_prefs_code:
+			   
+			   do_binding();
+	           break;
+	           
+		   default:
+	    	   	break;
 	   }
+   }
+   
+   @Override
+   protected void onDestroy() {
+       super.onDestroy();
+   	unbindService(my_relay_service);
    }
 }
 

@@ -109,8 +109,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 	    @Override
 	    protected void onDestroy() {
-
+	        super.onDestroy();
 	    	unbindService(my_relay_service);
 	    }
-
 }
