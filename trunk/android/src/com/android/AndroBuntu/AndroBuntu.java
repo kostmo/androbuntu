@@ -27,10 +27,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	private SocketMonitor service_binder;
 	
-
-    private String[] mStrings = {
-            "Abondance", "Ackawi", "Acorn"
-    };
     
     private final int rotowidget_request_code = 42;
 
@@ -115,11 +111,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         myfoo.addView(logo_button);
         
 
-        
-        ListView lv = new ListView(this);
-        lv.setAdapter( new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrings) );
-       
-        myfoo.addView(lv);
+    
         
        setContentView(myfoo);
    }
@@ -220,6 +212,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	
 	    	Intent i = new Intent();
 	    	i.setClass(AndroBuntu.this, ScriptListActivity.class);
+	    	startActivity(i);
 	    }
 	};
 	
