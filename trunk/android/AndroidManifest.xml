@@ -18,6 +18,7 @@
 <activity android:name="ServerPanel"></activity>
 <activity android:name="ScriptListActivity"></activity>
 <activity android:name="MediaPanel"></activity>
+<activity android:name="TextFlingerPanel"></activity>
 </application>
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>

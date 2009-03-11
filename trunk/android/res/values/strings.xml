@@ -22,7 +22,7 @@
     <string name="dialog_title_editint_preference">Enter port</string>
     <string name="default_port_number">46645</string>
 
-    <string name="title_list_preference">List preference</string>
+    <string name="title_list_preference">Previously connected servers</string>
     <string name="summary_list_preference">An example that uses a list dialog</string>
     <string name="dialog_title_list_preference">Choose one</string>
     

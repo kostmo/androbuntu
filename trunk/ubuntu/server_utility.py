@@ -75,6 +75,9 @@ class ServerThread(threading.Thread):
 				if data == "quit":
 					break
 
+				elif data.find("fling_text:") == 0:
+					print data
+
 				elif data == "screen_blank":
 #					os.system( "gnome-screensaver-command --activate" )
 					os.system( "xset dpms force off" )
