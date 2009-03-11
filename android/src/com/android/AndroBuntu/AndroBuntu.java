@@ -13,9 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Button;
 import android.widget.Toast;
 import com.android.Turntable3D.TurntableWidget;
@@ -89,6 +87,11 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        Button scripts_button = new Button(this);
        scripts_button.setOnClickListener(scripts_button_listener);
        scripts_button.setText("Invoke Script");
+       
+
+       Button jotter_button = new Button(this);
+       jotter_button.setOnClickListener(jotter_button_listener);
+       jotter_button.setText("Idea Jotter");
         
        
        
@@ -104,7 +107,9 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         
         
         
-        
+
+        myfoo.addView(jotter_button);
+
         myfoo.addView(media_button);
         myfoo.addView(x10_button);
         myfoo.addView(scripts_button);
@@ -215,7 +220,16 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	startActivity(i);
 	    }
 	};
-	
+
+   private View.OnClickListener jotter_button_listener = new View.OnClickListener() {
+	    public void onClick(View v) {
+	    	
+	    	Intent i = new Intent();
+	    	i.setClass(AndroBuntu.this, TextFlingerPanel.class);
+	    	startActivity(i);
+	    }
+	};
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 	

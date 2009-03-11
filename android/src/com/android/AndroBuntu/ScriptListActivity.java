@@ -1,11 +1,8 @@
 package com.android.AndroBuntu;
 
 import android.app.ListActivity;
-import android.database.Cursor;
-import android.provider.Contacts.People;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.os.Bundle;
 
 public class ScriptListActivity extends ListActivity {
