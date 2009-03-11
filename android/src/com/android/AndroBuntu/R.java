@@ -38,6 +38,10 @@ public final class R {
         public static final int transparent_background=0x7f020007;
         public static final int yellow=0x7f020004;
     }
+    public static final class id {
+        public static final int my_button=0x7f090001;
+        public static final int my_edittext=0x7f090000;
+    }
     public static final class layout {
         public static final int main=0x7f030000;
     }

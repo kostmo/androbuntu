@@ -272,7 +272,7 @@ class UbuntuLogo {
     	this.parent = parent;
     	
     	head_distance = 0.45f;
-    	head_radius = 0.12f;
+    	head_radius = 0.1f;
     	head_border_radius = 1.2f;
     	arm_thickness = 0.2f;
     	arm_radius = 0.3f;

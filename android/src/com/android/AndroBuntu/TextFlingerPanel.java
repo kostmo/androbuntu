@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	private EditText et;
+	private Button button;
 		private SocketMonitor service_binder;
 	
 	   @Override
@@ -32,25 +33,18 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 		   
 
 	       
-	       Button button = new Button(this);
+
+	       
+	       
+	       button = (Button) findViewById(R.id.my_button);
 	       button.setOnClickListener(this);
-	       button.setText("Deposit text");
 		   
-	
-		   
-	       LinearLayout myfoo = new LinearLayout(this);
-	       myfoo.setOrientation(LinearLayout.VERTICAL);
-   
+	   
 	       
 	       
-	       et = new EditText(this);
+	       et = (EditText) findViewById(R.id.my_edittext);
 
-	        myfoo.addView(et);
-
-	        myfoo.addView(button);
-			   
-	        
-			setContentView(myfoo);
+	        setContentView(R.layout.main);
 	   }
 
 	   
