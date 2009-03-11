@@ -232,9 +232,9 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	
-		menu.add("Server Options");
-		menu.add("Greet!");
+		
+		menu.add(Menu.NONE, 0, Menu.NONE, "Server Options");
+		menu.add(Menu.NONE, 1, Menu.NONE, "Greet!");
 
 		return true;
 
@@ -243,21 +243,21 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
     	
     	int itemid = item.getItemId();
-    	if (itemid == 0) {	// FIXME
+    	switch (itemid) {
+    	case 0:	// FIXME
     		
 	    	Intent i = new Intent();
 	    	i.setClass(this, ServerPanel.class);
 	    	startActivity(i);
 
-    	} else {
-    		
+    	default:
+
         	String reply = service_binder.send_message("greet");    	
         	Toast.makeText(AndroBuntu.this, Integer.toString(itemid) + ": "+reply, Toast.LENGTH_SHORT).show();
     	}
 
 		return true;
     }
-    
     
     
    public void onClick(View v) {
