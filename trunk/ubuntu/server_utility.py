@@ -31,7 +31,26 @@ class ServerThread(threading.Thread):
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-		self.s.bind( (hostname, self.controller_window.DEFAULT_PORT) )
+		port_offset = 0
+		while True:
+			try:
+				self.s.bind( (hostname, self.controller_window.DEFAULT_PORT + port_offset) )
+				break
+			except socket.error:
+				print "Port "+`self.controller_window.DEFAULT_PORT + port_offset`+" not available."
+				port_offset += 1
+				print "Trying port "+`self.controller_window.DEFAULT_PORT + port_offset`+"..."
+
+		self.connected_port = self.controller_window.DEFAULT_PORT + port_offset
+		print "Finally connected to port", self.connected_port
+
+		self.controller_window.hello(
+			None,
+			("Port number changed.",
+			"Was not able to connect to the default port. Make sure to adjust your client port to " + `self.connected_port`,
+			False),
+		)
+
 		self.s.listen(backlog)
 
 
@@ -117,22 +136,30 @@ class AndroBuntuServer(gtk.Window):
 	# in this example. More on callbacks below.
 	def hello(self, widget, data=None):
 
-		n = pynotify.Notification("Title", "message")
+		timer = True
+		if data:
+			title, message, timer = data
+			n = pynotify.Notification(title, message)
+		else:
+			n = pynotify.Notification("Title", "message")
 
 		pixbuf = gtk.gdk.pixbuf_new_from_file( self.icon_path )
 #		n.set_urgency(pynotify.URGENCY_CRITICAL)
 #		n.set_category("device")
 		n.set_icon_from_pixbuf( pixbuf )
- 		n.set_timeout(3000)
 
+		if timer:
+ 			n.set_timeout(3000)
 
-		# Note: When this is enabled, the notification bubble may be delayed
-		# until the app regains focus, which may be a long time and requires user interaction
-#		n.attach_to_status_icon( self.my_status_icon )
+		else:
+			# Note: When this is enabled, the notification bubble may be delayed
+			# until the app regains focus, which may be a long time and requires user interaction
+			n.attach_to_status_icon( self.my_status_icon )
+			n.set_timeout(0)
 
 
 		# Note: The "pie" countdown only shows up when we add a button, like this:
-		n.add_action("empty", "Empty Trash", self.cb_dummy)
+#		n.add_action("empty", "Empty Trash", self.cb_dummy)
 
 		if not n.show():
 			print "Well then..."
