@@ -26,4 +26,5 @@
     <string name="summary_list_preference">An example that uses a list dialog</string>
     <string name="dialog_title_list_preference">Choose one</string>
     
+<string name="textflinger_button_title">Fling text</string>
 </resources>

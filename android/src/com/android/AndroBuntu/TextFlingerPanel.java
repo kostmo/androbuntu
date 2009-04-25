@@ -36,13 +36,13 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	       
 	       
-	       button = (Button) findViewById(R.id.my_button);
-	       button.setOnClickListener(this);
+//	       button = (Button) findViewById(R.string.textflinger_button_title);
+//	       button.setOnClickListener(this);
 		   
 	   
 	       
 	       
-	       et = (EditText) findViewById(R.id.my_edittext);
+//	       et = (EditText) findViewById(R.string);
 
 	        setContentView(R.layout.main);
 	   }

@@ -33,6 +33,8 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.opengles.GL10;
 
 
+import com.android.Turntable3D.Projector;
+
 
 class Point2d {
 	float x, y;

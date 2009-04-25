@@ -22,9 +22,6 @@ import javax.microedition.khronos.opengles.GL;
 
 import android.app.Activity;
 import android.os.Bundle;
-//import android.view.Menu;
-//import android.view.ContextMenu;
-//import android.view.View;
 import android.content.Context;
 
 import android.view.KeyEvent;
@@ -32,6 +29,7 @@ import android.graphics.PixelFormat;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 
+import com.android.Turntable3D.MatrixTrackingGL;
 
 public class TurntableWidget extends Activity {
 
