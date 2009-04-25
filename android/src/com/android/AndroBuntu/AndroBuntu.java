@@ -1,10 +1,14 @@
 package com.android.AndroBuntu;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -48,19 +52,18 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		String host = settings.getString("hostname_preference", null);
 
 		
-	       if (host == null) {
-	    	   	
-		    	Toast.makeText(AndroBuntu.this, "Please specify server.", Toast.LENGTH_SHORT).show();
-		    	
-		    	Intent i2 = new Intent();
-		    	i2.setClass(this, ServerPanel.class);
+       if (host == null) {
+    	   	
+	    	Toast.makeText(AndroBuntu.this, "Please specify server.", Toast.LENGTH_SHORT).show();
+	    	
+	    	Intent i2 = new Intent();
+	    	i2.setClass(this, ServerPanel.class);
 
-		    	AndroBuntu.this.startActivityForResult(i2, initialize_prefs_code);
-	       }
-	       else do_binding();
-	       
+	    	AndroBuntu.this.startActivityForResult(i2, initialize_prefs_code);
+       }
+       else do_binding();
+       
 		
-
 
 
        
@@ -150,7 +153,33 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	String reply = service_binder.send_message("screen_blank");    	
+	    	String reply = service_binder.send_message("screen_blank");
+	    	
+		 	reply = service_binder.send_message("lights_off");
+
+		 	
+		 	
+	    	PackageManager pm = getPackageManager();
+	    	List<ResolveInfo> info = pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN), 0);
+
+
+	    	Intent alarmclock_intent = new Intent();
+	    	/*
+	    	for (ResolveInfo foo : info) {
+	    		if (foo.activityInfo.packageName != null )
+	    			Log.d("activ", "Activity name: " + foo.activityInfo.name);
+
+	    		if (foo.activityInfo.applicationInfo.className != null )
+	    			Log.d("activ", "Class name: " + foo.activityInfo.applicationInfo.className);
+//	        	foo.activityInfo.getClass();
+	        }
+	    	*/
+
+	    	alarmclock_intent.setClassName("com.ricket.doug.nightclock", "com.ricket.doug.nightclock.NightClockActivity");
+	    	// Intent.FLAG_ACTIVITY_NEW_TASK
+	    	startActivity(alarmclock_intent);
+	        
+	        
 		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
