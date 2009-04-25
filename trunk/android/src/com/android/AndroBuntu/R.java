@@ -29,14 +29,15 @@ public final class R {
         public static final int solid_yellow=0x7f060003;
     }
     public static final class drawable {
-        public static final int blue=0x7f020002;
-        public static final int green=0x7f020003;
+        public static final int blue=0x7f020003;
+        public static final int green=0x7f020004;
         public static final int icon=0x7f020000;
-        public static final int red=0x7f020001;
-        public static final int screen_background_black=0x7f020005;
-        public static final int translucent_background=0x7f020006;
-        public static final int transparent_background=0x7f020007;
-        public static final int yellow=0x7f020004;
+        public static final int moon=0x7f020001;
+        public static final int red=0x7f020002;
+        public static final int screen_background_black=0x7f020006;
+        public static final int translucent_background=0x7f020007;
+        public static final int transparent_background=0x7f020008;
+        public static final int yellow=0x7f020005;
     }
     public static final class id {
         public static final int my_button=0x7f090001;
@@ -60,6 +61,7 @@ public final class R {
         public static final int summary_edittext_preference=0x7f070008;
         public static final int summary_list_preference=0x7f070010;
         public static final int summary_toggle_preference=0x7f070006;
+        public static final int textflinger_button_title=0x7f070012;
         public static final int title_editint_preference=0x7f07000b;
         public static final int title_edittext_preference=0x7f070007;
         public static final int title_list_preference=0x7f07000f;
