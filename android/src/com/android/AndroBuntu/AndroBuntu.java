@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Button;
 import android.widget.Toast;
@@ -100,9 +101,11 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        
 
         
-        Button screen_blank_button = new Button(this);
+//        Button screen_blank_button = new Button(this);
+      ImageButton screen_blank_button = new ImageButton(this);
         screen_blank_button.setOnClickListener(screen_blank_listener);
-        screen_blank_button.setText("Blank Screen");
+//        screen_blank_button.setText("Blank Screen");
+        screen_blank_button.setImageResource(R.drawable.moon);
         myfoo.addView(screen_blank_button);
         
         
