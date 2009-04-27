@@ -17,6 +17,8 @@ class ServerThread(threading.Thread):
 
 
 
+	DEFAULT_PORT = 46645
+
 	stopthread = threading.Event()
 	def __init__(self, controller_window):
 		threading.Thread.__init__(self)
@@ -34,14 +36,14 @@ class ServerThread(threading.Thread):
 		port_offset = 0
 		while True:
 			try:
-				self.s.bind( (hostname, self.controller_window.DEFAULT_PORT + port_offset) )
+				self.s.bind( (hostname, self.DEFAULT_PORT + port_offset) )
 				break
 			except socket.error:
-				print "Port "+`self.controller_window.DEFAULT_PORT + port_offset`+" not available."
+				print "Port "+`self.DEFAULT_PORT + port_offset`+" not available."
 				port_offset += 1
-				print "Trying port "+`self.controller_window.DEFAULT_PORT + port_offset`+"..."
+				print "Trying port "+`self.DEFAULT_PORT + port_offset`+"..."
 
-		self.connected_port = self.controller_window.DEFAULT_PORT + port_offset
+		self.connected_port = self.DEFAULT_PORT + port_offset
 		print "Finally connected to port", self.connected_port
 
 		self.controller_window.hello(
@@ -124,11 +126,10 @@ class ServerThread(threading.Thread):
 class AndroBuntuServer(gtk.Window):
 
 
+
 	def cb_dummy(self, widget):
 		print "Dummy callback."
 
-
-	DEFAULT_PORT = 46645
 	X11_KEY_DEFINITIONS = "/usr/share/X11/XKeysymDB"
 	ANDROID_ICON = "android_normal.png"
 
@@ -167,12 +168,18 @@ class AndroBuntuServer(gtk.Window):
 		if not n.show():
 			print "Well then..."
 
-
+	# -----------------------------
 	def delete_event(self, widget, event, data=None):
-		return False
 
-	def destroy(self, widget, data=None):
-		print "destroy signal occurred"
+		self.hidden_window = False
+		self.toggle_window(widget)
+
+		return True
+
+	# -----------------------------
+
+	def clean_quit(self, widget):
+
 		gtk.main_quit()
 
 
@@ -184,13 +191,19 @@ class AndroBuntuServer(gtk.Window):
 		host = '192.168.0.9'
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect( (host, self.DEFAULT_PORT) )
+		s.connect( (host, self.web_server_thread.connected_port) )
 
 		s.send( "quit" )
 		s.close()
-		print 'Received:', data
 
+	# -----------------------------
 
+	def destroy(self, widget, data=None):
+		print "destroy signal occurred"
+
+		
+
+	# -----------------------------
 
 
 	def cb_row_activated(self, treeview, path, view_column):
@@ -203,7 +216,7 @@ class AndroBuntuServer(gtk.Window):
 
 		size = 1024
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect( (host, self.DEFAULT_PORT) )
+		s.connect( (host, self.web_server_thread.connected_port) )
 
 		s.send( command_to_send )
 		data = s.recv(size)
@@ -211,11 +224,21 @@ class AndroBuntuServer(gtk.Window):
 		print 'Received:', data,
 
 
+	# -----------------------------
+	def toggle_window(self, status_icon):
+		if self.hidden_window:
+			self.show()
+			self.hidden_window = False
+		else:
+			self.hide()
+			self.hidden_window = True
 
-
+	# -----------------------------
 
 	def __init__(self):
 		gtk.Window.__init__(self)
+
+		self.web_server_thread = None
 
 
 		import sys
@@ -230,6 +253,7 @@ class AndroBuntuServer(gtk.Window):
 		self.set_border_width(10)
 
 		self.hidden_window = False
+
 		self.pynotify_enabled = False
 
 
@@ -256,6 +280,11 @@ class AndroBuntuServer(gtk.Window):
 
 		vbox = gtk.VBox()
 
+		button = gtk.Button("Quit")
+		button.connect("clicked", self.clean_quit)
+		vbox.pack_start(button, False, False)
+
+
 		button = gtk.Button("Message popup")
 		button.connect("clicked", self.hello, None)
 		vbox.pack_start(button, False, False)
@@ -274,6 +303,13 @@ class AndroBuntuServer(gtk.Window):
 		for item in xf86_list:
 			if "Audio" in item:
 				ls.append( [item] )
+
+
+		# EXPERIMENTAL:
+		ls.append( ["lights_on"] )
+		ls.append( ["lights_off"] )
+
+
 
 
 		tv = gtk.TreeView(ls)
@@ -315,7 +351,7 @@ class AndroBuntuServer(gtk.Window):
 		menu.append(temp_item)
 
 		temp_item = gtk.MenuItem("Quit")
-		temp_item.connect("activate", self.destroy)
+		temp_item.connect("activate", self.clean_quit)
 		menu.append(temp_item)
 
 		menu.show_all()
@@ -344,7 +380,9 @@ if __name__ == "__main__":
 	hello = AndroBuntuServer()
 
 	web_server_thread = ServerThread(hello)
+	hello.web_server_thread = web_server_thread
 	web_server_thread.start()
+
 
 	gtk.main()
 
