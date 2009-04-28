@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	private EditText et;
-	private Button button;
+//	private Button button;
 		private SocketMonitor service_binder;
 	
 	   @Override
@@ -35,16 +35,17 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	       
 
 	       
-	       
-//	       button = (Button) findViewById(R.string.textflinger_button_title);
-//	       button.setOnClickListener(this);
+
+	       setContentView(R.layout.main);
+	        
+	       Button button = (Button) findViewById(R.id.textflinger_button);
+	       button.setOnClickListener(this);
 		   
 	   
 	       
 	       
-//	       et = (EditText) findViewById(R.string);
+	       et = (EditText) findViewById(R.id.flingertext);
 
-	        setContentView(R.layout.main);
 	   }
 
 	   
@@ -75,7 +76,7 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	
 	   public void onClick(View v) {
 		   String flingtext = et.getText().toString();
-		   String reply = service_binder.send_message("fling_text:"+flingtext);
+		   String reply = service_binder.send_message("fling_text:" + flingtext + "\n");
 		   Toast.makeText(TextFlingerPanel.this, reply, Toast.LENGTH_SHORT).show();
 	   }
 	   
