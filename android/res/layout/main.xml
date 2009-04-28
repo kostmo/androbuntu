@@ -6,20 +6,18 @@
     >
     
 <EditText
-    android:id="@+id/my_edittext"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/hello"
-    />
+    android:id="@+id/flingertext"/>
     
     
     
 <Button
-    android:id="@+id/my_button"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="Deposit text"
-    />
+    android:id="@+id/textflinger_button"/>
     
     
 </LinearLayout>

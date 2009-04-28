@@ -30,9 +30,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	private SocketMonitor service_binder;
 	
-    
     private final int rotowidget_request_code = 42;
-
     private final int initialize_prefs_code = 43;
     
 
@@ -40,29 +38,28 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
         Intent i = new Intent();
         i.setClass(AndroBuntu.this, SocketMonitor.class);
         return bindService(i, my_relay_service, BIND_AUTO_CREATE);
-
     }
     
-   @Override
-   public void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+	   super.onCreate(savedInstanceState);
 
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		String host = settings.getString("hostname_preference", null);
 
 		
-       if (host == null) {
+		if (host == null) {
     	   	
 	    	Toast.makeText(AndroBuntu.this, "Please specify server.", Toast.LENGTH_SHORT).show();
 	    	
 	    	Intent i2 = new Intent();
-	    	i2.setClass(this, ServerPanel.class);
+	    	i2.setClass(this, ServerPreferences.class);
 
 	    	AndroBuntu.this.startActivityForResult(i2, initialize_prefs_code);
-       }
-       else do_binding();
-       
+		}
+		else do_binding();
+
 		
 
 
@@ -78,16 +75,27 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        media_button.setOnClickListener(media_button_listener);
        media_button.setText("Media Controls");
 
-       Button x10_button = new Button(this);
+       
+       
+       
+       
+//       Button x10_button = new Button(this);
+       ImageButton x10_button = new ImageButton(this);
        x10_button.setOnClickListener(x10_button_listener);
-       x10_button.setText("x10 Controls");
+       x10_button.setImageResource(R.drawable.lightbulb_off);
+//       x10_button.setText("x10 Controls");
        
+
        
-       Button logo_button = new Button(this);
+ //      Button logo_button = new Button(this);
+       ImageButton logo_button = new ImageButton(this);
        logo_button.setOnClickListener(logo_button_listener);
-       logo_button.setText("Logo");
+//       logo_button.setText("Logo");
+       logo_button.setImageResource(R.drawable.minibuntu);
        
       
+       
+       
        Button scripts_button = new Button(this);
        scripts_button.setOnClickListener(scripts_button_listener);
        scripts_button.setText("Invoke Script");
@@ -110,7 +118,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 //        screen_blank_button.setText("Blank Screen");
         screen_blank_button.setImageResource(R.drawable.moon);
         myfoo.addView(screen_blank_button);
-        
+      
         
         
 
@@ -180,7 +188,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	startActivity(alarmclock_intent);
 	        
 	        
-		   Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	    	Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
 	    }
 	};
 	
@@ -279,9 +287,10 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     	case 0:	// FIXME
     		
 	    	Intent i = new Intent();
-	    	i.setClass(this, ServerPanel.class);
+	    	i.setClass(this, ServerPreferences.class);
 	    	startActivity(i);
-
+	    	break;
+	    	
     	default:
 
         	String reply = service_binder.send_message("greet");    	

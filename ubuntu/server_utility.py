@@ -8,13 +8,11 @@ import threading
 import socket
 import os
 
-
 # =========================
 
 class ServerThread(threading.Thread):
 
 	"""Server thread"""
-
 
 
 	DEFAULT_PORT = 46645
@@ -78,7 +76,16 @@ class ServerThread(threading.Thread):
 					break
 
 				elif data.find("fling_text:") == 0:
-					print data
+					txt = data[len("fling_text:"):]
+
+					gtk.gdk.threads_enter()	# Is this needed?
+					self.controller_window.hello(None,
+						("Flung text.",
+						txt,
+						False)
+					)
+					gtk.gdk.threads_leave()
+					print txt
 
 				elif data == "screen_blank":
 #					os.system( "gnome-screensaver-command --activate" )
@@ -233,6 +240,15 @@ class AndroBuntuServer(gtk.Window):
 			self.hide()
 			self.hidden_window = True
 
+
+	# -----------------------------
+
+	def link_server_instance(self, server):
+
+		self.web_server_thread = web_server_thread
+
+		self.port_label.set_text("%d" % (self.web_server_thread.connected_port))
+
 	# -----------------------------
 
 	def __init__(self):
@@ -279,6 +295,11 @@ class AndroBuntuServer(gtk.Window):
 
 
 		vbox = gtk.VBox()
+		port_hbox = gtk.HBox(False, 5)
+		port_hbox.pack_start(gtk.Label("Port:"), False, False)
+		self.port_label = gtk.Label("N/A")
+		port_hbox.pack_start(self.port_label, False, False)
+		vbox.pack_start(port_hbox, False, False)
 
 		button = gtk.Button("Quit")
 		button.connect("clicked", self.clean_quit)
@@ -372,17 +393,17 @@ class AndroBuntuServer(gtk.Window):
 			self.hide()
 			self.hidden_window = True
 
+# =========================
 
 if __name__ == "__main__":
 
 	gobject.threads_init()
 
 	hello = AndroBuntuServer()
-
 	web_server_thread = ServerThread(hello)
-	hello.web_server_thread = web_server_thread
 	web_server_thread.start()
 
+	hello.link_server_instance(web_server_thread)
 
 	gtk.main()
 
