@@ -6,8 +6,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import org.xmlpull.v1.XmlSerializer;
 
 import android.app.Service;
 import android.content.Intent;
@@ -16,6 +19,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Xml;
 
 public class SocketMonitor extends Service {
 
@@ -80,9 +84,14 @@ public class SocketMonitor extends Service {
     // RemoteService for a more complete example.
     private final IBinder mBinder = new LocalBinder();
 	
-	
 
 	public String send_message(String command) {
+		
+		return send_message(command, null);
+	}
+	
+
+	public String send_message(String command, String payload) {
     	
 	    try {
 
@@ -101,11 +110,52 @@ public class SocketMonitor extends Service {
 	    
 		
 	   	String message = "";
+	   	
+	   	
+	   	
+	   	String transmission_string = "";
+	   	
+	   	
+        XmlSerializer serializer = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+        try {
+			serializer.setOutput(writer);
+			
+
+			serializer.startDocument(null, null);
+
+			serializer.startTag(null, "root");
+			serializer.startTag(null, "command");
+			serializer.text( command );
+			serializer.endTag(null, "command");
+			
+			
+			if (payload != null) {
+				// TODO: Implement the payload as an "attribute" to the tag
+				serializer.startTag(null, "payload");
+				serializer.text( payload );
+				serializer.endTag(null, "payload");	
+				
+			}
+			serializer.endTag(null, "root");
+			serializer.endDocument();
+			serializer.flush();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+	   	
+	   	
+		transmission_string = writer.toString();
+
+	   	
     	
         try {
         	
 
-            wr.write( command );
+            wr.write( transmission_string );
             wr.flush();
     	
 

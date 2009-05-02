@@ -8,6 +8,9 @@ import threading
 import socket
 import os
 
+
+from xml.dom import minidom
+
 # =========================
 
 class ServerThread(threading.Thread):
@@ -44,14 +47,80 @@ class ServerThread(threading.Thread):
 		self.connected_port = self.DEFAULT_PORT + port_offset
 		print "Finally connected to port", self.connected_port
 
-		self.controller_window.hello(
-			None,
-			("Port number changed.",
-			"Was not able to connect to the default port. Make sure to adjust your client port to " + `self.connected_port`,
-			False),
-		)
+		if port_offset:
+			self.controller_window.hello(
+				None,
+				("Port number changed.",
+				"Was not able to connect to the default port. Make sure to adjust your client port to " + `self.connected_port`,
+				False),
+			)
 
 		self.s.listen(backlog)
+
+
+	# -----------------------------
+
+	def dispatch_command( self, command, payload=None ):
+
+		if command == "quit":
+			pass
+#			break
+
+		elif command.find("fling_text:") == 0:
+			txt = payload
+
+			'''
+			gtk.gdk.threads_enter()	# Is this needed?
+			self.controller_window.hello(None,
+				("Flung text.",
+				txt,
+				False)
+			)
+			gtk.gdk.threads_leave()
+			'''
+			print txt
+
+		elif command == "screen_blank":
+#			os.system( "gnome-screensaver-command --activate" )
+			os.system( "xset dpms force off" )
+
+
+		elif command == "greet":
+			self.controller_window.hello(None)
+
+		elif command == "lights_off":
+			os.system( "heyu alloff " + self.controller_window.housecode )
+
+		elif command == "lights_on":
+			os.system( "heyu allon " + self.controller_window.housecode )
+
+
+		elif command == "list_scripts":
+			# TODO
+			return "lights_off lights_on XF86AudioMute"
+
+
+		else:
+
+			gtk.gdk.threads_enter()	# Is this needed?
+			osd_enabled = self.controller_window.osd_enabled.get_active()
+			gtk.gdk.threads_leave()
+
+
+			cmd_string = ""
+			if osd_enabled:
+				cmd_string = 'xte "key ' + command + '"'
+
+			else:
+				cmd_string = "amixer sset Master,0 toggle"	# Mute
+#				cmd_string = "amixer sset Master,0 5%+"	# Increase
+#				cmd_string = "amixer sset Master,0 5%-"	# Decrease
+
+			os.system( cmd_string )
+
+
+
+	# -----------------------------
 
 
 	def run(self):
@@ -62,62 +131,35 @@ class ServerThread(threading.Thread):
 			data = client.recv(self.size)
 			if data:
 
-				print "Got a message:", data
+				print "Got a command:", data
 
 				# We should send the response back immediately; the Android application will hang while waiting.
 				# This is especially important when we make GUI updates, such as the "libnotify" bubble;
 				# it seems that if we send more than one of this event, the second is not processed until we put focus
 				# on either the GTK window or its StatusIcon residing in the tray.  Weird!
 
+
 				client.send(data + "\n")
 				client.close()
 
-				if data == "quit":
-					break
-
-				elif data.find("fling_text:") == 0:
-					txt = data[len("fling_text:"):]
-
-					gtk.gdk.threads_enter()	# Is this needed?
-					self.controller_window.hello(None,
-						("Flung text.",
-						txt,
-						False)
-					)
-					gtk.gdk.threads_leave()
-					print txt
-
-				elif data == "screen_blank":
-#					os.system( "gnome-screensaver-command --activate" )
-					os.system( "xset dpms force off" )
 
 
-				elif data == "greet":
-					self.controller_window.hello(None)
 
-				elif data == "lights_off":
-					os.system( "heyu alloff " + self.controller_window.housecode )
-
-				elif data == "lights_on":
-					os.system( "heyu allon " + self.controller_window.housecode )
-
-				else:
-
-					gtk.gdk.threads_enter()	# Is this needed?
-					osd_enabled = self.controller_window.osd_enabled.get_active()
-					gtk.gdk.threads_leave()
+				xmldoc = minidom.parseString( data )
+				articles = xmldoc.getElementsByTagName("command")
 
 
-					cmd_string = ""
-					if osd_enabled:
-						cmd_string = 'xte "key ' + data + '"'
+				# Dispatch each of the commands:
+				for myarticle in articles:
+					article_title = myarticle.firstChild.nodeValue
+					print "COMMAND CONTENT:", article_title
 
-					else:
-						cmd_string = "amixer sset Master,0 toggle"	# Mute
-#						cmd_string = "amixer sset Master,0 5%+"	# Increase
-#						cmd_string = "amixer sset Master,0 5%-"	# Decrease
+					payload = None
+					payload_array = xmldoc.getElementsByTagName("payload")
+					if payload_array:
+						payload = payload_array[0].firstChild.nodeValue
 
-					os.system( cmd_string )
+					self.dispatch_command( article_title, payload )
 
 
 			else:

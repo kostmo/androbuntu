@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -76,7 +75,10 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	
 	   public void onClick(View v) {
 		   String flingtext = et.getText().toString();
-		   String reply = service_binder.send_message("fling_text:" + flingtext + "\n");
+		   
+           
+//		   String reply = service_binder.send_message("fling_text:" + flingtext );
+		   String reply = service_binder.send_message( "fling_text:", flingtext );
 		   Toast.makeText(TextFlingerPanel.this, reply, Toast.LENGTH_SHORT).show();
 	   }
 	   
