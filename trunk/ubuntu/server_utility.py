@@ -37,6 +37,10 @@ class SlowCommandThread(threading.Thread):
 
 		while not self.stopthread.isSet():
 
+			# Supposedly, this will not block:
+#			from os import spawnv, P_NOWAIT
+#			spawnv(P_NOWAIT, self.command_string, self.command_string.split())
+
 
 			os.system( self.command_string )
 
@@ -110,7 +114,7 @@ class ServerThread(threading.Thread):
 			'''
 			print txt
 
-			return command
+			return [command]
 
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
@@ -128,7 +132,7 @@ class ServerThread(threading.Thread):
 			slow_thread.start()
 #			slow_thread.stop()
 
-			return "Off."
+			return ["Off."]
 
 		elif command == "lights_on":
 
@@ -139,12 +143,12 @@ class ServerThread(threading.Thread):
 			slow_thread.start()
 #			slow_thread.stop()
 
-			return "On."
+			return ["On."]
 
 
 		elif command == "list_scripts":
 			# TODO
-			return "lights_off lights_on XF86AudioMute"
+			return ["lights_off", "lights_on", "XF86AudioMute"]
 
 
 		else:
@@ -168,10 +172,10 @@ class ServerThread(threading.Thread):
 			slow_thread.start()
 #			slow_thread.stop()
 
-			return command
+			return [command]
 
 
-		return ""
+		return []
 
 	# -----------------------------
 
@@ -214,7 +218,7 @@ class ServerThread(threading.Thread):
 
 
 
-					result = self.dispatch_command( article_title, payload )
+					results_list = self.dispatch_command( article_title, payload )
 
 
 
@@ -223,11 +227,13 @@ class ServerThread(threading.Thread):
 					newdoc = impl.createDocument(None, "root", None)
 					top_element = newdoc.documentElement
 
-					tag = newdoc.createElement("response")
-					top_element.appendChild( tag )
+					for result in results_list:
+						tag = newdoc.createElement("response")
 
-					text = newdoc.createTextNode('Some textual content.')
-					tag.appendChild(text)
+						text = newdoc.createTextNode( result )
+						tag.appendChild(text)
+
+						top_element.appendChild( tag )
 
 
 
@@ -235,7 +241,6 @@ class ServerThread(threading.Thread):
 
 
 					print "Here's the XML I'm about to send:", new_xml_string
-#					client.send(result + "\n")
 					client.send(new_xml_string + "\n")
 
 
