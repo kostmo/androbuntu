@@ -99,13 +99,13 @@ public class SocketMonitor extends Service {
     private final IBinder mBinder = new LocalBinder();
 	
 
-	public String send_message(String command) {
+	public String[] send_message(String command) {
 		
 		return send_message(command, null);
 	}
 	
 
-	public String send_message(String command, String payload) {
+	public String[] send_message(String command, String payload) {
     	
 	    try {
 
@@ -119,11 +119,12 @@ public class SocketMonitor extends Service {
 	    catch (IOException e) {
 	        System.out.println(e);
 	        
-	        return "Socket instantiation failed.";
+	        String[] x = {"Socket instantiation failed."};
+	        return x;
 	    }
 	    
 		
-	   	String message = "";
+	   	String[] message = null;
 	   	
 	   	
 	   	
@@ -206,24 +207,19 @@ public class SocketMonitor extends Service {
 				}
 	        	
 				NodeList nl = doc.getElementsByTagName("response");
+				message = new String[nl.getLength()];
 				for (int i=0; i<nl.getLength(); i++) {
 					
 					Node n = nl.item(i);
-//					message += n.getNodeValue();
-					message += n.getFirstChild().getNodeValue();
+
+					message[i] = n.getFirstChild().getNodeValue();
 				}
 	        	
 
 	        	if (str == null)
 	        		break;
-
-	        	
-//	        	message += str;
-	        	
 	        }
 	        
-	        
-
 			
         } catch (IOException e) {
 	    	Log.d("fark", "The buffered reader/writer failed somehow...");
@@ -243,11 +239,12 @@ public class SocketMonitor extends Service {
 	    catch (IOException e) {
 	        System.out.println(e);
 	        
-	        message = "Closing connection failed.";
+	        message = new String[1];
+	        message[0] = "Closing connection failed.";
 	    }
 		
 		
-		
+
 	    return message;
 	}
 }

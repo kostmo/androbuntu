@@ -15,12 +15,6 @@ import android.os.IBinder;
 
 public class ScriptListActivity extends ListActivity {
 
-
-    private String[] mStrings = {
-            "Abondance", "Ackawi", "Acorn"
-    };
-    
-
 	private SocketMonitor service_binder;
 	
 	
@@ -38,18 +32,7 @@ public class ScriptListActivity extends ListActivity {
 		if (connect_successful) {
 			
 		}
-        
-        
 
-        // We'll define a custom screen layout here (the one shown above), but
-        // typically, you could just use the standard ListActivity layout.
- //       setContentView(android.R.layout.simple_list_item_1);
-
-        
-        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mStrings);
-       
-        
-        setListAdapter(adapter);
     }
     
     
@@ -72,21 +55,15 @@ public class ScriptListActivity extends ListActivity {
 	    	   
 	    	   
 	    	   
-	    	   // TODO
-			   String reply = service_binder.send_message( "list_scripts" );
-			   Toast.makeText(ScriptListActivity.this, reply, Toast.LENGTH_SHORT).show();
+			   String[] reply = service_binder.send_message( "list_scripts" );
 			   
+		       ListAdapter adapter = new ArrayAdapter<String>(ScriptListActivity.this, android.R.layout.simple_list_item_1, reply);
+		       setListAdapter(adapter);
+
 			   
-			   
-			   // TODO:
-			   /*
-			   import javax.xml.parsers.DocumentBuilder;
-			   parse(InputStream stream);
-			   */
 	       }
 
 	       public void onServiceDisconnected(ComponentName componentName) {
-
 
 	    	   Log.d("forker", "SocketMonitor service disconnected.");
 	       }
@@ -99,8 +76,10 @@ public class ScriptListActivity extends ListActivity {
 	   protected void onListItemClick(ListView l, View v, int position, long id) {
 		   
 		   String clickedrow = (String) getListView().getItemAtPosition(position);
-		   Toast.makeText(ScriptListActivity.this, clickedrow, Toast.LENGTH_SHORT).show();
-		   
+
+		   String[] reply = service_binder.send_message( clickedrow );
+
+		   Toast.makeText(ScriptListActivity.this, reply[0], Toast.LENGTH_SHORT).show();	   
 	   }
 	   
 	   

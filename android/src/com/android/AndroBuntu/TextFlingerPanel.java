@@ -78,8 +78,8 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 		   
            
 //		   String reply = service_binder.send_message("fling_text:" + flingtext );
-		   String reply = service_binder.send_message( "fling_text:", flingtext );
-		   Toast.makeText(TextFlingerPanel.this, reply, Toast.LENGTH_SHORT).show();
+		   String reply[] = service_binder.send_message( "fling_text:", flingtext );
+		   Toast.makeText(TextFlingerPanel.this, reply[0], Toast.LENGTH_SHORT).show();
 	   }
 	   
 	   

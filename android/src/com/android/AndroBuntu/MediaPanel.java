@@ -97,23 +97,23 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		
 	   private View.OnClickListener voldown_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-		    	String reply = service_binder.send_message("XF86AudioLowerVolume");    	
-			   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
+		    	String[] reply = service_binder.send_message("XF86AudioLowerVolume");    	
+			   Toast.makeText(MediaPanel.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 
 	   private View.OnClickListener volup_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	
-		    	String reply = service_binder.send_message("XF86AudioRaiseVolume");    	
-			   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
+		    	String reply[] = service_binder.send_message("XF86AudioRaiseVolume");    	
+			   Toast.makeText(MediaPanel.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 	       
 	   public void onClick(View v) {
 
-		   String reply = service_binder.send_message("XF86AudioMute");
-		   Toast.makeText(MediaPanel.this, reply, Toast.LENGTH_SHORT).show();
+		   String reply[] = service_binder.send_message("XF86AudioMute");
+		   Toast.makeText(MediaPanel.this, reply[0], Toast.LENGTH_SHORT).show();
 	   }
 	   
 	   
