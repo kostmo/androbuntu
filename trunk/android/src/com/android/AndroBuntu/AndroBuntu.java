@@ -161,7 +161,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
    private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	String reply = service_binder.send_message("screen_blank");
+	    	String[] reply = service_binder.send_message("screen_blank");
 	    	
 		 	reply = service_binder.send_message("lights_off");
 
@@ -188,7 +188,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	startActivity(alarmclock_intent);
 	        
 	        
-	    	Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+	    	Toast.makeText(AndroBuntu.this, reply[0], Toast.LENGTH_SHORT).show();
 	    }
 	};
 	
@@ -198,7 +198,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	
-    	String reply;
+    	String[] reply;
     	switch (keyCode) {
 
     	case KeyEvent.KEYCODE_VOLUME_DOWN:
@@ -217,7 +217,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     		return super.onKeyDown(keyCode, event);
     	}
     	
-    	Toast.makeText(AndroBuntu.this, reply, Toast.LENGTH_SHORT).show();
+    	Toast.makeText(AndroBuntu.this, reply[0], Toast.LENGTH_SHORT).show();
     	
     	return true;
     }
@@ -293,8 +293,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	
     	default:
 
-        	String reply = service_binder.send_message("greet");    	
-        	Toast.makeText(AndroBuntu.this, Integer.toString(itemid) + ": "+reply, Toast.LENGTH_SHORT).show();
+        	String[] reply = service_binder.send_message("greet");    	
+        	Toast.makeText(AndroBuntu.this, Integer.toString(itemid) + ": "+reply[0], Toast.LENGTH_SHORT).show();
     	}
 
 		return true;
@@ -305,8 +305,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
 	   // FIXME
 	   
-	   String reply = service_binder.send_message("XF86AudioMute");
-	   Toast.makeText(this, reply, Toast.LENGTH_SHORT).show();
+	   String[] reply = service_binder.send_message("XF86AudioMute");
+	   Toast.makeText(this, reply[0], Toast.LENGTH_SHORT).show();
    }
 
    

@@ -87,15 +87,15 @@ public class X10 extends Activity implements View.OnClickListener {
 	   
 	   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-		 	   String reply = service_binder.send_message("lights_off");
-			   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
+		 	   String[] reply = service_binder.send_message("lights_off");
+			   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 		
 	   private View.OnClickListener lightson_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-			 	   String reply = service_binder.send_message("lights_on");
-				   Toast.makeText(X10.this, reply, Toast.LENGTH_SHORT).show();
+			 	   String reply[] = service_binder.send_message("lights_on");
+				   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 	       
