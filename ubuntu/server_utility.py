@@ -11,12 +11,42 @@ import os
 
 from xml.dom import minidom
 
+
+from xml.dom.minidom import getDOMImplementation
+
+
+
+
+# =========================
+
+class SlowCommandThread(threading.Thread):
+
+	"""Server thread"""
+
+	stopthread = threading.Event()
+
+	def __init__(self, command_string):
+		threading.Thread.__init__(self)
+
+		self.command_string = command_string
+
+
+	# -----------------------------
+
+	def run(self):
+
+		while not self.stopthread.isSet():
+
+
+			os.system( self.command_string )
+
+			break
+
 # =========================
 
 class ServerThread(threading.Thread):
 
 	"""Server thread"""
-
 
 	DEFAULT_PORT = 46645
 
@@ -80,6 +110,8 @@ class ServerThread(threading.Thread):
 			'''
 			print txt
 
+			return command
+
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
 			os.system( "xset dpms force off" )
@@ -89,10 +121,25 @@ class ServerThread(threading.Thread):
 			self.controller_window.hello(None)
 
 		elif command == "lights_off":
-			os.system( "heyu alloff " + self.controller_window.housecode )
+
+
+			system_cmd = "heyu alloff " + self.controller_window.housecode
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+#			slow_thread.stop()
+
+			return "Off."
 
 		elif command == "lights_on":
-			os.system( "heyu allon " + self.controller_window.housecode )
+
+			# FIXME: This must block at the "process" level - threading is ineffective.
+
+			system_cmd = "heyu allon " + self.controller_window.housecode
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+#			slow_thread.stop()
+
+			return "On."
 
 
 		elif command == "list_scripts":
@@ -116,9 +163,15 @@ class ServerThread(threading.Thread):
 #				cmd_string = "amixer sset Master,0 5%+"	# Increase
 #				cmd_string = "amixer sset Master,0 5%-"	# Decrease
 
-			os.system( cmd_string )
+
+			slow_thread = SlowCommandThread( cmd_string )
+			slow_thread.start()
+#			slow_thread.stop()
+
+			return command
 
 
+		return ""
 
 	# -----------------------------
 
@@ -139,11 +192,6 @@ class ServerThread(threading.Thread):
 				# on either the GTK window or its StatusIcon residing in the tray.  Weird!
 
 
-				client.send(data + "\n")
-				client.close()
-
-
-
 
 				xmldoc = minidom.parseString( data )
 				articles = xmldoc.getElementsByTagName("command")
@@ -159,8 +207,47 @@ class ServerThread(threading.Thread):
 					if payload_array:
 						payload = payload_array[0].firstChild.nodeValue
 
-					self.dispatch_command( article_title, payload )
 
+
+
+
+
+
+
+					result = self.dispatch_command( article_title, payload )
+
+
+
+					# TODO: Encapsulate all responses in XML
+					impl = getDOMImplementation()
+					newdoc = impl.createDocument(None, "root", None)
+					top_element = newdoc.documentElement
+
+					tag = newdoc.createElement("response")
+					top_element.appendChild( tag )
+
+					text = newdoc.createTextNode('Some textual content.')
+					tag.appendChild(text)
+
+
+
+					new_xml_string = newdoc.toxml()
+
+
+					print "Here's the XML I'm about to send:", new_xml_string
+#					client.send(result + "\n")
+					client.send(new_xml_string + "\n")
+
+
+
+
+
+
+
+
+
+
+				client.close()
 
 			else:
 				client.close()
@@ -173,7 +260,6 @@ class ServerThread(threading.Thread):
 # =========================
 
 class AndroBuntuServer(gtk.Window):
-
 
 
 	def cb_dummy(self, widget):
