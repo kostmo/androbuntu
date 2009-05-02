@@ -2,6 +2,15 @@ package com.android.AndroBuntu;
 
 
 import java.io.BufferedReader;
+
+
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +19,11 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.app.Service;
@@ -164,15 +178,47 @@ public class SocketMonitor extends Service {
 	        	
 		        String str = null;
 	        
-	        	str = rd.readLine();
-
+		        
+		        
+		        // FIXME
+		        
+//	        	str = rd.readLine();
+	        	
+	        	
+		        InputSource is = new InputSource();
+		        is.setCharacterStream( rd );
+	        	
+	        	
+	        	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	        	DocumentBuilder db = null;
+	        	Document doc = null;
+				try {
+					db = dbf.newDocumentBuilder();
+				} catch (ParserConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	try {
+					doc = db.parse( is );
+				} catch (SAXException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+				NodeList nl = doc.getElementsByTagName("response");
+				for (int i=0; i<nl.getLength(); i++) {
+					
+					Node n = nl.item(i);
+//					message += n.getNodeValue();
+					message += n.getFirstChild().getNodeValue();
+				}
 	        	
 
 	        	if (str == null)
 	        		break;
 
 	        	
-	        	message += str;
+//	        	message += str;
 	        	
 	        }
 	        
