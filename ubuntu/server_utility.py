@@ -126,8 +126,8 @@ class ServerThread(threading.Thread):
 
 		elif command == "lights_off":
 
-
-			system_cmd = "heyu alloff " + self.controller_window.housecode
+			appliance_code = 4
+			system_cmd = "ppower " + str(self.controller_window.housecode) + str(appliance_code) + ":OFF"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
 #			slow_thread.stop()
@@ -138,7 +138,8 @@ class ServerThread(threading.Thread):
 
 			# FIXME: This must block at the "process" level - threading is ineffective.
 
-			system_cmd = "heyu allon " + self.controller_window.housecode
+			appliance_code = 4
+			system_cmd = "ppower " + str(self.controller_window.housecode) + str(appliance_code) + ":ON"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
 #			slow_thread.stop()
@@ -407,7 +408,7 @@ class AndroBuntuServer(gtk.Window):
 
 
 		# TODO
-		self.housecode = "k"
+		self.housecode = "K"
 		
 		
 		try:

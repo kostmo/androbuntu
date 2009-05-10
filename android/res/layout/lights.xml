@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    <!-- 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    >
+     -->
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="LightsOff"
+    android:id="@+id/lightsoff_button"/>
+    
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="LightsOn"
+    android:id="@+id/lightson_button"/>
+        
+    <!-- 
+</LinearLayout>
+ -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+
+<Spinner android:id="@+id/housecode_selector"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+
+<Spinner android:id="@+id/appliance_selector"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Activate"
+    android:id="@+id/slingle_light_confirm"/>
+</LinearLayout>
+
+ -->
+</LinearLayout>
