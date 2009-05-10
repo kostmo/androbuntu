@@ -163,7 +163,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	
 	    	String[] reply = service_binder.send_message("screen_blank");
 	    	
-		 	reply = service_binder.send_message("lights_off");
+	    	// FIXME - Need to obtain the house code
+		 	reply = service_binder.send_message("lights_off", "K");
 
 		 	
 		 	
