@@ -124,10 +124,46 @@ class ServerThread(threading.Thread):
 		elif command == "greet":
 			self.controller_window.hello(None)
 
+		elif command == "single_light_on":
+
+			system_cmd = "ppower " + payload + ":ON"
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+
+			return ["On."]
+
+		elif command == "dimmer":
+
+			cmd = payload.split()
+			code = cmd[0]
+			level = cmd[1]
+			system_cmd = "ppower " + code + ":DIM:" + level
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+
+			return ["Dimming."]
+
+		elif command == "brighter":
+			cmd = payload.split()
+			code = cmd[0]
+			level = cmd[1]
+			system_cmd = "ppower " + code + ":BRIGHT:" + level
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+
+			return ["Brightening."]
+
+		elif command == "single_light_off":
+
+			system_cmd = "ppower " + payload + ":OFF"
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+
+			return ["Off."]
+
 		elif command == "lights_off":
 
-			appliance_code = 4
-			system_cmd = "ppower " + str(self.controller_window.housecode) + str(appliance_code) + ":OFF"
+			system_cmd = "ppower " + payload + ":ALL_LIGHTS_OFF"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
 #			slow_thread.stop()
@@ -138,8 +174,7 @@ class ServerThread(threading.Thread):
 
 			# FIXME: This must block at the "process" level - threading is ineffective.
 
-			appliance_code = 4
-			system_cmd = "ppower " + str(self.controller_window.housecode) + str(appliance_code) + ":ON"
+			system_cmd = "ppower " + payload + ":ALL_LIGHTS_ON"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
 #			slow_thread.stop()
