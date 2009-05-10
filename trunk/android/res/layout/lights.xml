@@ -1,51 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
     >
-    
-    <!-- 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
     >
-     -->
+<TextView android:text="House Code:"
+   android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+<Spinner android:id="@+id/housecode_selector"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+
+
+</LinearLayout>
+<TextView android:text="Bulk controls:"
+   android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    >
 <Button
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="LightsOff"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="All Off"
     android:id="@+id/lightsoff_button"/>
     
 <Button
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="LightsOn"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="All On"
     android:id="@+id/lightson_button"/>
         
-    <!-- 
 </LinearLayout>
- -->
+
+
+<TextView android:text="Individual controls:"
+   android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
     >
-
-
-<Spinner android:id="@+id/housecode_selector"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
 
 <Spinner android:id="@+id/appliance_selector"
     android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
 
 <Button
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Activate"
-    android:id="@+id/slingle_light_confirm"/>
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="On"
+    android:id="@+id/slingle_light_on"/>
+    
+    <Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Off"
+    android:id="@+id/slingle_light_off"/>
 </LinearLayout>
 
- -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    >
+
+<TextView android:text="Dimmer:"
+   android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+<SeekBar
+    android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:id="@+id/dimmer_bar" android:max="22" android:progress="22" android:secondaryProgress="22"/>
+
+</LinearLayout>
 </LinearLayout>
