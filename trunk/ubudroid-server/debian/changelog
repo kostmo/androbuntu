@@ -1,8 +1,5 @@
-pyrocket (0.6-0ubuntu1) jaunty; urgency=low
+ubudroid-server (0.1.0-0ubuntu1) jaunty; urgency=low
 
-  * Initial Ubuntu package (LP: #242910)
-  - Added man page (pyrocket.6)
-  - Added debian/watch
-  - Fixed description
+  * Initial Ubuntu package (LP: #XXX)
 
- -- Karl Ostmo <kostmo@gmail.com>  Tue, 30 Dec 2008 19:29:33 -0600
+ -- Karl Ostmo <kostmo@gmail.com>  Tue, 30 Dec 2008 19:29:33 -0500
