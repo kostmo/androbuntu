@@ -40,8 +40,6 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	       Button button = (Button) findViewById(R.id.textflinger_button);
 	       button.setOnClickListener(this);
 		   
-	   
-	       
 	       
 	       et = (EditText) findViewById(R.id.flingertext);
 

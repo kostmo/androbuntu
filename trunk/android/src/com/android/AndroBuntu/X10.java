@@ -8,8 +8,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 
@@ -31,31 +36,32 @@ public class X10 extends Activity implements View.OnClickListener {
 
 		  
 		   
-		   
-	       LinearLayout myfoo = new LinearLayout(this);
-	       myfoo.setOrientation(LinearLayout.VERTICAL);
-   
-			   
-			LinearLayout myfoo3 = new LinearLayout(this);
-			myfoo3.setOrientation(LinearLayout.HORIZONTAL);
 			
-			
-			LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
-			l.weight = 1f;
-			
-			Button lightson_button = new Button(this);
+			setContentView(R.layout.lights);
+			    
+			Button lightson_button = (Button) findViewById(R.id.lightson_button);
 			lightson_button.setOnClickListener(lightson_listener);
-			lightson_button.setText("LightsOn");
-			myfoo3.addView(lightson_button, l );
 			
-			Button lightsoff_button = new Button(this);
+
+			Button lightsoff_button = (Button) findViewById(R.id.lightsoff_button);
 			lightsoff_button.setOnClickListener(lightsoff_listener);
-			lightsoff_button.setText("LightsOff");
-			myfoo3.addView(lightsoff_button, l );
-			myfoo.addView(myfoo3);
-			   
-	        
-			setContentView(myfoo);
+			
+			String[] housecodes = new String[16];
+			String[] appliancecodes = new String[16];
+			for (int j=0; j<housecodes.length; j++) {
+				housecodes[j] = Character.toString( (char) (j + 'A') );
+				appliancecodes[j] = Integer.toString(j + 1);
+			}
+
+			Spinner housecode_selector = (Spinner) findViewById(R.id.housecode_selector);
+			SpinnerAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, housecodes);
+			housecode_selector.setAdapter(adapter);
+
+
+			Spinner appliance_selector = (Spinner) findViewById(R.id.appliance_selector);
+			SpinnerAdapter adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, appliancecodes);
+			appliance_selector.setAdapter(adapter2);
+
 	   }
 
 	   
