@@ -10,18 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 
 public class X10 extends Activity implements View.OnClickListener {
 
 		private SocketMonitor service_binder;
-	
+		private Spinner appliance_selector, housecode_selector;
+		
 	   @Override
 	   public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
@@ -41,10 +41,11 @@ public class X10 extends Activity implements View.OnClickListener {
 			    
 			Button lightson_button = (Button) findViewById(R.id.lightson_button);
 			lightson_button.setOnClickListener(lightson_listener);
-			
 
 			Button lightsoff_button = (Button) findViewById(R.id.lightsoff_button);
 			lightsoff_button.setOnClickListener(lightsoff_listener);
+			
+			
 			
 			String[] housecodes = new String[16];
 			String[] appliancecodes = new String[16];
@@ -53,21 +54,80 @@ public class X10 extends Activity implements View.OnClickListener {
 				appliancecodes[j] = Integer.toString(j + 1);
 			}
 
-			Spinner housecode_selector = (Spinner) findViewById(R.id.housecode_selector);
+			housecode_selector = (Spinner) findViewById(R.id.housecode_selector);
 			SpinnerAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, housecodes);
 			housecode_selector.setAdapter(adapter);
 
 
-			Spinner appliance_selector = (Spinner) findViewById(R.id.appliance_selector);
+			appliance_selector = (Spinner) findViewById(R.id.appliance_selector);
 			SpinnerAdapter adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, appliancecodes);
 			appliance_selector.setAdapter(adapter2);
+
+
+			Button single_off_button = (Button) findViewById(R.id.slingle_light_off);
+			single_off_button.setOnClickListener(single_light_off_listener);
+			
+			Button single_on_button = (Button) findViewById(R.id.slingle_light_on);
+			single_on_button.setOnClickListener(single_light_on_listener);
+			
+			
+	
+		
+			SeekBar dimmer_bar = (SeekBar) findViewById(R.id.dimmer_bar);
+			dimmer_bar.setOnSeekBarChangeListener(seek_change_listen);
 
 	   }
 
 	   
+
 	   
-	   
-	   
+	   private OnSeekBarChangeListener seek_change_listen = new OnSeekBarChangeListener() {
+		    public void  onProgressChanged  (SeekBar seekBar, int new_value, boolean fromUser) {
+		    	
+		    	if (fromUser) {
+		    		
+		    		int prev_value = seekBar.getSecondaryProgress();
+		    		int diff = new_value - prev_value;
+
+		    		// This is a nifty way to store the previous value for relative adjustment
+					seekBar.setSecondaryProgress(new_value);
+
+			    	
+			    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
+			    	String appliance = (String) X10.this.appliance_selector.getSelectedItem();
+
+			    	String devicecode = housecode+appliance;    		
+		    		
+
+		    		String command_mode, value_string;
+		    		if (diff < 0) {
+		    			command_mode = "dimmer";
+		    			value_string = Integer.toString(-diff);
+		    		} else {
+		    			command_mode = "brighter";
+		    			value_string = Integer.toString(diff);
+		    		}
+		    		
+
+		    		String payload = devicecode + " " + value_string;
+		    		
+				 	   String[] reply = service_binder.send_message(command_mode, payload);
+					   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
+		    	}
+			}
+	
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+	
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+	   };
 	   
 	   
 	   private ServiceConnection my_relay_service = new ServiceConnection() {
@@ -86,25 +146,53 @@ public class X10 extends Activity implements View.OnClickListener {
 	       }
 	   };
 
+	   private View.OnClickListener single_light_on_listener = new View.OnClickListener() {
+		    public void onClick(View v) {
+		    	
+		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
+		    	String appliance = (String) X10.this.appliance_selector.getSelectedItem();
+
+		    	String payload = housecode+appliance;
+		 	   String[] reply = service_binder.send_message("single_light_on", payload);
+			   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
+		    }
+		};
 	   
-	   
-	   
+	   private View.OnClickListener single_light_off_listener = new View.OnClickListener() {
+		    public void onClick(View v) {
+		    	 
+		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
+		    	String appliance = (String) X10.this.appliance_selector.getSelectedItem();
+
+		    	String payload = housecode+appliance;
+		 	   String[] reply = service_binder.send_message("single_light_off", payload);
+			   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
+		    }
+		};
 	   
 	   
 	   private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-		 	   String[] reply = service_binder.send_message("lights_off");
+
+		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
+		 	   String[] reply = service_binder.send_message("lights_off", housecode);
 			   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 		
 	   private View.OnClickListener lightson_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
-			 	   String reply[] = service_binder.send_message("lights_on");
+
+		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
+			 	   String reply[] = service_binder.send_message("lights_on", housecode);
 				   Toast.makeText(X10.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
-	       
+
+		
+		
+		
+		
 	   public void onClick(View v) {
 		   
 		   

@@ -54,7 +54,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	Toast.makeText(AndroBuntu.this, "Please specify server.", Toast.LENGTH_SHORT).show();
 	    	
 	    	Intent i2 = new Intent();
-	    	i2.setClass(this, ServerPreferences.class);
+	    	i2.setClass(this, ServerPanel.class);
 
 	    	AndroBuntu.this.startActivityForResult(i2, initialize_prefs_code);
 		}
@@ -287,7 +287,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
     	case 0:	// FIXME
     		
 	    	Intent i = new Intent();
-	    	i.setClass(this, ServerPreferences.class);
+	    	i.setClass(this, ServerPanel.class);
 	    	startActivity(i);
 	    	break;
 	    	
