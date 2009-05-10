@@ -1,21 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 if __name__ == "__main__":
 
 	from distutils.core import setup
 
-	setup(name="footpedal",
-		description="USB foot pedal integration for X11 desktops",
-		long_description="""footpedal acts as a "pseduo-driver" for the USB foot pedal for
-transcriptionists by VEC. It lets you assign arbitrary keystrokes to the left,
-middle, and right pedal. It might also work with a home-built USB foot pedal.""",
+	setup(name="ubudroid-server",
+		description="server applet for AndroBuntu/UbuDroid Android application",
+		long_description="""ubudroid is an application to allow an Android handset to interact with the Ubuntu desktop.
+The client application provides interfaces for media control, X10 home automation, and custom user scripts.""",
 		author="Karl Ostmo",
 		author_email="kostmo@gmail.com",
-		url="http://footpedal.googlecode.com/",
-		version="0.2",
-#		py_modules=["footpedal_utility.py"],
-		scripts=["footpedal_utility.py"],
-		data_files=[("share/footpedal", ["foot_up.png", "foot_down.png", "foot.png"])]
+		url="http://androbuntu.googlecode.com/",
+		version="0.1.0",
+		scripts=["ubudroid-server.py"],
+		data_files=[("share/ubudroid-server", ["ubudroid-server.png"])]
 	)
 
 

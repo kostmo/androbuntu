@@ -1,3 +1,1 @@
-40-rocketlauncher.rules		/lib/udev/rules.d
-pyrocket.xpm			/usr/share/pixmaps
-debian/pyrocket.desktop		/usr/share/applications
+debian/ubudroid-server.desktop		/usr/share/applications

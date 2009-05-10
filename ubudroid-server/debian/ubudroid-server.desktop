@@ -1,8 +1,9 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
-Name=Dream Cheeky Rocket Control
-Comment=Enabling Cubicle Warfare on Linux
-Exec=pyrocket
+Name=UbuDroid Server Utility
+Comment=Responds to Android commands
+Exec=ubudroid-server.py
 Terminal=false
 Type=Application
-Icon=pyrocket
-Categories=GTK;GNOME;Game;
+Icon=ubudroid-server
+Categories=GTK;GNOME;Network;RemoteAccess;
