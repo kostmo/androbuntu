@@ -6,10 +6,10 @@ DEB_PYTHON_SYSTEM=pysupport
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
 
-build/pyrocket::
-	pod2man --section=6 --release=$(VERSION) --center "" debian/pyrocket.pod > pyrocket.6
+build/ubudroid-server::
+	pod2man --section=6 --release=$(VERSION) --center "" debian/ubudroid-server.pod > ubudroid-server.6
 
-cleanbuilddir/pyrocket::
-	rm -f pyrocket.6
+cleanbuilddir/ubudroid-server::
+	rm -f ubudroid-server.6
 
-DEB_INSTALL_MANPAGES_pyrocket = pyrocket.6
+DEB_INSTALL_MANPAGES_ubudroid-server = ubudroid-server.6
