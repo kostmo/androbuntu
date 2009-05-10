@@ -15,7 +15,7 @@
 <activity android:name="X10"></activity>
 
 <service android:name="SocketMonitor"></service>
-<activity android:name="ServerPreferences"></activity>
+<activity android:name="ServerPanel"></activity>
 <activity android:name="ScriptListActivity"></activity>
 <activity android:name="MediaPanel"></activity>
 <activity android:name="TextFlingerPanel"></activity>
