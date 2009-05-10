@@ -21,6 +21,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 		private SocketMonitor service_binder;
 		private Spinner appliance_selector, housecode_selector;
+		private SeekBar dimmer_bar;
 		
 	   @Override
 	   public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class X10 extends Activity implements View.OnClickListener {
 			
 	
 		
-			SeekBar dimmer_bar = (SeekBar) findViewById(R.id.dimmer_bar);
+			dimmer_bar = (SeekBar) findViewById(R.id.dimmer_bar);
 			dimmer_bar.setOnSeekBarChangeListener(seek_change_listen);
 
 	   }
@@ -161,6 +162,9 @@ public class X10 extends Activity implements View.OnClickListener {
 	   private View.OnClickListener single_light_off_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	 
+		    	dimmer_bar.setSecondaryProgress(0);
+		    	dimmer_bar.setProgress(0);
+		    	
 		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
 		    	String appliance = (String) X10.this.appliance_selector.getSelectedItem();
 
