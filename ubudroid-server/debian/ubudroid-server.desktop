@@ -2,7 +2,7 @@
 [Desktop Entry]
 Name=UbuDroid Server Utility
 Comment=Responds to Android commands
-Exec=ubudroid-server.py
+Exec=ubudroid-server
 Terminal=false
 Type=Application
 Icon=ubudroid-server
