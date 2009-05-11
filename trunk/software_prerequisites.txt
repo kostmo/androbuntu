@@ -1,6 +1,0 @@
-sudo apt-get install xautomation
-
-
-Recommended:
-sudo apt-get install exaile
-
