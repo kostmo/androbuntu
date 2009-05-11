@@ -1,1 +1,2 @@
-debian/ubudroid-server.desktop		/usr/share/applications
+debian/ubudroid-server.desktop		usr/share/applications
+ubudroid-server.png					usr/share/pixmaps

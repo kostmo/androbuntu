@@ -275,10 +275,11 @@ class UbuntuLogo {
     	
     	head_distance = 0.45f;
     	head_radius = 0.1f;
-    	head_border_radius = 1.2f;
+    	head_border_radius = 1.25f;	// This is a multiplier for the head radius, not an absolute distance.
     	arm_thickness = 0.2f;
     	arm_radius = 0.3f;
-    	arm_gap = 1/35f;
+//    	arm_gap = 1/35f;	// This used to be a fraction of an arc.
+    	arm_gap = (head_border_radius - 1)*head_radius;	// Now it is a linear distance that matches the border around the heads.
     	
 		rand = new Random();
         
@@ -459,7 +460,9 @@ class UbuntuLogo {
 			
 		float arcspan = 1/3f;
 		
-		float inner_arc_gap = arm_gap;
+		// Here we must translate the linear gap distance to a fraction of an arc.
+		float inner_arc_gap = (float) (2*Math.asin( (arm_gap/2.0)/inner_radius ) / (2*Math.PI));
+		Log.d("blargo", Float.toString(inner_arc_gap));
 		float inner_arc_span = arcspan - inner_arc_gap;
 		
 		float outer_arc_gap = (float) (Math.asin( Math.sin(inner_arc_gap*2*Math.PI)/outer_ratio ) / (2*Math.PI) );
@@ -545,7 +548,9 @@ class UbuntuLogo {
 			
 		float arcspan = 1/6f;
 		
-		float inner_arc_gap = arm_gap;
+		// Here we must translate the linear gap distance to a fraction of an arc.
+		float inner_arc_gap = (float) (Math.asin( (arm_gap/2.0)/inner_radius ) / (2*Math.PI));
+//		float inner_arc_gap = arm_gap;
 		float inner_arc_span = arcspan - inner_arc_gap;
 		
 		float outer_arc_gap = (float) (Math.asin( Math.sin(inner_arc_gap*2*Math.PI)/outer_ratio ) / (2*Math.PI) );
