@@ -26,7 +26,7 @@ case $character in
 esac
 
 
-echo "Alternatively, I will upload a new release to Google Code."
+echo "Alternatively, I will upload a new source code release to Google Code."
 echo -n "Do you want me to? [Y/n]: "
 read character
 case $character in

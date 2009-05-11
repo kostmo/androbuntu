@@ -1,5 +1,5 @@
-ubudroid-server (0.1.0-0ubuntu1) jaunty; urgency=low
+ubudroid-server (0.1.0-0ubuntu1~jaunty) jaunty; urgency=low
 
-  * Initial Ubuntu package (LP: #XXX)
+  * Initial Ubuntu package
 
- -- Karl Ostmo <kostmo@gmail.com>  Tue, 30 Dec 2008 19:29:33 -0500
+ -- Karl Ostmo <kostmo@gmail.com>  Sun, 10 May 2009 23:38:33 -0400
