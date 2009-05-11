@@ -1,5 +1,5 @@
 Source: ubudroid-server
-Section: utilities
+Section: utils
 Priority: optional
 Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Karl Ostmo <kostmo@gmail.com>
@@ -11,8 +11,8 @@ Homepage: http://androbuntu.googlecode.com/
 
 Package: ubudroid-server
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-gtk2, xautomation, ppower
-Suggests: exaile
+Depends: ${misc:Depends}, ${python:Depends}, python-gtk2, xautomation
+Suggests: exaile, ppower | bottlerocket, festival
 Description: server applet for AndroBuntu/UbuDroid Android application
  ubudroid is an application to allow an Android handset to interact with the
  Ubuntu desktop.  The client application provides interfaces for media control,

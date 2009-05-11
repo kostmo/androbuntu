@@ -9,16 +9,13 @@ package com.android.AndroBuntu;
 
 public final class R {
     public static final class array {
-        /**  Used in View/Spinner1.java 
- Used in View/Spinner1.java 
- Used in App/SearchInvoke.java 
- Used in app/dialog examples 
- Used in app/menu examples 
-         */
-        public static final int entries_list_preference=0x7f050000;
         /**  Used in app/menu examples 
          */
-        public static final int entryvalues_list_preference=0x7f050001;
+        public static final int entries_list_preference=0x7f050001;
+        /**  Used in app/menu examples 
+         */
+        public static final int entryvalues_list_preference=0x7f050002;
+        public static final int flinger_destinations=0x7f050000;
     }
     public static final class attr {
     }
@@ -44,13 +41,14 @@ public final class R {
     public static final class id {
         public static final int appliance_selector=0x7f090003;
         public static final int dimmer_bar=0x7f090006;
-        public static final int flingertext=0x7f090007;
+        public static final int flinger_destination_selector=0x7f090007;
+        public static final int flingertext=0x7f090008;
         public static final int housecode_selector=0x7f090000;
         public static final int lightsoff_button=0x7f090001;
         public static final int lightson_button=0x7f090002;
         public static final int slingle_light_off=0x7f090005;
         public static final int slingle_light_on=0x7f090004;
-        public static final int textflinger_button=0x7f090008;
+        public static final int textflinger_button=0x7f090009;
     }
     public static final class layout {
         public static final int lights=0x7f030000;
