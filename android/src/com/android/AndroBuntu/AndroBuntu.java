@@ -23,8 +23,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.android.Turntable3D.TurntableWidget;
 
-
-
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
 
@@ -32,10 +30,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
     private final int rotowidget_request_code = 42;
     private final int initialize_prefs_code = 43;
-
-    
-//    public SharedPreferences settings;
-    
 
     private boolean do_binding() {
         Intent i = new Intent();
@@ -80,20 +74,13 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
        
        
-       
-       
-//       Button x10_button = new Button(this);
        ImageButton x10_button = new ImageButton(this);
        x10_button.setOnClickListener(x10_button_listener);
        x10_button.setImageResource(R.drawable.lightbulb_off);
-//       x10_button.setText("x10 Controls");
-       
 
        
- //      Button logo_button = new Button(this);
        ImageButton logo_button = new ImageButton(this);
        logo_button.setOnClickListener(logo_button_listener);
-//       logo_button.setText("Logo");
        logo_button.setImageResource(R.drawable.minibuntu);
        
       
@@ -115,24 +102,18 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        
 
         
-//        Button screen_blank_button = new Button(this);
-      ImageButton screen_blank_button = new ImageButton(this);
-        screen_blank_button.setOnClickListener(screen_blank_listener);
-//        screen_blank_button.setText("Blank Screen");
-        screen_blank_button.setImageResource(R.drawable.moon);
-        myfoo.addView(screen_blank_button);
-      
+       ImageButton screen_blank_button = new ImageButton(this);
+       screen_blank_button.setOnClickListener(screen_blank_listener);
+       screen_blank_button.setImageResource(R.drawable.moon);
+
         
         
-
-        myfoo.addView(jotter_button);
-
-        myfoo.addView(media_button);
-        myfoo.addView(x10_button);
-        myfoo.addView(scripts_button);
-        myfoo.addView(logo_button);
-        
-
+       myfoo.addView(screen_blank_button);
+       myfoo.addView(media_button);
+       myfoo.addView(x10_button);
+       myfoo.addView(scripts_button);
+       myfoo.addView(jotter_button);
+       myfoo.addView(logo_button);
     
         
        setContentView(myfoo);
