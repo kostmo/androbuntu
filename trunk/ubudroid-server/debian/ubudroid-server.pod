@@ -4,7 +4,7 @@ ubudroid-server - server applet for AndroBuntu/UbuDroid Android application
 
 =head1 SYNOPSIS
 
-ubudroid-server.py
+ubudroid-server
 
 =head1 DESCRIPTION
 
