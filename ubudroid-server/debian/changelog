@@ -1,5 +1,5 @@
-ubudroid-server (0.1.0-0ubuntu1~jaunty) jaunty; urgency=low
+ubudroid-server (0.1.0-0ubuntu3) jaunty; urgency=low
 
   * Initial Ubuntu package
 
- -- Karl Ostmo <kostmo@gmail.com>  Sun, 10 May 2009 23:38:33 -0400
+ -- Karl Ostmo <kostmo@gmail.com>  Sun, 10 May 2009 23:48:09 -0400
