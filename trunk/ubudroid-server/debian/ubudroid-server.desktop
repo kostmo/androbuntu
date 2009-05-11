@@ -6,4 +6,4 @@ Exec=ubudroid-server
 Terminal=false
 Type=Application
 Icon=ubudroid-server
-Categories=GTK;GNOME;Network;RemoteAccess;
+Categories=GTK;GNOME;RemoteAccess;PDA;Utility;TrayIcon;Network;
