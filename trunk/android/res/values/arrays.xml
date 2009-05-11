@@ -15,19 +15,12 @@
 -->
 
 <resources>
-    <!-- Used in View/Spinner1.java -->
-    
-    
-    <!-- Used in View/Spinner1.java -->
-    
 
-    <!-- Used in App/SearchInvoke.java -->
-    
-    
-    <!-- Used in app/dialog examples -->
-    
-    
-    
+    <string-array name="flinger_destinations">
+        <item>Text-to-Speech (TTS)</item>
+        <item>Text file</item>
+        <item>Notification bubble</item>  
+    </string-array>
     
     
     

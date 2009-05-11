@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -37,6 +39,17 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	       setContentView(R.layout.main);
 	        
+	       
+	       
+	       
+	       Spinner s = (Spinner) findViewById(R.id.flinger_destination_selector);
+	       ArrayAdapter adapter = ArrayAdapter.createFromResource(
+	               this, R.array.flinger_destinations, android.R.layout.simple_spinner_item);
+	       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	       s.setAdapter(adapter);
+
+	       
+	       
 	       Button button = (Button) findViewById(R.id.textflinger_button);
 	       button.setOnClickListener(this);
 		   
