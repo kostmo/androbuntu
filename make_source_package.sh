@@ -11,7 +11,6 @@ rm -r debian
 cd ..
 svn export $PROGNAME $RELEASE_NAME
 cd $RELEASE_NAME
-rm -r icons
 debuild -S -sa
 cd ..
 rm -r $RELEASE_NAME
@@ -36,10 +35,11 @@ case $character in
 	chmod a+x googlecode_upload.py
 	./googlecode_upload.py -s "source code" -p $PROJECT_ID $DISTRIBUTABLE_NAME.orig.tar.gz
 	rm googlecode_upload.py
+        ;;
     * ) echo "Fine, then."
 esac
 
-CHANGES_FILE=${DISTRIBUTABLE_NAME}_source.changes
+CHANGES_FILE=${DISTRIBUTABLE_NAME}-*_source.changes
 
 echo "You might want to run 'dput my-ppa $CHANGES_FILE' next"
 echo "-or-"

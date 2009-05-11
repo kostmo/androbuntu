@@ -32,6 +32,9 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
     private final int rotowidget_request_code = 42;
     private final int initialize_prefs_code = 43;
+
+    
+//    public SharedPreferences settings;
     
 
     private boolean do_binding() {
@@ -45,7 +48,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	   super.onCreate(savedInstanceState);
 
 
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	   SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		String host = settings.getString("hostname_preference", null);
 
 		

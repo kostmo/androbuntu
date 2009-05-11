@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -32,8 +34,6 @@ public class X10 extends Activity implements View.OnClickListener {
 	       Intent i = new Intent();
 	       i.setClass(X10.this, SocketMonitor.class);
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
-	       
-		   
 
 		  
 		   
@@ -54,15 +54,24 @@ public class X10 extends Activity implements View.OnClickListener {
 				housecodes[j] = Character.toString( (char) (j + 'A') );
 				appliancecodes[j] = Integer.toString(j + 1);
 			}
+			
+
+
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			int saved_housecode_index = settings.getInt("house_code", 0);
+			int saved_appliance_index = settings.getInt("appliance_code", 0);
+			
 
 			housecode_selector = (Spinner) findViewById(R.id.housecode_selector);
 			SpinnerAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, housecodes);
 			housecode_selector.setAdapter(adapter);
-
+			housecode_selector.setSelection(saved_housecode_index);
+			
 
 			appliance_selector = (Spinner) findViewById(R.id.appliance_selector);
 			SpinnerAdapter adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, appliancecodes);
 			appliance_selector.setAdapter(adapter2);
+			appliance_selector.setSelection(saved_appliance_index);
 
 
 			Button single_off_button = (Button) findViewById(R.id.slingle_light_off);
@@ -150,6 +159,9 @@ public class X10 extends Activity implements View.OnClickListener {
 	   private View.OnClickListener single_light_on_listener = new View.OnClickListener() {
 		    public void onClick(View v) {
 		    	
+		    	dimmer_bar.setSecondaryProgress( dimmer_bar.getMax() );
+		    	dimmer_bar.setProgress( dimmer_bar.getMax() );
+		    	
 		    	String housecode = (String) X10.this.housecode_selector.getSelectedItem();
 		    	String appliance = (String) X10.this.appliance_selector.getSelectedItem();
 
@@ -207,6 +219,16 @@ public class X10 extends Activity implements View.OnClickListener {
 
 	    @Override
 	    protected void onDestroy() {
+	    	
+			int saved_housecode_index = X10.this.housecode_selector.getSelectedItemPosition();
+			int saved_appliance_index = X10.this.appliance_selector.getSelectedItemPosition();
+
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(X10.this);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putInt("house_code", saved_housecode_index);
+			editor.putInt("appliance_code", saved_appliance_index);
+            editor.commit();
+			
 	        super.onDestroy();
 	    	unbindService(my_relay_service);
 	    }
