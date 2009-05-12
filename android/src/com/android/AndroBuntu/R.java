@@ -39,20 +39,27 @@ public final class R {
         public static final int yellow=0x7f020007;
     }
     public static final class id {
-        public static final int appliance_selector=0x7f090003;
-        public static final int dimmer_bar=0x7f090006;
-        public static final int flinger_destination_selector=0x7f090007;
-        public static final int flingertext=0x7f090008;
-        public static final int housecode_selector=0x7f090000;
-        public static final int lightsoff_button=0x7f090001;
-        public static final int lightson_button=0x7f090002;
-        public static final int slingle_light_off=0x7f090005;
-        public static final int slingle_light_on=0x7f090004;
-        public static final int textflinger_button=0x7f090009;
+        public static final int appliance_selector=0x7f090006;
+        public static final int dimmer_bar=0x7f090009;
+        public static final int flinger_destination_selector=0x7f090000;
+        public static final int flingertext=0x7f090001;
+        public static final int housecode_selector=0x7f090003;
+        public static final int jotter_button=0x7f09000e;
+        public static final int lightsoff_button=0x7f090004;
+        public static final int lightson_button=0x7f090005;
+        public static final int logo_button=0x7f09000f;
+        public static final int media_button=0x7f09000b;
+        public static final int screen_blank_button=0x7f09000a;
+        public static final int scripts_button=0x7f09000d;
+        public static final int slingle_light_off=0x7f090008;
+        public static final int slingle_light_on=0x7f090007;
+        public static final int textflinger_button=0x7f090002;
+        public static final int x10_button=0x7f09000c;
     }
     public static final class layout {
-        public static final int lights=0x7f030000;
-        public static final int main=0x7f030001;
+        public static final int flinger=0x7f030000;
+        public static final int lights=0x7f030001;
+        public static final int main=0x7f030002;
     }
     public static final class string {
         public static final int app_name=0x7f070002;
