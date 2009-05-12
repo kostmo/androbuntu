@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    >
+
+<ImageButton
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:src="@drawable/audio_volume_low"
+    android:layout_weight="1"
+    android:id="@+id/voldown_button"/>
+    
+    
+    <ImageButton
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:src="@drawable/audio_volume_high"
+    android:layout_weight="1"
+    android:id="@+id/volup_button"/>
+    
+
+</LinearLayout>
+
+    
+    
+<ImageButton
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:src="@drawable/audio_volume_muted"
+    android:id="@+id/mute_button"/>
+    
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -28,45 +29,27 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
 		   
-
 	       
-	       Button button = new Button(this);
-	       button.setOnClickListener(this);
-	       button.setText("Mute");
+	       
+
+	       setContentView(R.layout.media);
+
+
+	       ImageButton mute_button = (ImageButton) findViewById(R.id.mute_button);
+	       mute_button.setOnClickListener(this);
+//	       button.setText("Mute");
 		   
-	
-		   
-	       LinearLayout myfoo = new LinearLayout(this);
-	       myfoo.setOrientation(LinearLayout.VERTICAL);
    
 	       
-	       
-	       
-			
-			LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
-			l.weight = 1f;
-			
-		       // --------------------------
-	        LinearLayout myfoo2 = new LinearLayout(this);
-	        myfoo2.setOrientation(LinearLayout.HORIZONTAL);
-	        
-	        Button voldown_button = new Button(this);
+	       ImageButton voldown_button = (ImageButton) findViewById(R.id.voldown_button);
 	        voldown_button.setOnClickListener(voldown_listener);
-	        voldown_button.setText("VolDown");
-			myfoo2.addView(voldown_button, l );
-	        
-	        Button volup_button = new Button(this);
+//	        voldown_button.setText("VolDown");
+
+		    ImageButton volup_button = (ImageButton) findViewById(R.id.volup_button);
 	        volup_button.setOnClickListener(volup_listener);
-	        volup_button.setText("VolUp");
-	        myfoo2.addView(volup_button, l );
-	        // --------------------------
+//	        volup_button.setText("VolUp");
 
 
-	        myfoo.addView(myfoo2);
-	        myfoo.addView(button);	// Mute
-			   
-	        
-			setContentView(myfoo);
 	   }
 
 	   
