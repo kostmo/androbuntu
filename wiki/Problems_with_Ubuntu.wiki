@@ -1,0 +1,5 @@
+#summary Resolving problems with Ubuntu support applications
+
+= Festival Can’t Open /dev/dsp =
+
+See http://aanugraha.wordpress.com/2008/12/20/festival-cant-open-devdsp/
