@@ -37,7 +37,7 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	       
 
-	       setContentView(R.layout.main);
+	       setContentView(R.layout.flinger);
 	        
 	       
 	       

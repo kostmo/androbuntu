@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.android.Turntable3D.TurntableWidget;
 
@@ -60,64 +61,38 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		
 
 
-       
 
-       LinearLayout myfoo = new LinearLayout(this);
-       myfoo.setOrientation(LinearLayout.VERTICAL);
-       
-       
-       
+	       setContentView(R.layout.main);
 
-       Button media_button = new Button(this);
+	       ImageButton screen_blank_button = (ImageButton) findViewById(R.id.screen_blank_button);
+	       screen_blank_button.setOnClickListener(screen_blank_listener);
+       
+	       
+	       Button jotter_button = (Button) findViewById(R.id.jotter_button);
+	       jotter_button.setOnClickListener(jotter_button_listener);
+	       
+	       ImageButton x10_button = (ImageButton) findViewById(R.id.x10_button);
+	       x10_button.setOnClickListener(x10_button_listener);
+	       
+
+	       ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
+	       logo_button.setOnClickListener(logo_button_listener);
+
+	       
+	       Button scripts_button = (Button) findViewById(R.id.scripts_button);
+	       scripts_button.setOnClickListener(scripts_button_listener);
+    
+	       
+       Button media_button = (Button) findViewById(R.id.media_button);
        media_button.setOnClickListener(media_button_listener);
-       media_button.setText("Media Controls");
-
-       
-       
-       ImageButton x10_button = new ImageButton(this);
-       x10_button.setOnClickListener(x10_button_listener);
-       x10_button.setImageResource(R.drawable.lightbulb_off);
-
-       
-       ImageButton logo_button = new ImageButton(this);
-       logo_button.setOnClickListener(logo_button_listener);
-       logo_button.setImageResource(R.drawable.minibuntu);
        
       
        
        
-       Button scripts_button = new Button(this);
-       scripts_button.setOnClickListener(scripts_button_listener);
-       scripts_button.setText("Invoke Script");
-       
 
-       Button jotter_button = new Button(this);
-       jotter_button.setOnClickListener(jotter_button_listener);
-       jotter_button.setText("Idea Jotter");
-        
-       
-       
-       LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(-1, -1);
-       l.weight = 1f;
-       
-
-        
-       ImageButton screen_blank_button = new ImageButton(this);
-       screen_blank_button.setOnClickListener(screen_blank_listener);
-       screen_blank_button.setImageResource(R.drawable.moon);
-
-        
-        
-       myfoo.addView(screen_blank_button);
-       myfoo.addView(media_button);
-       myfoo.addView(x10_button);
-       myfoo.addView(scripts_button);
-       myfoo.addView(jotter_button);
-       myfoo.addView(logo_button);
     
-        
-       setContentView(myfoo);
-   }
+
+	}
    
    
    
