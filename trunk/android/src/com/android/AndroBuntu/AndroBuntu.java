@@ -1,5 +1,6 @@
 package com.android.AndroBuntu;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
@@ -85,8 +86,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
        
 		Button media_button = (Button) findViewById(R.id.media_button);
 		media_button.setOnClickListener(media_button_listener);
-	
-
 	}
    
    
@@ -117,9 +116,10 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	    	
 	    	String[] reply = service_binder.send_message("screen_blank");
 	    	
-	    	// FIXME - Need to obtain the house code
-		 	reply = service_binder.send_message("lights_off", "K");
-
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(AndroBuntu.this);
+			int saved_housecode_index = settings.getInt("house_code", 0);
+		 	reply = service_binder.send_message("lights_off", Character.toString( (char) (saved_housecode_index + 'A') ) );
+	    	Toast.makeText(AndroBuntu.this, reply[0], Toast.LENGTH_SHORT).show();
 		 	
 		 	
 	    	PackageManager pm = getPackageManager();
@@ -140,10 +140,14 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	    	alarmclock_intent.setClassName("com.ricket.doug.nightclock", "com.ricket.doug.nightclock.NightClockActivity");
 	    	// Intent.FLAG_ACTIVITY_NEW_TASK
-	    	startActivity(alarmclock_intent);
-	        
-	        
-	    	Toast.makeText(AndroBuntu.this, reply[0], Toast.LENGTH_SHORT).show();
+	    	try {
+		    	startActivity(alarmclock_intent);
+	    		
+	    	}
+	    	catch  (Exception e) {
+
+		    	Toast.makeText(AndroBuntu.this, "Could not find Alarm Clock app.", Toast.LENGTH_SHORT).show();    
+	    	}
 	    }
 	};
 	

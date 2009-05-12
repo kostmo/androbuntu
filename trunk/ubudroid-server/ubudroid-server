@@ -8,14 +8,8 @@ import threading
 import socket
 import os
 
-
 from xml.dom import minidom
-
-
 from xml.dom.minidom import getDOMImplementation
-
-
-
 
 # =========================
 
@@ -52,6 +46,7 @@ class ServerThread(threading.Thread):
 
 	"""Server thread"""
 
+	# NOTE: Does Google Earth or some other app reserve this port?
 	DEFAULT_PORT = 46645
 
 	stopthread = threading.Event()
@@ -91,7 +86,6 @@ class ServerThread(threading.Thread):
 
 		self.s.listen(backlog)
 
-
 	# -----------------------------
 
 	def dispatch_command( self, command, payload=None ):
@@ -100,21 +94,42 @@ class ServerThread(threading.Thread):
 			pass
 #			break
 
-		elif command.find("fling_text:") == 0:
+		elif command == "fling_text":
 			txt = payload
 
-			'''
-			gtk.gdk.threads_enter()	# Is this needed?
+			# FIXME - Why does this crash?
+
+#			gtk.gdk.threads_enter()	# Is this needed?
 			self.controller_window.hello(None,
 				("Flung text.",
 				txt,
 				False)
 			)
-			gtk.gdk.threads_leave()
-			'''
+#			gtk.gdk.threads_leave()
+
+
 			print txt
 
 			return [command]
+
+		elif command == "read_text":
+			
+			system_cmd = "echo '" + payload + "' | festival --tts"
+			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread.start()
+
+			return [command]
+
+		elif command == "store_text":
+
+			notes_file_path = os.path.expanduser(self.controller_window.notes_file)
+			f = open(notes_file_path, 'a')
+			f.write(payload + "\n")
+			f.close()
+
+			return [command]
+
+
 
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
@@ -166,7 +181,6 @@ class ServerThread(threading.Thread):
 			system_cmd = "ppower " + payload + ":ALL_LIGHTS_OFF"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
-#			slow_thread.stop()
 
 			return ["Off."]
 
@@ -177,7 +191,6 @@ class ServerThread(threading.Thread):
 			system_cmd = "ppower " + payload + ":ALL_LIGHTS_ON"
 			slow_thread = SlowCommandThread(system_cmd)
 			slow_thread.start()
-#			slow_thread.stop()
 
 			return ["On."]
 
@@ -363,8 +376,6 @@ class AndroBuntuServer(gtk.Window):
 
 		gtk.main_quit()
 
-
-
 		import socket
 
 
@@ -381,8 +392,6 @@ class AndroBuntuServer(gtk.Window):
 
 	def destroy(self, widget, data=None):
 		print "destroy signal occurred"
-
-		
 
 	# -----------------------------
 
@@ -430,6 +439,7 @@ class AndroBuntuServer(gtk.Window):
 
 		self.web_server_thread = None
 
+		self.notes_file = "~/notes.txt"	# TODO: Add file selector widget
 
 		self.run_installed = run_installed
 
