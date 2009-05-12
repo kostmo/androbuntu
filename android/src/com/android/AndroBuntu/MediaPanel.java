@@ -34,12 +34,9 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 
 	       setContentView(R.layout.media);
 
-
 	       ImageButton mute_button = (ImageButton) findViewById(R.id.mute_button);
 	       mute_button.setOnClickListener(this);
 //	       button.setText("Mute");
-		   
-   
 	       
 	       ImageButton voldown_button = (ImageButton) findViewById(R.id.voldown_button);
 	        voldown_button.setOnClickListener(voldown_listener);
