@@ -62,35 +62,30 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 
 
-	       setContentView(R.layout.main);
+       setContentView(R.layout.main);
 
-	       ImageButton screen_blank_button = (ImageButton) findViewById(R.id.screen_blank_button);
-	       screen_blank_button.setOnClickListener(screen_blank_listener);
+       ImageButton screen_blank_button = (ImageButton) findViewById(R.id.screen_blank_button);
+       screen_blank_button.setOnClickListener(screen_blank_listener);
+   
        
-	       
-	       Button jotter_button = (Button) findViewById(R.id.jotter_button);
-	       jotter_button.setOnClickListener(jotter_button_listener);
-	       
-	       ImageButton x10_button = (ImageButton) findViewById(R.id.x10_button);
-	       x10_button.setOnClickListener(x10_button_listener);
-	       
-
-	       ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
-	       logo_button.setOnClickListener(logo_button_listener);
-
-	       
-	       Button scripts_button = (Button) findViewById(R.id.scripts_button);
-	       scripts_button.setOnClickListener(scripts_button_listener);
-    
-	       
-       Button media_button = (Button) findViewById(R.id.media_button);
-       media_button.setOnClickListener(media_button_listener);
+       Button jotter_button = (Button) findViewById(R.id.jotter_button);
+       jotter_button.setOnClickListener(jotter_button_listener);
        
-      
-       
+       ImageButton x10_button = (ImageButton) findViewById(R.id.x10_button);
+       x10_button.setOnClickListener(x10_button_listener);
        
 
-    
+       ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
+       logo_button.setOnClickListener(logo_button_listener);
+
+       
+       Button scripts_button = (Button) findViewById(R.id.scripts_button);
+       scripts_button.setOnClickListener(scripts_button_listener);
+
+       
+		Button media_button = (Button) findViewById(R.id.media_button);
+		media_button.setOnClickListener(media_button_listener);
+	
 
 	}
    

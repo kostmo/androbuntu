@@ -26,17 +26,20 @@ public final class R {
         public static final int solid_yellow=0x7f060003;
     }
     public static final class drawable {
-        public static final int blue=0x7f020005;
-        public static final int green=0x7f020006;
-        public static final int icon=0x7f020000;
-        public static final int lightbulb_off=0x7f020001;
-        public static final int minibuntu=0x7f020002;
-        public static final int moon=0x7f020003;
-        public static final int red=0x7f020004;
-        public static final int screen_background_black=0x7f020008;
-        public static final int translucent_background=0x7f020009;
-        public static final int transparent_background=0x7f02000a;
-        public static final int yellow=0x7f020007;
+        public static final int audio_volume_high=0x7f020000;
+        public static final int audio_volume_low=0x7f020001;
+        public static final int audio_volume_muted=0x7f020002;
+        public static final int blue=0x7f020008;
+        public static final int green=0x7f020009;
+        public static final int icon=0x7f020003;
+        public static final int lightbulb_off=0x7f020004;
+        public static final int minibuntu=0x7f020005;
+        public static final int moon=0x7f020006;
+        public static final int red=0x7f020007;
+        public static final int screen_background_black=0x7f02000b;
+        public static final int translucent_background=0x7f02000c;
+        public static final int transparent_background=0x7f02000d;
+        public static final int yellow=0x7f02000a;
     }
     public static final class id {
         public static final int appliance_selector=0x7f090006;
@@ -49,17 +52,21 @@ public final class R {
         public static final int lightson_button=0x7f090005;
         public static final int logo_button=0x7f09000f;
         public static final int media_button=0x7f09000b;
+        public static final int mute_button=0x7f090012;
         public static final int screen_blank_button=0x7f09000a;
         public static final int scripts_button=0x7f09000d;
         public static final int slingle_light_off=0x7f090008;
         public static final int slingle_light_on=0x7f090007;
         public static final int textflinger_button=0x7f090002;
+        public static final int voldown_button=0x7f090010;
+        public static final int volup_button=0x7f090011;
         public static final int x10_button=0x7f09000c;
     }
     public static final class layout {
         public static final int flinger=0x7f030000;
         public static final int lights=0x7f030001;
         public static final int main=0x7f030002;
+        public static final int media=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f070002;
