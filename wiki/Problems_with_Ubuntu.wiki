@@ -1,4 +1,5 @@
 #summary Resolving problems with Ubuntu support applications
+#labels Featured
 
 = Festival Can’t Open /dev/dsp =
 
