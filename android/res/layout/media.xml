@@ -37,4 +37,13 @@
     android:src="@drawable/audio_volume_muted"
     android:id="@+id/mute_button"/>
     
+    
+    
+    <Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Media Status"
+    android:layout_weight="1"
+    android:id="@+id/media_player_button"/>
+    
 </LinearLayout>
