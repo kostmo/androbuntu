@@ -621,16 +621,15 @@ class UbuntuLogo {
 	}
 	
     public void draw(GL10 gl) {
-    	
         
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glFrontFace(GL10.GL_CW);
 
     	for (int i=0; i<3; i++) {
 
+    		gl.glColor4f(ubuntu_colors[i*3 + 0]/(float)255, ubuntu_colors[i*3 + 1]/(float)255, ubuntu_colors[i*3 + 2]/(float)255, 1f);
     		// We invert the colors because of a weird bug on the G1
-//    		gl.glColor4f(ubuntu_colors[i*3 + 0]/(float)255, ubuntu_colors[i*3 + 1]/(float)255, ubuntu_colors[i*3 + 2]/(float)255, 1f);
-    		gl.glColor4f(ubuntu_colors[i*3 + 2]/(float)255, ubuntu_colors[i*3 + 1]/(float)255, ubuntu_colors[i*3 + 0]/(float)255, 1f);
+//    		gl.glColor4f(ubuntu_colors[i*3 + 2]/(float)255, ubuntu_colors[i*3 + 1]/(float)255, ubuntu_colors[i*3 + 0]/(float)255, 1f);
 
        		gl.glPushMatrix();
        		gl.glTranslatef(head_distance, 0, 0);
