@@ -10,14 +10,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 
 public class MediaPanel extends Activity implements View.OnClickListener {
 
 		private SocketMonitor service_binder;
-	
+		private MediaController mc;
+		
 	   @Override
 	   public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
@@ -47,13 +48,72 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 //	        volup_button.setText("VolUp");
 
 
+	        View v = (View) findViewById(R.layout.media);
+//	        View v = (View) findViewById(R.id.media_player_button);
+	        
+	        mc = new MediaController(this);
+	        mc.setMediaPlayer(player_interface);
+	        mc.setEnabled(true);
+	        mc.setAnchorView(v);
+	        
+	        
+	        
+	        
+
+	        Button media_player_button = (Button) findViewById(R.id.media_player_button);
+	        media_player_button.setOnClickListener(media_button_listener);
 	   }
 
 	   
 	   
+	   private View.OnClickListener media_button_listener = new View.OnClickListener() {
+		    public void onClick(View v) {
+		    	
+		    	
+		    	   Log.d("forker", "Can haz media player?");
+
+		    	
+		    	mc.requestFocus();
+		    	mc.show(5);
+		    }
+		};
 	   
-	   
-	   
+
+
+	   private MediaController.MediaPlayerControl player_interface = new MediaController.MediaPlayerControl() {
+
+		@Override
+		public int getBufferPercentage() {
+			return 75;
+		}
+
+		@Override
+		public int getCurrentPosition() {
+			return 25;
+		}
+
+		@Override
+		public int getDuration() {
+			return 180;
+		}
+
+		@Override
+		public boolean isPlaying() {
+			return true;
+		}
+
+		@Override
+		public void pause() {
+		}
+
+		@Override
+		public void seekTo(int pos) {
+		}
+
+		@Override
+		public void start() {
+		}
+	   };
 	   
 	   private ServiceConnection my_relay_service = new ServiceConnection() {
 	       public void onServiceConnected(ComponentName className, IBinder service) {

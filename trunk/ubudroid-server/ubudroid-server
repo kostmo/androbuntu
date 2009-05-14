@@ -92,21 +92,15 @@ class ServerThread(threading.Thread):
 
 		if command == "quit":
 			pass
-#			break
 
 		elif command == "fling_text":
 			txt = payload
 
-			# FIXME - Why does this crash?
-
-#			gtk.gdk.threads_enter()	# Is this needed?
 			self.controller_window.hello(None,
 				("Flung text.",
 				txt,
 				False)
 			)
-#			gtk.gdk.threads_leave()
-
 
 			print txt
 
@@ -130,6 +124,27 @@ class ServerThread(threading.Thread):
 			return [command]
 
 
+		elif command == "exaile_query":
+
+
+			cmd = "exaile -q"
+			phand = os.popen(cmd)
+
+			search_string = "position: %"
+			percentage = ""
+			while True:
+				line = phand.readline()
+				pos = line.find(search_string)
+				if pos >= 0:
+					percentage = line[pos+len(search_string):].split()[0]
+					print percentage
+
+					break
+
+				if not line: break
+
+			return [percentage]
+			
 
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
@@ -237,7 +252,7 @@ class ServerThread(threading.Thread):
 			data = client.recv(self.size)
 			if data:
 
-				print "Got a command:", data
+#				print "Got a command:", data
 
 				# We should send the response back immediately; the Android application will hang while waiting.
 				# This is especially important when we make GUI updates, such as the "libnotify" bubble;
@@ -253,7 +268,7 @@ class ServerThread(threading.Thread):
 				# Dispatch each of the commands:
 				for myarticle in articles:
 					article_title = myarticle.firstChild.nodeValue
-					print "COMMAND CONTENT:", article_title
+#					print "COMMAND CONTENT:", article_title
 
 					payload = None
 					payload_array = xmldoc.getElementsByTagName("payload")
@@ -289,16 +304,8 @@ class ServerThread(threading.Thread):
 					new_xml_string = newdoc.toxml()
 
 
-					print "Here's the XML I'm about to send:", new_xml_string
+#					print "Here's the XML I'm about to send:", new_xml_string
 					client.send(new_xml_string + "\n")
-
-
-
-
-
-
-
-
 
 
 				client.close()
@@ -334,13 +341,21 @@ class AndroBuntuServer(gtk.Window):
 	# in this example. More on callbacks below.
 	def hello(self, widget, data=None):
 
+		# Note: As of Ubuntu 9.04, the new notify-osd notification API is used:
+		# See http://wiki.ubuntu.com/NotificationDevelopmentGuidelines#Layout%20cases%20(with%20examples%20in%20C,%20Python%20and%20C
+
 		timer = True
 		if data:
 			title, message, timer = data
-			n = pynotify.Notification(title, message)
-		else:
-			n = pynotify.Notification("Title", "message")
 
+#			n = pynotify.Notification(title, message)
+
+			os.system('notify-send "' + title + '" "' + message + '" -i "' + self.icon_path + '"')
+
+#		else:
+#			n = pynotify.Notification("Title", "message")
+
+		'''
 		pixbuf = gtk.gdk.pixbuf_new_from_file( self.icon_path )
 #		n.set_urgency(pynotify.URGENCY_CRITICAL)
 #		n.set_category("device")
@@ -362,6 +377,7 @@ class AndroBuntuServer(gtk.Window):
 		if not n.show():
 			print "Well then..."
 
+		'''
 	# -----------------------------
 	def delete_event(self, widget, event, data=None):
 
@@ -402,16 +418,36 @@ class AndroBuntuServer(gtk.Window):
 		command_to_send = ts.get_value(ts.get_iter(path), 0)
 
 
+
+		results_list = self.web_server_thread.dispatch_command( command_to_send, None )
+
+
+		# TODO: Encapsulate all responses in XML
+		impl = getDOMImplementation()
+		newdoc = impl.createDocument(None, "root", None)
+		top_element = newdoc.documentElement
+
+		for result in results_list:
+			tag = newdoc.createElement("response")
+
+			text = newdoc.createTextNode( result )
+			tag.appendChild(text)
+
+			top_element.appendChild( tag )
+
+
+		new_xml_string = newdoc.toxml()
+
+
 		host = 'localhost'
 
 		size = 1024
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect( (host, self.web_server_thread.connected_port) )
 
-		s.send( command_to_send )
+		s.send( new_xml_string )
 		data = s.recv(size)
 		s.close()
-		print 'Received:', data,
 
 
 	# -----------------------------
@@ -524,6 +560,7 @@ class AndroBuntuServer(gtk.Window):
 		# EXPERIMENTAL:
 		ls.append( ["lights_on"] )
 		ls.append( ["lights_off"] )
+		ls.append( ["exaile_query"] )
 
 
 

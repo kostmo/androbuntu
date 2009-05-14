@@ -52,6 +52,7 @@ public final class R {
         public static final int lightson_button=0x7f090005;
         public static final int logo_button=0x7f09000f;
         public static final int media_button=0x7f09000b;
+        public static final int media_player_button=0x7f090013;
         public static final int mute_button=0x7f090012;
         public static final int screen_blank_button=0x7f09000a;
         public static final int scripts_button=0x7f09000d;

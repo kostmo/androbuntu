@@ -12,7 +12,6 @@
         </activity>
     <activity android:theme="@style/Theme.Translucent" android:name="com.android.Turntable3D.TurntableWidget"></activity>
 <activity android:name="X10"></activity>
-
 <service android:name="SocketMonitor"></service>
 <activity android:name="ServerPanel"></activity>
 <activity android:name="ScriptListActivity"></activity>

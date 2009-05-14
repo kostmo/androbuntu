@@ -63,11 +63,10 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 		   
 	       
 	       et = (EditText) findViewById(R.id.flingertext);
+	       
 
 	   }
 
-	   
-	   
 	   
 	   
 	   
