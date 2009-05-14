@@ -23,14 +23,12 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 	   public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
 
-
-		   
+   
 	       Intent i = new Intent();
 	       i.setClass(MediaPanel.this, SocketMonitor.class);
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
-		   
-	       
+
 	       
 
 	       setContentView(R.layout.media);
@@ -70,11 +68,17 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		    public void onClick(View v) {
 		    	
 		    	
-		    	   Log.d("forker", "Can haz media player?");
+		    	Log.d("forker", "Can haz media player?");
 
 		    	
 		    	mc.requestFocus();
 		    	mc.show(5);
+		    	
+		    	Log.d("forker", "Getting percentage...");
+    	
+		    	
+		    	String[] reply = service_binder.send_message("exaile_query");    	
+				Toast.makeText(MediaPanel.this, reply[0], Toast.LENGTH_SHORT).show();
 		    }
 		};
 	   
