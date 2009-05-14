@@ -126,7 +126,6 @@ class ServerThread(threading.Thread):
 
 		elif command == "exaile_query":
 
-
 			cmd = "exaile -q"
 			phand = os.popen(cmd)
 
@@ -137,8 +136,6 @@ class ServerThread(threading.Thread):
 				pos = line.find(search_string)
 				if pos >= 0:
 					percentage = line[pos+len(search_string):].split()[0]
-					print percentage
-
 					break
 
 				if not line: break
@@ -386,6 +383,47 @@ class AndroBuntuServer(gtk.Window):
 
 		return True
 
+
+	# -------------------------------------------
+	def add_standard_file_filters(self, widget):
+		'''
+		mydict = {	"PNG" : "*.png",
+				"JPG" : "*.jpg",
+				"All files" : "*"
+		}
+		'''
+
+		mydict = {	"Text files" : "*.txt",
+				"All files" : "*"
+		}
+
+		for key, val in mydict.iteritems():
+			file_filter = gtk.FileFilter()
+			file_filter.add_pattern( val )
+			file_filter.set_name( key )
+			widget.add_filter(file_filter)
+
+	# -----------------------------
+
+	def file_select(self, widget):
+
+		f = gtk.FileChooserDialog(parent=self)
+
+		f.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+		self.add_standard_file_filters(f)
+
+		default_filename = os.path.expanduser(self.notes_file)
+		f.set_filename( default_filename )
+#		f.set_filter( f.list_filters()[0] )	# This doesn't do anything
+
+		response = f.run()
+		prompted_filename = f.get_filename()
+		f.destroy()
+
+		if response == gtk.RESPONSE_OK and prompted_filename:
+			self.notes_file = prompted_filename
+#			print "Selected:", prompted_filename
+
 	# -----------------------------
 
 	def clean_quit(self, widget):
@@ -534,6 +572,10 @@ class AndroBuntuServer(gtk.Window):
 
 		button = gtk.Button("Quit")
 		button.connect("clicked", self.clean_quit)
+		vbox.pack_start(button, False, False)
+
+		button = gtk.Button("File select")
+		button.connect("clicked", self.file_select)
 		vbox.pack_start(button, False, False)
 
 
