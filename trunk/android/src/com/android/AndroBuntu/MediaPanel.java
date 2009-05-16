@@ -86,35 +86,28 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 
 	   private MediaController.MediaPlayerControl player_interface = new MediaController.MediaPlayerControl() {
 
-		@Override
 		public int getBufferPercentage() {
 			return 75;
 		}
 
-		@Override
 		public int getCurrentPosition() {
 			return 25;
 		}
 
-		@Override
 		public int getDuration() {
 			return 180;
 		}
 
-		@Override
 		public boolean isPlaying() {
 			return true;
 		}
 
-		@Override
 		public void pause() {
 		}
 
-		@Override
 		public void seekTo(int pos) {
 		}
 
-		@Override
 		public void start() {
 		}
 	   };
