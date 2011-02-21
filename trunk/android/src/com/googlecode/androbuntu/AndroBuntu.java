@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.googlecode.Turntable3D.TurntableWidget;
+import com.googlecode.androbuntu.Turntable3D.TurntableWidget;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
