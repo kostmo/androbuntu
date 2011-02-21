@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Note: The "updatePeriodMillis" attribute must be 0 for an
+     adjustable (i.e. "alarm-driven") update. -->
+
+<!-- Note: 72x72dip should "round up" to a 1x1-tile widget in both portrait and landscape. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="72dip"
+    android:minHeight="72dip"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_pre_configuration_message"/>
+<!--  android:configure="com.kostmo.widget.sfx.PreferenceActivityInitialConfiguration" -->

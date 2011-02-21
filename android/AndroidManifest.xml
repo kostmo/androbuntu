@@ -21,12 +21,12 @@
 		
 
         <!-- Broadcast Receivers that will process AppWidget updates -->
-        <receiver android:name="com.kostmo.widget.sfx.WidgetSfx" android:label="@string/widget_icon_title">
+        <receiver android:name="com.googlecode.androbuntu.WidgetBlankScreen" android:label="@string/widget_icon_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_sfx" />
+                android:resource="@xml/widget_blank_screen" />
         </receiver>
 		
 	</application>
