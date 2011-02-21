@@ -1,8 +1,8 @@
-package com.android.AndroBuntu;
+package com.googlecode.androbuntu;
 
-import java.io.IOException;
 import java.util.List;
 
+import android.R;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -18,10 +18,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
-import com.android.Turntable3D.TurntableWidget;
+
+import com.googlecode.Turntable3D.TurntableWidget;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 

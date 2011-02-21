@@ -1,4 +1,4 @@
-package com.android.AndroBuntu;
+package com.googlecode.androbuntu;
 
 import android.app.Activity;
 import android.content.ComponentName;

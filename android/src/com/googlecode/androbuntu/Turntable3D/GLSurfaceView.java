@@ -15,7 +15,7 @@
  */
 
 //package com.example.android.apis.graphics;
-package com.android.Turntable3D;
+package com.googlecode.Turntable3D;
 
 import android.content.Context;
 import android.util.AttributeSet;
