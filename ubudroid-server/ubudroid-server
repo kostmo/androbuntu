@@ -239,8 +239,6 @@ class ServerThread(threading.Thread):
 		return []
 
 	# -----------------------------
-
-
 	def run(self):
 
 		while not self.stopthread.isSet():
@@ -424,6 +422,26 @@ class AndroBuntuServer(gtk.Window):
 			self.notes_file = prompted_filename
 #			print "Selected:", prompted_filename
 
+
+	# -----------------------------
+
+	import os
+	autostart_basepath = os.path.expanduser("~/.config/autostart")
+	applications_menu_basepath = os.path.abspath("/usr/share/applications")
+	desktop_icon_name = "ubudroid-server.desktop"
+	startup_link_path = os.path.join(autostart_basepath, desktop_icon_name)
+	startup_link_target = os.path.join(applications_menu_basepath, desktop_icon_name)
+
+	def toggle_startup_launcher(self, widget):
+
+
+		if widget.get_active():
+			if not os.path.islink(self.startup_link_path):
+				os.symlink(self.startup_link_target, self.startup_link_path)
+		else:
+			if os.path.islink(self.startup_link_path):
+				os.remove(self.startup_link_path)
+
 	# -----------------------------
 
 	def clean_quit(self, widget):
@@ -537,7 +555,7 @@ class AndroBuntuServer(gtk.Window):
 		self.connect("destroy", self.destroy)
 		self.set_border_width(10)
 
-		self.hidden_window = False
+		self.hidden_window = True
 
 		self.pynotify_enabled = False
 
@@ -569,6 +587,11 @@ class AndroBuntuServer(gtk.Window):
 		self.port_label = gtk.Label("N/A")
 		port_hbox.pack_start(self.port_label, False, False)
 		vbox.pack_start(port_hbox, False, False)
+
+		button = gtk.CheckButton("Launch on startup")
+		button.set_active(os.path.islink(self.startup_link_path))
+		button.connect("toggled", self.toggle_startup_launcher)
+		vbox.pack_start(button, False, False)
 
 		button = gtk.Button("Quit")
 		button.connect("clicked", self.clean_quit)
@@ -633,8 +656,9 @@ class AndroBuntuServer(gtk.Window):
 		self.set_icon_from_file( self.icon_path )
 		self.set_title( self.prog_title )
 
-
+#		self.set_no_show_all(True)
 		self.show_all()
+		self.hide()
 
 	# -----------------------------
 
