@@ -1,5 +1,7 @@
 package com.googlecode.androbuntu;
 
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
+
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -15,7 +17,7 @@ import android.os.IBinder;
 
 public class ScriptListActivity extends ListActivity {
 
-	private SocketMonitor service_binder;
+	private ServiceSocketMonitor service_binder;
 	
 	
     
@@ -26,7 +28,7 @@ public class ScriptListActivity extends ListActivity {
         
         
 		Intent i = new Intent();
-		i.setClass(ScriptListActivity.this, SocketMonitor.class);
+		i.setClass(ScriptListActivity.this, ServiceSocketMonitor.class);
 		boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 		   
 		if (connect_successful) {
@@ -47,7 +49,7 @@ public class ScriptListActivity extends ListActivity {
 	       public void onServiceConnected(ComponentName className, IBinder service) {
 
 
-	    	   service_binder = ((SocketMonitor.LocalBinder) service).getService();
+	    	   service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 	    	   
 	    	   Log.d("forker", "Successfully connected to SocketMonitor service.");
 	    	   
