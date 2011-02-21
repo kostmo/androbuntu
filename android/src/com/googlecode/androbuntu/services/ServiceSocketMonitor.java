@@ -1,4 +1,4 @@
-package com.googlecode.androbuntu;
+package com.googlecode.androbuntu.services;
 
 
 import java.io.BufferedReader;
@@ -26,6 +26,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
+import com.googlecode.androbuntu.PreferencesServer;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,8 +37,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Xml;
 
-public class SocketMonitor extends Service {
+public class ServiceSocketMonitor extends Service {
 
+	static final String TAG = "ServiceSocketMonitor";
+	
 	private Socket MyClient;
 	
 	private BufferedWriter wr;
@@ -47,8 +51,8 @@ public class SocketMonitor extends Service {
 	private int port;
 	
     public class LocalBinder extends Binder {
-    	SocketMonitor getService() {
-            return SocketMonitor.this;
+    	public ServiceSocketMonitor getService() {
+            return ServiceSocketMonitor.this;
         }
     }
     
@@ -75,12 +79,13 @@ public class SocketMonitor extends Service {
     @Override
     public IBinder onBind(Intent intent) {
     	
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-    	String host = settings.getString("hostname_preference", "");
-		String portstring = settings.getString("port_preference", "0");
-        port = Integer.parseInt(portstring);
-    
+    	Log.d(TAG, "In onBind() in ServiceSocketMonitor");
     	
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    	String host = settings.getString("hostname_preference", PreferencesServer.DEFAULT_HOST_IP_ADDRESS);
+		String portstring = settings.getString("port_preference", PreferencesServer.DEFAULT_HOST_PORT_STRING);
+        port = Integer.parseInt(portstring);
+
 	    try {
 
 	    	addr = InetAddress.getByName( host );

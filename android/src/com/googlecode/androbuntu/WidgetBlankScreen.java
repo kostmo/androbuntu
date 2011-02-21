@@ -1,12 +1,17 @@
 package com.googlecode.androbuntu;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.googlecode.androbuntu.services.ServiceBlankScreen;
 
 public class WidgetBlankScreen extends AppWidgetProvider {
 	
@@ -25,7 +30,7 @@ public class WidgetBlankScreen extends AppWidgetProvider {
 		
 		PendingIntent pendingIntent = PendingIntent.getService(context,
 				0, // no requestCode
-				new Intent(context, ServiceSfxPlayer.class),
+				new Intent(context, ServiceBlankScreen.class),
 				0 // no flags 
 		);
 		updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
@@ -36,7 +41,8 @@ public class WidgetBlankScreen extends AppWidgetProvider {
 		AppWidgetManager manager = AppWidgetManager.getInstance(context);
 		manager.updateAppWidget(thisWidget, updateViews);	
 	}
-
+	
+	
 	@Override
 	public void onDisabled(Context context) {
 		

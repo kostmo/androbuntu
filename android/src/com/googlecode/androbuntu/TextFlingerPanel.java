@@ -1,5 +1,7 @@
 package com.googlecode.androbuntu;
 
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 	private EditText et;
-		private SocketMonitor service_binder;
+		private ServiceSocketMonitor service_binder;
 	
 		private String[] flinger_options = {"read_text", "store_text", "fling_text"};
 		Spinner fling_menu;
@@ -32,7 +34,7 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 
 		   
 	       Intent i = new Intent();
-	       i.setClass(TextFlingerPanel.this, SocketMonitor.class);
+	       i.setClass(TextFlingerPanel.this, ServiceSocketMonitor.class);
 	       boolean connect_successful = bindService(i, my_relay_service, BIND_AUTO_CREATE);
 	       
 		   
@@ -75,7 +77,7 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	       public void onServiceConnected(ComponentName className, IBinder service) {
 
 
-	    	   service_binder = ((SocketMonitor.LocalBinder) service).getService();
+	    	   service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 	    	   
 	    	   Log.d("forker", "Successfully connected to SocketMonitor service.");
 	       }
