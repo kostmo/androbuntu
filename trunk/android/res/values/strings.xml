@@ -15,7 +15,7 @@
     <string name="title_edittext_preference">Server address</string>
     <string name="summary_edittext_preference">Set hostname or IP address</string>
     <string name="dialog_title_edittext_preference">Enter hostname or IP address</string>
-    <string name="default_hostname_string">192.168.0.9</string>
+    <string name="default_hostname_string">192.168.0.80</string>
     
     <string name="title_editint_preference">Server port</string>
     <string name="summary_editint_preference">Set port</string>
