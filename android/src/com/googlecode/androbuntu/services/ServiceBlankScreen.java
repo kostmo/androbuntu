@@ -57,4 +57,10 @@ public class ServiceBlankScreen extends Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void onDestroy() {
+		unbindService(my_relay_service);
+		super.onDestroy();
+	}
 }

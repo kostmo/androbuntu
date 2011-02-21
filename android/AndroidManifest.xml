@@ -11,13 +11,14 @@
 		</activity>
 		<activity android:theme="@style/Theme.Translucent"
 			android:name="com.android.Turntable3D.TurntableWidget"></activity>
-		<activity android:name="X10"></activity>
-		<service android:name="SocketMonitor"></service>
-		<activity android:name="ServerPanel"></activity>
-		<activity android:name="ScriptListActivity"></activity>
-		<activity android:name="MediaPanel"></activity>
-		<activity android:name="TextFlingerPanel"></activity>
-		
+		<activity android:name="X10"/>
+		<activity android:name="PreferencesServer"/>
+		<activity android:name="ScriptListActivity"/>
+		<activity android:name="MediaPanel"/>
+		<activity android:name="TextFlingerPanel"/>
+
+		<service android:name="com.googlecode.androbuntu.services.ServiceSocketMonitor"/>
+		<service android:name="com.googlecode.androbuntu.services.ServiceBlankScreen"/>		
 		
 
         <!-- Broadcast Receivers that will process AppWidget updates -->

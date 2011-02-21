@@ -307,8 +307,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		unbindService(my_relay_service);
+		super.onDestroy();
 	}
 }
 
