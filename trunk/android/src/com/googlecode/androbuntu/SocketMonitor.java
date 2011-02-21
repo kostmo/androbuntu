@@ -1,4 +1,4 @@
-package com.android.AndroBuntu;
+package com.googlecode.androbuntu;
 
 
 import java.io.BufferedReader;

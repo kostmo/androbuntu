@@ -1,5 +1,6 @@
-package com.android.AndroBuntu;
+package com.googlecode.androbuntu;
 
+import android.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
