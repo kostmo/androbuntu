@@ -12,6 +12,31 @@ from xml.dom import minidom
 from xml.dom.minidom import getDOMImplementation
 
 # =========================
+class X10BatchCommandThread(threading.Thread):
+
+	stopthread = threading.Event()
+
+	def __init__(self, monitor, lightlist, on, housecode='A'):
+		threading.Thread.__init__(self)
+		self.monitor = monitor
+		self.lightlist = lightlist
+		self.on = on
+		self.housecode = housecode
+
+	def run(self):
+		from time import sleep
+		for i in self.lightlist:
+			if self.stopthread.isSet():
+				break
+
+			if self.on:
+				self.monitor.on(self.housecode, i + 1)
+			else:
+				self.monitor.off(self.housecode, i + 1)
+
+			sleep(0.5)
+
+# =========================
 
 class SlowCommandThread(threading.Thread):
 
@@ -21,23 +46,17 @@ class SlowCommandThread(threading.Thread):
 
 	def __init__(self, command_string):
 		threading.Thread.__init__(self)
-
 		self.command_string = command_string
 
-
 	# -----------------------------
-
 	def run(self):
-
 		while not self.stopthread.isSet():
 
 			# Supposedly, this will not block:
 #			from os import spawnv, P_NOWAIT
 #			spawnv(P_NOWAIT, self.command_string, self.command_string.split())
 
-
 			os.system( self.command_string )
-
 			break
 
 # =========================
@@ -54,6 +73,10 @@ class ServerThread(threading.Thread):
 		threading.Thread.__init__(self)
 
 		self.setDaemon(True)
+
+
+		from pycm19a.pycm19a import start_session
+		self.cm19a_monitor = start_session()
 
 		self.controller_window = controller_window
 		hostname = ''
@@ -87,7 +110,6 @@ class ServerThread(threading.Thread):
 		self.s.listen(backlog)
 
 	# -----------------------------
-
 	def dispatch_command( self, command, payload=None ):
 
 		if command == "quit":
@@ -190,18 +212,14 @@ class ServerThread(threading.Thread):
 
 		elif command == "lights_off":
 
-			system_cmd = "ppower " + payload + ":ALL_LIGHTS_OFF"
-			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), False)
 			slow_thread.start()
 
 			return ["Off."]
 
 		elif command == "lights_on":
 
-			# FIXME: This must block at the "process" level - threading is ineffective.
-
-			system_cmd = "ppower " + payload + ":ALL_LIGHTS_ON"
-			slow_thread = SlowCommandThread(system_cmd)
+			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), True)
 			slow_thread.start()
 
 			return ["On."]
@@ -254,11 +272,8 @@ class ServerThread(threading.Thread):
 				# it seems that if we send more than one of this event, the second is not processed until we put focus
 				# on either the GTK window or its StatusIcon residing in the tray.  Weird!
 
-
-
 				xmldoc = minidom.parseString( data )
 				articles = xmldoc.getElementsByTagName("command")
-
 
 				# Dispatch each of the commands:
 				for myarticle in articles:
@@ -271,14 +286,7 @@ class ServerThread(threading.Thread):
 						payload = payload_array[0].firstChild.nodeValue
 
 
-
-
-
-
-
-
 					results_list = self.dispatch_command( article_title, payload )
-
 
 
 					# TODO: Encapsulate all responses in XML
@@ -312,25 +320,34 @@ class ServerThread(threading.Thread):
 		"""send QUIT request to http server running on localhost:<port>"""
 
 		self.stopthread.set()
+		self.cm19a_monitor.Done = True
 
 # =========================
 
 class AndroBuntuServer(gtk.Window):
 
 	appname = "ubudroid-server"
-	version = "0.1.0"
+	version = "0.1.1"
 	local_share_dir = "/usr/share/"
+
+
+
+
+
+	import os
+	autostart_basepath = os.path.expanduser("~/.config/autostart")
+	applications_menu_basepath = os.path.abspath("/usr/share/applications")
+	desktop_icon_name = "ubudroid-server.desktop"
+	startup_link_path = os.path.join(autostart_basepath, desktop_icon_name)
+	startup_link_target = os.path.join(applications_menu_basepath, desktop_icon_name)
+
 
 
 	def cb_dummy(self, widget):
 		print "Dummy callback."
 
 	X11_KEY_DEFINITIONS = "/usr/share/X11/XKeysymDB"
-
-
 	prog_title = "AndroBuntu Server"
-
-
 
 	# This is a callback function. The data arguments are ignored
 	# in this example. More on callbacks below.
@@ -425,15 +442,7 @@ class AndroBuntuServer(gtk.Window):
 
 	# -----------------------------
 
-	import os
-	autostart_basepath = os.path.expanduser("~/.config/autostart")
-	applications_menu_basepath = os.path.abspath("/usr/share/applications")
-	desktop_icon_name = "ubudroid-server.desktop"
-	startup_link_path = os.path.join(autostart_basepath, desktop_icon_name)
-	startup_link_target = os.path.join(applications_menu_basepath, desktop_icon_name)
-
 	def toggle_startup_launcher(self, widget):
-
 
 		if widget.get_active():
 			if not os.path.islink(self.startup_link_path):
@@ -466,7 +475,6 @@ class AndroBuntuServer(gtk.Window):
 		print "destroy signal occurred"
 
 	# -----------------------------
-
 
 	def cb_row_activated(self, treeview, path, view_column):
 
@@ -505,7 +513,6 @@ class AndroBuntuServer(gtk.Window):
 		data = s.recv(size)
 		s.close()
 
-
 	# -----------------------------
 	def toggle_window(self, status_icon):
 		if self.hidden_window:
@@ -517,7 +524,6 @@ class AndroBuntuServer(gtk.Window):
 
 
 	# -----------------------------
-
 	def link_server_instance(self, server):
 
 		self.web_server_thread = web_server_thread
@@ -525,7 +531,6 @@ class AndroBuntuServer(gtk.Window):
 		self.port_label.set_text("%d" % (self.web_server_thread.connected_port))
 
 	# -----------------------------
-
 	def __init__(self, run_installed=True):
 		gtk.Window.__init__(self)
 

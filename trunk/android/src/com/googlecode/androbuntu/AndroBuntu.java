@@ -105,8 +105,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 		String[] reply = service_binder.send_message("screen_blank");
 
-		
-		boolean dim_lights = false;
+		boolean dim_lights = true;
 		
 		if (dim_lights) {
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
