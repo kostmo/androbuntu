@@ -75,7 +75,7 @@ class ServerThread(threading.Thread):
 		self.setDaemon(True)
 
 
-		from pycm19a.pycm19a import start_session
+		from pycm19a import start_session
 		self.cm19a_monitor = start_session()
 
 		self.controller_window = controller_window
