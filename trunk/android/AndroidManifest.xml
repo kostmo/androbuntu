@@ -10,7 +10,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:theme="@style/Theme.Translucent"
-			android:name="com.android.Turntable3D.TurntableWidget"></activity>
+			android:name="com.googlecode.androbuntu.Turntable3D.TurntableWidget"></activity>
 		<activity android:name="X10"/>
 		<activity android:name="PreferencesServer"/>
 		<activity android:name="ScriptListActivity"/>
