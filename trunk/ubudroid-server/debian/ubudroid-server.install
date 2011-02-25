@@ -1,2 +1,3 @@
+40-cm19a.rules		/lib/udev/rules.d
 debian/ubudroid-server.desktop		usr/share/applications
 ubudroid-server.png					usr/share/pixmaps
