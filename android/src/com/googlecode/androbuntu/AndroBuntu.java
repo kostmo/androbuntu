@@ -1,5 +1,6 @@
 package com.googlecode.androbuntu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,26 +92,26 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private ServiceConnection my_relay_service = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
-			Log.d("forker", "Successfully connected to SocketMonitor service.");
 		}
 
 		public void onServiceDisconnected(ComponentName componentName) {
-			Log.d("forker", "SocketMonitor service disconnected.");
 		}
 	};
 
+	
+	
+	public static void send_lights_out(Context context, List<String> messages, ServiceSocketMonitor service_binder) {
 
-	public static void send_lights_out( Context context, ServiceSocketMonitor service_binder ) {
+		String[] reply;
 
-		String[] reply = service_binder.send_message("screen_blank");
-
-		boolean dim_lights = true;
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		int saved_housecode_index = settings.getInt("house_code", 0);
 		
-		if (dim_lights) {
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-			int saved_housecode_index = settings.getInt("house_code", 0);
-			reply = service_binder.send_message("lights_off", Character.toString( (char) (saved_housecode_index + 'A') ) );
-			Toast.makeText(context, reply[0], Toast.LENGTH_SHORT).show();
+		for (String message : messages) {
+			
+			reply = service_binder.send_message(message, Character.toString( (char) (saved_housecode_index + 'A') ) );
+			if (reply.length > 0)
+				Toast.makeText(context, reply[0], Toast.LENGTH_SHORT).show();
 		}
 
 
@@ -151,8 +151,12 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 		public void onClick(View v) {
 
+
+			List<String> messages = new ArrayList<String>();
+			messages.add("screen_blank");
+			messages.add("lights_off");
 			
-			send_lights_out( AndroBuntu.this, service_binder );
+			send_lights_out( AndroBuntu.this, messages, service_binder );
 		}
 	};
 

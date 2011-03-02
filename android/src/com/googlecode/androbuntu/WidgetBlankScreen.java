@@ -21,10 +21,6 @@ public class WidgetBlankScreen extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-
-		
-		Log.e(TAG, "Got onUpdate in Widget class");
-		
 		
 		RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_icon_layout);
 		

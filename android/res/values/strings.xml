@@ -29,6 +29,7 @@
 	<string name="textflinger_button_title">Fling text</string>
 	
 	
+	<string name="default_trigger_wifi_network">our_house</string>
 	
     <string name="widget_loading">Loading...</string>
     <string name="widget_icon_title">Blank Monitor</string>
