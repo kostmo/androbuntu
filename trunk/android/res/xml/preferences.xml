@@ -33,14 +33,18 @@
                 android:defaultValue="@string/default_port_number"
                 android:dialogTitle="@string/dialog_title_editint_preference" />
 
+        <EditTextPreference
+                android:key="trigger_wifi_network"
+                android:title="Wifi network trigger"
+                android:summary="Wifi network to turn on lights upon connection"
+                android:defaultValue="@string/default_trigger_wifi_network" />
                 
-        <ListPreference
-                android:key="list_preference"
-                android:title="@string/title_list_preference"
-                android:summary="@string/summary_list_preference"
-                android:entries="@array/entries_list_preference"
-                android:entryValues="@array/entryvalues_list_preference"
-                android:dialogTitle="@string/dialog_title_list_preference" />
+        <Preference
+                android:key="reset_arrival_lights"
+                android:title="Clear Light Trigger"
+                android:summary="Allow lights to be turned on again today"
+                android:enabled="false"
+                />
 
     </PreferenceCategory>
 
