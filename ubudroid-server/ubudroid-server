@@ -34,7 +34,7 @@ class X10BatchCommandThread(threading.Thread):
 			else:
 				self.monitor.off(self.housecode, i + 1)
 
-			sleep(0.5)
+			sleep(1)
 
 # =========================
 
