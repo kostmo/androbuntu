@@ -16,12 +16,15 @@ class X10BatchCommandThread(threading.Thread):
 
 	stopthread = threading.Event()
 
-	def __init__(self, monitor, lightlist, on, housecode='A'):
+	def __init__(self, monitor, lightlist, on, housecode='A', callback=None, callback_args=[]):
 		threading.Thread.__init__(self)
 		self.monitor = monitor
 		self.lightlist = lightlist
 		self.on = on
 		self.housecode = housecode
+
+		self.callback = callback
+		self.callback_args = callback_args
 
 	def run(self):
 		from time import sleep
@@ -35,6 +38,9 @@ class X10BatchCommandThread(threading.Thread):
 				self.monitor.off(self.housecode, i + 1)
 
 			sleep(1)
+
+		if self.callback:
+			self.callback(*self.callback_args)
 
 # =========================
 
@@ -168,7 +174,11 @@ class ServerThread(threading.Thread):
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
 			os.system( "xset dpms force off" )
+#			os.system( "pmi action suspend" )
 
+		# FIXME
+		elif command == "suspend":
+			os.system( "pmi action suspend" )
 
 		elif command == "greet":
 			self.controller_window.hello(None)
@@ -212,7 +222,10 @@ class ServerThread(threading.Thread):
 
 		elif command == "lights_off":
 
-			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), False)
+			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), False,
+				callback=self.dispatch_command,
+				callback_args=["suspend"])
+
 			slow_thread.start()
 
 			return ["Off."]
