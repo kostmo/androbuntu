@@ -14,7 +14,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -34,7 +36,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private static String TAG = "AndroBuntu";
 	
 
-	private ServiceSocketMonitor service_binder;
+	private ServiceSocketMonitor service_binder = null;
 
 	private final int rotowidget_request_code = 42;
 	private final int initialize_prefs_code = 43;
@@ -98,19 +100,46 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		wol_button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
+				
 				Log.d(TAG, "Sending wake packet...");
 				String[] args = new String[] {"192.168.0.80", "90:e6:ba:5d:16:4e"};
 				WakeUpPC(args);
 				
 				Log.d(TAG, "Wake packet sent!");
 				
-//				send_lights_out( AndroBuntu.this, messages, service_binder );
+				Handler handler = new Handler(); 
+			    handler.postDelayed(new Runnable() { 
+			         public void run() { 
+			              new WakeAndLightsOnTask().execute(); 
+			         } 
+			    }, 8000); 
 			}
 		});
 	}
 
 	
 	
+	public class WakeAndLightsOnTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			
+			// FIXME
+			// The socket command should go in here!
+			
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute (Void voided) {
+			
+
+			Log.d(TAG, "Running lights on task");
+			List<String> messages = new ArrayList<String>();			
+			messages.add("lights_on");
+			send_lights_command( AndroBuntu.this, messages, service_binder );
+		}
+	}
 	
 	
 	 
@@ -184,6 +213,9 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
 	private ServiceConnection my_relay_service = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
+			
+			Log.d(TAG, "Successfully bound to socket service...");
+			
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 		}
 
@@ -192,13 +224,19 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	};
 
 	
-	
-	public static void send_lights_out(Context context, List<String> messages, ServiceSocketMonitor service_binder) {
-
+	public static void send_lights_command(Context context, List<String> messages, ServiceSocketMonitor service_binder) {
+		if (service_binder == null) {
+			Log.e(TAG, "I can't do this, because the service isn't bound.");
+			return;
+		}
+		
+		
+		Log.d(TAG, "Sending lights command...");
+		
 		String[] reply;
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-		int saved_housecode_index = settings.getInt("house_code", 0);
+		int saved_housecode_index = settings.getInt(PreferencesServer.PREFKEY_HOUSE_CODE_INDEX, PreferencesServer.DEFAULT_HOUSE_CODE_INDEX);
 		
 		for (String message : messages) {
 			
@@ -208,7 +246,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		}
 
 
-		boolean start_night_clock = false;
+		boolean start_night_clock = true;
 		
 		if (start_night_clock) {
 			PackageManager pm = context.getPackageManager();
@@ -216,18 +254,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	
 	
 			Intent alarmclock_intent = new Intent();
-			/*
-	    	for (ResolveInfo foo : info) {
-	    		if (foo.activityInfo.packageName != null )
-	    			Log.d("activ", "Activity name: " + foo.activityInfo.name);
-	
-	    		if (foo.activityInfo.applicationInfo.className != null )
-	    			Log.d("activ", "Class name: " + foo.activityInfo.applicationInfo.className);
-	//        	foo.activityInfo.getClass();
-	        }
-			 */
-	
-			alarmclock_intent.setClassName("com.ricket.doug.nightclock", "com.ricket.doug.nightclock.NightClockActivity");
+			alarmclock_intent.setClassName("com.android.alarmclock", "com.android.deskclock.DeskClock");
 			// Intent.FLAG_ACTIVITY_NEW_TASK
 			try {
 				context.startActivity(alarmclock_intent);
@@ -244,12 +271,13 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 		public void onClick(View v) {
 
-
+			Log.d(TAG, "Will try to turn the lights off now.");
+			
 			List<String> messages = new ArrayList<String>();
 			messages.add("screen_blank");
 			messages.add("lights_off");
 			
-			send_lights_out( AndroBuntu.this, messages, service_binder );
+			send_lights_command( AndroBuntu.this, messages, service_binder );
 		}
 	};
 

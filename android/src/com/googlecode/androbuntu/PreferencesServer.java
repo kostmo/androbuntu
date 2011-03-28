@@ -17,9 +17,14 @@ public class PreferencesServer extends PreferenceActivity {
 	public static int DEFAULT_HOST_PORT = 46645;
 	public static String DEFAULT_HOST_PORT_STRING = Integer.toString(DEFAULT_HOST_PORT);
 	public static String DEFAULT_HOST_IP_ADDRESS = "192.168.0.80";
-
+	
+	public static int DEFAULT_HOUSE_CODE_INDEX = 2;
+	public static String PREFKEY_HOUSE_CODE_INDEX = "house_code";
+	
+	
 	public static String DEFAULT_TRIGGER_WIFI_NETWORK = "our_house";
 	public static String PREFKEY_TRIGGER_WIFI_NETWORK = "trigger_wifi_network";
+	
 	public static String PREFKEY_LAST_ON_DATE_EPOCH = "last_on_date_epoch";
 	public static String PREFKEY_RESET_ARRIVAL_LIGHTS = "reset_arrival_lights";
 	

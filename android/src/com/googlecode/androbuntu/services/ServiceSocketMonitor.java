@@ -112,6 +112,8 @@ public class ServiceSocketMonitor extends Service {
 
 	public String[] send_message(String command, String payload) {
     	
+		Log.d(TAG, "Sending a message over the socket...");
+		
 	    try {
 
 	    	MyClient = new Socket(addr, port);
