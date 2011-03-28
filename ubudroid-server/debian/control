@@ -11,7 +11,7 @@ Homepage: http://androbuntu.googlecode.com/
 
 Package: ubudroid-server
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-gtk2, xautomation
+Depends: ${misc:Depends}, ${python:Depends}, python-gtk2, xautomation, powermanagement-interface
 Suggests: exaile, ppower | bottlerocket, festival
 Description: server applet for AndroBuntu/UbuDroid Android application
  ubudroid is an application to allow an Android handset to interact with the
