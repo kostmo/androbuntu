@@ -33,6 +33,8 @@ public class WifiReceiver extends BroadcastReceiver {
 		if (	WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())
 				&& c.get(Calendar.HOUR_OF_DAY) >= 12 + 5	// After 5pm
 				&& c.get(Calendar.HOUR_OF_DAY) < 12 + 9	// Before 9pm
+				&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY	// Not on Saturday
+				&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY	// Not on Sunday
 				&& !PreferencesServer.isLightsTriggeredToday(settings, c)) {
 
 			NetworkInfo ni = (NetworkInfo) intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);

@@ -100,27 +100,42 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		wol_button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
-				
-				Log.d(TAG, "Sending wake packet...");
-				String[] args = new String[] {"192.168.0.80", "90:e6:ba:5d:16:4e"};
-				WakeUpPC(args);
-				
-				Log.d(TAG, "Wake packet sent!");
-				
-				Handler handler = new Handler(); 
-			    handler.postDelayed(new Runnable() { 
-			         public void run() { 
-			              new WakeAndLightsOnTask().execute(); 
-			         } 
-			    }, 8000); 
+				wake_and_turn_on_lights(AndroBuntu.this, service_binder);
+
 			}
 		});
 	}
 
 	
 	
-	public class WakeAndLightsOnTask extends AsyncTask<Void, Void, Void> {
+	public static void wake_and_turn_on_lights(final Context context, final ServiceSocketMonitor service_binder) {
+		Log.d(TAG, "Sending wake packet...");
+		String[] args = new String[] {"192.168.0.80", "90:e6:ba:5d:16:4e"};
+		WakeUpPC(args);
+		
+		Log.d(TAG, "Wake packet sent!");
+		
+		Handler handler = new Handler(); 
+	    handler.postDelayed(new Runnable() { 
+	         public void run() { 
+	              new WakeAndLightsOnTask(context, service_binder).execute(); 
+	         } 
+	    }, 8000); 
+	}
 
+	
+	
+	
+	
+	public static class WakeAndLightsOnTask extends AsyncTask<Void, Void, Void> {
+
+		Context context;
+		private ServiceSocketMonitor service_binder = null;
+		WakeAndLightsOnTask(Context context, ServiceSocketMonitor service_binder) {
+			this.context = context;
+			this.service_binder = service_binder;
+		}
+		
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			
@@ -137,7 +152,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 			Log.d(TAG, "Running lights on task");
 			List<String> messages = new ArrayList<String>();			
 			messages.add("lights_on");
-			send_lights_command( AndroBuntu.this, messages, service_binder );
+			send_lights_command( this.context, messages, this.service_binder );
 		}
 	}
 	
