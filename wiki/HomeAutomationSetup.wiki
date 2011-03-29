@@ -8,7 +8,7 @@ Upon arrival, I have the system perform a couple of actions:
 
 = Wake-On-LAN Configuration =
 
-Setting up Wake-On-LAN (WOL) was somewhat complicated, as I have two "daisy-chained" routers, with DD-WRT on both.  Both routers use NAT.
+Setting up Wake-On-LAN (WOL) was somewhat complicated, as I have two "daisy-chained" WRT54GL routers, with [http://www.dd-wrt.com/site/support/router-database DD-WRT] on both.  Both routers use NAT.
 
 The "top-level" router provides wireless internet for the apartment, while the second router serves as a wireless client, providing hard-wired ethernet in my room.
 
@@ -17,3 +17,8 @@ Since the Android device connects to the top-level router, the "Magic Packet" mu
 ip neigh change 192.168.1.3 lladdr ab:cd:ef:ab:cd:ef nud permanent dev br0
 ip neigh add 192.168.1.3 lladdr ab:cd:ef:ab:cd:ef nud permanent dev br0
 }}}
+
+== Light Control ==
+I use a [http://www.x10.com/products/x10_cm19a.htm CM19A] (obtained [http://shop.ebay.com/?&_nkw=cm19a cheaply] on eBay), TM751 (X10 Wireless transceiver), and several lamp (LM465) and appliance (AM466) modules.
+
+I tweaked [http://m.lemays.org/projects/x10-cm19a-linux-driver one of the several] Python USB scripts for operating the CM19A.
