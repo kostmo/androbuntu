@@ -35,10 +35,13 @@ public class ServiceBlankScreen extends Service {
 
 	void sendLightsOnAndQuit() {
 
+		/*
 		List<String> messages = new ArrayList<String>();
 		messages.add("lights_on");
 		
 		AndroBuntu.send_lights_command( this, messages, service_binder );
+		*/
+		AndroBuntu.wake_and_turn_on_lights(ServiceBlankScreen.this, service_binder);
 		stopSelf();
 	}
 	
