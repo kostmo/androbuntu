@@ -82,8 +82,8 @@ public class ServiceSocketMonitor extends Service {
     	Log.d(TAG, "In onBind() in ServiceSocketMonitor");
     	
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-    	String host = settings.getString("hostname_preference", PreferencesServer.DEFAULT_HOST_IP_ADDRESS);
-		String portstring = settings.getString("port_preference", PreferencesServer.DEFAULT_HOST_PORT_STRING);
+    	String host = settings.getString(PreferencesServer.PREFKEY_HOSTNAME_OR_IP, PreferencesServer.DEFAULT_HOST_IP_ADDRESS);
+		String portstring = settings.getString(PreferencesServer.PREFKEY_HOST_PORT, PreferencesServer.DEFAULT_HOST_PORT_STRING);
         port = Integer.parseInt(portstring);
 
 	    try {

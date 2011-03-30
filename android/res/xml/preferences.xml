@@ -4,41 +4,91 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-            android:title="@string/inline_preferences">
-            
-        <CheckBoxPreference
-                android:key="checkbox_preference"
-                android:title="@string/title_toggle_preference"
-                android:summary="@string/summary_toggle_preference" />
-            
-    </PreferenceCategory>
-                
-    <PreferenceCategory
-            android:title="@string/dialog_based_preferences">
+            android:title="General Settings">
 
         <EditTextPreference
                 android:key="hostname_preference"
                 android:title="@string/title_edittext_preference"
                 android:summary="@string/summary_edittext_preference"
-                
                 android:defaultValue="@string/default_hostname_string"
                 android:dialogTitle="@string/dialog_title_edittext_preference" />
-                
-                
+
         <EditTextPreference
                 android:key="port_preference"
                 android:title="@string/title_editint_preference"
                 android:summary="@string/summary_editint_preference"
-                
                 android:defaultValue="@string/default_port_number"
                 android:dialogTitle="@string/dialog_title_editint_preference" />
 
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+            android:title="Bedtime Widget Actions">
+                
+        <CheckBoxPreference
+                android:key="bedtime_turn_off_lights"
+                android:defaultValue="true"
+                android:title="Turn off lights"
+                android:summary="Turn off lights" />
+
+        <CheckBoxPreference
+                android:key="bedtime_start_clock_app"
+                android:defaultValue="true"
+                android:title="Start clock app"
+                android:summary="Start clock app" />
+                
+        <CheckBoxPreference
+                android:key="bedtime_suspend_computer"
+                android:defaultValue="true"
+        		android:disableDependentsState="true"
+                android:title="Suspend computer"
+                android:summary="Suspend computer" />
+                
+        <CheckBoxPreference
+                android:key="bedtime_blank_screen"
+                android:dependency="bedtime_suspend_computer"
+                android:title="Blank screen"
+                android:summary="Merely blank screen instead of suspending" />
+            
+    </PreferenceCategory>
+            
+    <PreferenceCategory
+            android:title="Home Arrival">
+
+        <CheckBoxPreference
+                android:key="home_arrival_enable"
+                android:defaultValue="true"
+                android:title="Enable"
+                android:summary="Enable actions upon home arrival" />
+
         <EditTextPreference
                 android:key="trigger_wifi_network"
+                android:dependency="home_arrival_enable"
                 android:title="Wifi network trigger"
                 android:summary="Wifi network to turn on lights upon connection"
                 android:defaultValue="@string/default_trigger_wifi_network" />
                 
+        <CheckBoxPreference
+                android:key="wol_enable"
+                android:defaultValue="true"
+                android:dependency="home_arrival_enable"
+                android:title="Enable Computer Wake"
+                android:summary="Wakeup computer via WOL" />
+
+        <EditTextPreference
+                android:key="wol_mac_address_preference"
+                android:dependency="wol_enable"
+                android:title="WOL MAC Address"
+                android:summary="Wake-On-LAN target MAC address"
+                android:defaultValue="@string/default_mac_address_string"
+                android:dialogTitle="@string/dialog_title_mac_address_preference" />
+                
+        <CheckBoxPreference
+                android:key="home_arrival_turn_on_lights"
+                android:defaultValue="true"
+                android:title="Turn on lights"
+                android:summary="Turn on lights" />
+
         <Preference
                 android:key="reset_arrival_lights"
                 android:title="Clear Light Trigger"
