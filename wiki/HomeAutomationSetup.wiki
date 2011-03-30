@@ -1,12 +1,12 @@
 #summary Configuration for home automation
 
-= Introduction =
+== Introduction ==
 
-Upon arrival, I have the system perform a couple of actions:
+Upon arrival at home, I have the system perform a couple of actions:
   * Wake computer from suspend mode
   * Turn on lights
 
-= Wake-On-LAN Configuration =
+== Wake-On-LAN Configuration ==
 
 Setting up Wake-On-LAN (WOL) was somewhat complicated, as I have two "daisy-chained" WRT54GL routers, with [http://www.dd-wrt.com/site/support/router-database DD-WRT] on both.  Both routers use NAT.
 
