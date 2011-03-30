@@ -25,12 +25,8 @@ public class WifiReceiver extends BroadcastReceiver {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		Calendar c = new GregorianCalendar();
 
-//		Log.e(TAG, "State changed? " + WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction()));
-//		Log.e(TAG, "After 5? " + (c.get(Calendar.HOUR_OF_DAY) >= 12 + 5));
-//		Log.e(TAG, "Before 9? " + (c.get(Calendar.HOUR_OF_DAY) < 12 + 9));
-//		Log.e(TAG, "Not triggered yet today? " + !PreferencesServer.isLightsTriggeredToday(settings, c));
-		
-		if (	WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())
+		if (	settings.getBoolean(PreferencesServer.PREFKEY_HOME_ARRIVAL_ENABLE, PreferencesServer.DEFAULT_HOME_ARRIVAL_ENABLE)
+				&& WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())
 				&& c.get(Calendar.HOUR_OF_DAY) >= 12 + 5	// After 5pm
 				&& c.get(Calendar.HOUR_OF_DAY) < 12 + 9	// Before 9pm
 				&& c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY	// Not on Saturday

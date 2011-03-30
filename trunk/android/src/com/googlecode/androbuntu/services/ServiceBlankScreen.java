@@ -8,10 +8,15 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.googlecode.androbuntu.AndroBuntu;
+import com.googlecode.androbuntu.PreferencesServer;
+import com.googlecode.androbuntu.task.SendServerCommandTask;
 
 
 public class ServiceBlankScreen extends Service {
@@ -34,24 +39,36 @@ public class ServiceBlankScreen extends Service {
 	}
 
 	void sendLightsOnAndQuit() {
-
-		/*
-		List<String> messages = new ArrayList<String>();
-		messages.add("lights_on");
-		
-		AndroBuntu.send_lights_command( this, messages, service_binder );
-		*/
 		AndroBuntu.wake_and_turn_on_lights(ServiceBlankScreen.this, service_binder);
 		stopSelf();
 	}
 	
 	void sendScreenBlankAndQuit() {
 
-		List<String> messages = new ArrayList<String>();
-		messages.add("screen_blank");
-		messages.add("lights_off");
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		AndroBuntu.send_lights_command( this, messages, service_binder );
+		
+		List<String> messages = new ArrayList<String>();
+		if (settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_BLANK_SCREEN_ENABLE, PreferencesServer.DEFAULT_BEDTIME_BLANK_SCREEN_ENABLE))
+			messages.add("screen_blank");
+		
+		if (settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_TURN_OFF_LIGHTS_ENABLE, PreferencesServer.DEFAULT_BEDTIME_TURN_OFF_LIGHTS_ENABLE))
+			messages.add("lights_off");
+		
+        new SendServerCommandTask(this, service_binder, messages).execute();
+
+        boolean start_night_clock = settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_START_CLOCK_APP_ENABLE, PreferencesServer.DEFAULT_BEDTIME_START_CLOCK_APP_ENABLE);
+		if (start_night_clock) {
+			Intent alarmclock_intent = new Intent();
+			alarmclock_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			alarmclock_intent.setClassName("com.android.alarmclock", "com.android.deskclock.DeskClock");
+			try {
+				startActivity(alarmclock_intent);
+			} catch  (Exception e) {
+				Toast.makeText(this, "Could not find Alarm Clock app.", Toast.LENGTH_SHORT).show();    
+			}
+		}
+		
 		stopSelf();
 	}
 

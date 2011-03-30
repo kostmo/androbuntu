@@ -17,6 +17,10 @@
     <string name="dialog_title_edittext_preference">Enter hostname or IP address</string>
     <string name="default_hostname_string">192.168.0.80</string>
     
+    <string name="default_mac_address_string">90:e6:ba:5d:16:4e</string>
+    <string name="dialog_title_mac_address_preference">Enter MAC address</string>
+
+    
     <string name="title_editint_preference">Server port</string>
     <string name="summary_editint_preference">Set port</string>
     <string name="dialog_title_editint_preference">Enter port</string>

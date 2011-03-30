@@ -1,8 +1,5 @@
 package com.googlecode.androbuntu;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,6 +23,8 @@ import android.widget.Toast;
 
 import com.googlecode.androbuntu.Turntable3D.TurntableWidget;
 import com.googlecode.androbuntu.services.ServiceSocketMonitor;
+import com.googlecode.androbuntu.task.SendServerCommandTask;
+import com.googlecode.androbuntu.task.WakeUpComputerTask;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
@@ -107,181 +102,34 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	}
 
 	
-	
 	public static void wake_and_turn_on_lights(final Context context, final ServiceSocketMonitor service_binder) {
-		Log.d(TAG, "Sending wake packet...");
-		String[] args = new String[] {"192.168.0.80", "90:e6:ba:5d:16:4e"};
-		WakeUpPC(args);
 		
-		Log.d(TAG, "Wake packet sent!");
+		Log.d(TAG, "wake_and_turn_on_lights()");
 		
-		Handler handler = new Handler(); 
-	    handler.postDelayed(new Runnable() { 
-	         public void run() { 
-	              new WakeAndLightsOnTask(context, service_binder).execute(); 
+		new WakeUpComputerTask(context, new Runnable() { 
+	         public void run() {
+	    		List<String> messages = new ArrayList<String>();
+				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+	    		if (settings.getBoolean(PreferencesServer.PREFKEY_HOME_ARRIVAL_TURN_ON_LIGHTS_ENABLE, PreferencesServer.DEFAULT_HOME_ARRIVAL_TURN_ON_LIGHTS_ENABLE))
+	    			messages.add("lights_on");
+	            new SendServerCommandTask(context, service_binder, messages).execute(); 
 	         } 
-	    }, 8000); 
+	    }).execute();
 	}
 
-	
-	
-	
-	
-	public static class WakeAndLightsOnTask extends AsyncTask<Void, Void, Void> {
-
-		Context context;
-		private ServiceSocketMonitor service_binder = null;
-		WakeAndLightsOnTask(Context context, ServiceSocketMonitor service_binder) {
-			this.context = context;
-			this.service_binder = service_binder;
-		}
-		
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			
-			// FIXME
-			// The socket command should go in here!
-			
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute (Void voided) {
-			
-
-			Log.d(TAG, "Running lights on task");
-			List<String> messages = new ArrayList<String>();			
-			messages.add("lights_on");
-			send_lights_command( this.context, messages, this.service_binder );
-		}
-	}
-	
-	
-	 
-    public static final int PORT = 9;    
-    
-    public static void WakeUpPC(String[] args) {
-        
-              
-        String ipStr = args[0];
-        String macStr = args[1];
-        
-        try {
-            byte[] macBytes = getMacBytes(macStr);
-            byte[] bytes = new byte[6 + 16 * macBytes.length];
-            for (int i = 0; i < 6; i++) {
-                bytes[i] = (byte) 0xff;
-            }
-            for (int i = 6; i < bytes.length; i += macBytes.length) {
-                System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
-            }
-            
-            InetAddress address = InetAddress.getByName(ipStr);
-            DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address, PORT);
-            DatagramSocket socket = new DatagramSocket();
-            socket.send(packet);
-            socket.close();
-            
-                    }
-        catch (Exception e) {
-            //System.out.println("Failed to send Wake-on-LAN packet: + e");
-            System.exit(1); 
-           //NOTE exception or error here will close Android-application 
-        }
-        
-    }
-    
-    private static byte[] getMacBytes(String macStr) throws IllegalArgumentException {
-        byte[] bytes = new byte[6];
-        String[] hex = macStr.split("(\\:|\\-)");
-        if (hex.length != 6) {
-            throw new IllegalArgumentException("Invalid MAC address."); 
-      //NOTE also this error will close Android-application
-        }
-        try {
-            for (int i = 0; i < 6; i++) {
-                bytes[i] = (byte) Integer.parseInt(hex[i], 16);
-            }
-        }
-        catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid hex digit in MAC address."); 
-       //NOTE also this error will close Android-application
-        }
-        return bytes;
-    }
-    
-   
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	private ServiceConnection my_relay_service = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			
 			Log.d(TAG, "Successfully bound to socket service...");
-			
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 		}
 
 		public void onServiceDisconnected(ComponentName componentName) {
+			Log.d(TAG, "Socket service disconnected.");
 		}
 	};
 
-	
-	public static void send_lights_command(Context context, List<String> messages, ServiceSocketMonitor service_binder) {
-		if (service_binder == null) {
-			Log.e(TAG, "I can't do this, because the service isn't bound.");
-			return;
-		}
-		
-		
-		Log.d(TAG, "Sending lights command...");
-		
-		String[] reply;
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-		int saved_housecode_index = settings.getInt(PreferencesServer.PREFKEY_HOUSE_CODE_INDEX, PreferencesServer.DEFAULT_HOUSE_CODE_INDEX);
-		
-		for (String message : messages) {
-			
-			reply = service_binder.send_message(message, Character.toString( (char) (saved_housecode_index + 'A') ) );
-			if (reply.length > 0)
-				Toast.makeText(context, reply[0], Toast.LENGTH_SHORT).show();
-		}
-
-
-		boolean start_night_clock = true;
-		
-		if (start_night_clock) {
-			PackageManager pm = context.getPackageManager();
-			List<ResolveInfo> info = pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN), 0);
-	
-	
-			Intent alarmclock_intent = new Intent();
-			alarmclock_intent.setClassName("com.android.alarmclock", "com.android.deskclock.DeskClock");
-			// Intent.FLAG_ACTIVITY_NEW_TASK
-			try {
-				context.startActivity(alarmclock_intent);
-			}
-			catch  (Exception e) {
-				Toast.makeText(context, "Could not find Alarm Clock app.", Toast.LENGTH_SHORT).show();    
-			}
-		}
-	}
-
-	
-	
 	
 	private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
 		public void onClick(View v) {
@@ -291,8 +139,20 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 			List<String> messages = new ArrayList<String>();
 			messages.add("screen_blank");
 			messages.add("lights_off");
+            new SendServerCommandTask(AndroBuntu.this, service_binder, messages).execute(); 
 			
-			send_lights_command( AndroBuntu.this, messages, service_binder );
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(AndroBuntu.this);
+	        boolean start_night_clock = settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_START_CLOCK_APP_ENABLE, PreferencesServer.DEFAULT_BEDTIME_START_CLOCK_APP_ENABLE);
+			if (start_night_clock) {
+				Intent alarmclock_intent = new Intent();
+				alarmclock_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				alarmclock_intent.setClassName("com.android.alarmclock", "com.android.deskclock.DeskClock");
+				try {
+					startActivity(alarmclock_intent);
+				} catch  (Exception e) {
+					Toast.makeText(AndroBuntu.this, "Could not find Alarm Clock app.", Toast.LENGTH_SHORT).show();    
+				}
+			}
 		}
 	};
 
