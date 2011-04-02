@@ -9,7 +9,7 @@ Upon arrival at home, I have the system perform a couple of actions:
 == Wake-On-LAN Configuration ==
 When your Android phone and suspended computer are on the same subnet behind a single router, [http://en.wikipedia.org/wiki/Wake_on_lan Wake-On-LAN] (WOL) is straightforward.  WOL must first be enabled in your computer's BIOS.  Then a "magic packet" is sent to the router's "broadcast address" on that subnet (192.168.1.255 or similar), targeting the MAC address of the suspended computer.
 
-I recommend installing the [http://www.dd-wrt.com/site/support/router-database DD-WRT] firmware on your router. DD-WRT has a page that will allow you to test WOL.
+I recommend installing the [http://www.dd-wrt.com/site/support/router-database DD-WRT] firmware on your router. DD-WRT has a page that will allow you to test WOL ([http://androbuntu.googlecode.com/svn/screenshots/ddwrt/wol.png see screenshot]).
 
 === Multi-router configuration ===
 Setting up WOL was somewhat complicated for my arrangement, as I have two "daisy-chained" WRT54GL routers, with DD-WRT on both.  Both routers use NAT.
