@@ -137,8 +137,9 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 			Log.d(TAG, "Will try to turn the lights off now.");
 			
 			List<String> messages = new ArrayList<String>();
-			messages.add("screen_blank");
-			messages.add("lights_off");
+//			messages.add("screen_blank");
+//			messages.add("lights_off");
+			messages.add("lights_off_with_suspend");
             new SendServerCommandTask(AndroBuntu.this, service_binder, messages).execute(); 
 			
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(AndroBuntu.this);
@@ -155,8 +156,6 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 			}
 		}
 	};
-
-
 
 
 	@Override

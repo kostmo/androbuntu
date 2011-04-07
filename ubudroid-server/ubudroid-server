@@ -220,11 +220,19 @@ class ServerThread(threading.Thread):
 
 			return ["Off."]
 
-		elif command == "lights_off":
+		elif command == "lights_off_with_suspend":
 
 			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), False,
 				callback=self.dispatch_command,
 				callback_args=["suspend"])
+
+			slow_thread.start()
+
+			return ["Off."]
+
+		elif command == "lights_off":
+
+			slow_thread = X10BatchCommandThread(self.cm19a_monitor, range(3), False)
 
 			slow_thread.start()
 
