@@ -46,14 +46,20 @@ public class ServiceBlankScreen extends Service {
 	void sendScreenBlankAndQuit() {
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		
+
 		List<String> messages = new ArrayList<String>();
 		if (settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_BLANK_SCREEN_ENABLE, PreferencesServer.DEFAULT_BEDTIME_BLANK_SCREEN_ENABLE))
 			messages.add("screen_blank");
-		
-		if (settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_TURN_OFF_LIGHTS_ENABLE, PreferencesServer.DEFAULT_BEDTIME_TURN_OFF_LIGHTS_ENABLE))
+
+		boolean lights_off = settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_TURN_OFF_LIGHTS_ENABLE, PreferencesServer.DEFAULT_BEDTIME_TURN_OFF_LIGHTS_ENABLE);
+		boolean suspend = settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_SUSPEND_COMPUTER_ENABLE, PreferencesServer.DEFAULT_BEDTIME_SUSPEND_COMPUTER_ENABLE);
+
+		if (suspend && lights_off)
+			messages.add("lights_off_with_suspend");
+		else if (lights_off)
 			messages.add("lights_off");
+		else if (suspend)
+			messages.add("suspend");
 		
         new SendServerCommandTask(this, service_binder, messages).execute();
 
