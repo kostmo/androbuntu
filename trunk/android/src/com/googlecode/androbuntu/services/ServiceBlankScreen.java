@@ -6,9 +6,11 @@ import java.util.List;
 
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,18 +32,39 @@ public class ServiceBlankScreen extends Service {
 	boolean turn_on = false;
 	// ========================================================================
 	@Override
-	public void onStart(Intent intent, int startId) {
+	public int onStartCommand(Intent intent, int startId, int foo) {
 		
 		Log.d(TAG, "Service just started.");
 		
 		this.turn_on = intent.getBooleanExtra(EXTRA_TURN_ON, false);
-		do_binding();
+		
+		if (hasWifiConnection()) {
+			do_binding();
+		} else {
+			Toast.makeText(this, "Not connected to WiFi!", Toast.LENGTH_SHORT).show();
+//			stopSelf();	// XXX We mustn't attempt to stop the service since we haven't started yet!
+		}
+
+		return START_NOT_STICKY;
 	}
 
 	void sendLightsOnAndQuit() {
 		AndroBuntu.wake_and_turn_on_lights(ServiceBlankScreen.this, service_binder);
 		stopSelf();
 	}
+	
+	
+	boolean hasWifiConnection() {
+    	WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+    	
+    	String connected_ssid = wm.getConnectionInfo().getSSID();
+    	
+    	Log.d(TAG, "Is WiFi enabled? " + wm.isWifiEnabled());
+    	Log.d(TAG, "Currently connected SSID: " + connected_ssid);
+    	return (wm.isWifiEnabled() && connected_ssid != null);
+	}
+
+	
 	
 	void sendScreenBlankAndQuit() {
 
@@ -60,7 +83,7 @@ public class ServiceBlankScreen extends Service {
 			messages.add("lights_off");
 		else if (suspend)
 			messages.add("suspend");
-		
+
         new SendServerCommandTask(this, service_binder, messages).execute();
 
         boolean start_night_clock = settings.getBoolean(PreferencesServer.PREFKEY_BEDTIME_START_CLOCK_APP_ENABLE, PreferencesServer.DEFAULT_BEDTIME_START_CLOCK_APP_ENABLE);
@@ -74,7 +97,7 @@ public class ServiceBlankScreen extends Service {
 				Toast.makeText(this, "Could not find Alarm Clock app.", Toast.LENGTH_SHORT).show();    
 			}
 		}
-		
+
 		stopSelf();
 	}
 
@@ -88,7 +111,7 @@ public class ServiceBlankScreen extends Service {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 			Log.d(TAG, "Successfully connected to SocketMonitor service.");
-			
+
 			if (turn_on) {
 				Log.d(TAG, "I will turn on the lights...");
 				sendLightsOnAndQuit();
@@ -101,14 +124,14 @@ public class ServiceBlankScreen extends Service {
 			Log.d(TAG, "SocketMonitor service disconnected.");
 		}
 	};
-	
+
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		unbindService(my_relay_service);
