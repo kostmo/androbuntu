@@ -1,14 +1,10 @@
 package com.googlecode.androbuntu;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.googlecode.androbuntu.services.ServiceBlankScreen;

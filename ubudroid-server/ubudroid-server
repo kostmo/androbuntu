@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+'''
+Server icon is displayed in taskbar in the gnome panel.
+'''
+
+
 import pygtk
 pygtk.require('2.0')
 import gtk, gobject
@@ -173,8 +178,8 @@ class ServerThread(threading.Thread):
 
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
-			os.system( "xset dpms force off" )
-#			os.system( "pmi action suspend" )
+#			os.system( "xset dpms force off" )
+			os.system( "pmi action suspend" )
 
 		# FIXME
 		elif command == "suspend":
@@ -640,12 +645,13 @@ class AndroBuntuServer(gtk.Window):
 		vbox.pack_start(gtk.Label("Double-click a row to test the server command:"), False, False)
 
 
-		xf86_list = [line.split()[0] for line in open(self.X11_KEY_DEFINITIONS) if "XF86" in line and line[0] != "!"]	# Is this ugly or what?
-
+		# FIXME Somehow the XKeysymDB file disappeared in Ubuntu Natty:
 		ls = gtk.ListStore(str)
-		for item in xf86_list:
-			if "Audio" in item:
-				ls.append( [item] )
+		if False:
+			xf86_list = [line.split()[0] for line in open(self.X11_KEY_DEFINITIONS) if "XF86" in line and line[0] != "!"]	# Is this ugly or what?
+			for item in xf86_list:
+				if "Audio" in item:
+					ls.append( [item] )
 
 
 		# EXPERIMENTAL:
