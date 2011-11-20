@@ -1,4 +1,5 @@
 #summary Setup Guide for Ubuntu Oneiric / Linux Mint 12
+#labels Featured
 
 = Installation =
 The firecracker control code is compatible only with a specific version of the [https://sourceforge.net/apps/trac/pyusb/ PyUSB wrapper]: *1.0.0-alpha-0*
@@ -11,11 +12,22 @@ Download the .tar.gz from SourceForge then install it with `sudo ./setup.py inst
 
 `svn checkout https://androbuntu.googlecode.com/svn/trunk androbuntu`
 
+This step will create the Debian-style package, and at the end will ask you whether you want to install it.
+
 `./make_binary_packages.sh`
 
+
+== Running the server application ==
 `sudo apt-get install bottlerocket`
 
 `ubudroid-server`
+
+
+== Automatic Startup ==
+
+`cd ~/.config/autostart`
+
+`ln -s /usr/share/applications/ubudroid-server.desktop`
 
 = Firewall Configuration =
 I like to use the Firestarter GUI firewall configuration application for Ubuntu, since it provides real-time feedback when a connection is rejected by the firewall.
