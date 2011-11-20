@@ -22,11 +22,14 @@ This step will create the Debian-style package, and at the end will ask you whet
 
 `ubudroid-server`
 
+The server icon should appear in the system tray.
 
 == Automatic Startup ==
 
-`cd ~/.config/autostart`
+There is a checkbox in the application for enabling it upon startup. Toggling the box adds or removes a symbolic link to the desktop launcher file in `~/.config/autostart`.
 
+To manually add the application to startup:
+`cd ~/.config/autostart`
 `ln -s /usr/share/applications/ubudroid-server.desktop`
 
 = Firewall Configuration =
