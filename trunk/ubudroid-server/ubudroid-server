@@ -179,11 +179,13 @@ class ServerThread(threading.Thread):
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
 #			os.system( "xset dpms force off" )
-			os.system( "pmi action suspend" )
+			os.system( "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend" )
+#			os.system( "pmi action suspend" )
 
 		# FIXME
 		elif command == "suspend":
-			os.system( "pmi action suspend" )
+			os.system( "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend" )
+#			os.system( "pmi action suspend" )
 
 		elif command == "greet":
 			self.controller_window.hello(None)
