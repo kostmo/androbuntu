@@ -1,0 +1,13 @@
+#summary Setup Guide for Ubuntu Oneiric / Linux Mint 12
+
+= Installation =
+I use a specific revision of the [https://sourceforge.net/apps/trac/pyusb/ PyUSB wrapper]: *1.0.0-alpha-0*
+
+= Firewall Configuration =
+I like to use the Firestarter GUI firewall configuration application for Ubuntu, since it provides real-time feedback when a connection is rejected by the firewall.
+
+However, to get Firestarter working correctly in Ubuntu 11.10, you need to follow [http://askubuntu.com/questions/52817/system-log-error-when-running-firestarter-configuration-program/52832#52832 these instructions].
+
+= Router Port Forwarding =
+
+The default port for the Android app is `46645`. You'll need to forward that port to the computer that's running the Ubudroid Server application.
