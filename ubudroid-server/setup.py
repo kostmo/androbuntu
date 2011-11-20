@@ -11,7 +11,7 @@ The client application provides interfaces for media control, X10 home automatio
 		author="Karl Ostmo",
 		author_email="kostmo@gmail.com",
 		url="http://androbuntu.googlecode.com/",
-		version="0.1.1",
+		version="0.1.2",
 		py_modules=["pycm19a"],
 		scripts=["ubudroid-server"],
 		data_files=[("share/ubudroid-server", ["ubudroid-server.png"])]
