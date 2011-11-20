@@ -3,6 +3,8 @@
 = Installation =
 The firecracker control code is compatible only with a specific version of the [https://sourceforge.net/apps/trac/pyusb/ PyUSB wrapper]: *1.0.0-alpha-0*
 
+Download the .tar.gz from SourceForge then install it with `sudo ./setup.py install`
+
 == Packaging and installing the server application ==
 
 `sudo apt-get install cdbs devscripts subversion`
