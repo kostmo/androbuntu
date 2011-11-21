@@ -91,12 +91,13 @@ public class PreferencesServer extends PreferenceActivity {
 			final Preference trigger_reset = findPreference(PREFKEY_RESET_ARRIVAL_LIGHTS);
 			trigger_reset.setEnabled(true);
 			trigger_reset.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-				@Override
+
 				public boolean onPreferenceClick(Preference preference) {
 					settings.edit().remove(PreferencesServer.PREFKEY_LAST_ON_DATE_EPOCH).commit();
 					trigger_reset.setEnabled(false);
 					return true;
 				}
+
 			});
 		}
 	}
