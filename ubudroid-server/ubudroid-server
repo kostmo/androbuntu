@@ -45,6 +45,8 @@ class X10BatchCommandThread(threading.Thread):
 			sleep(1)
 
 		if self.callback:
+#			sleep(3)
+			print "Now executing callback..."
 			self.callback(*self.callback_args)
 
 # =========================
@@ -178,8 +180,8 @@ class ServerThread(threading.Thread):
 
 		elif command == "screen_blank":
 #			os.system( "gnome-screensaver-command --activate" )
-#			os.system( "xset dpms force off" )
-			os.system( "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend" )
+			os.system( "xset dpms force off" )
+#			os.system( "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend" )
 #			os.system( "pmi action suspend" )
 
 		# FIXME
@@ -235,7 +237,7 @@ class ServerThread(threading.Thread):
 
 			slow_thread.start()
 
-			return ["Off."]
+			return ["Lights off, will suspend."]
 
 		elif command == "lights_off":
 
