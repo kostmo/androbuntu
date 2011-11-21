@@ -1,0 +1,25 @@
+#summary Integration with Webcams and Zoneminder
+
+= Hardware =
+  * [http://www.logitech.com/en-us/38/3480 046d:08cc Logitech Orbit (PTZ)] *x2*
+  * [http://www.zoneminder.com/wiki/index.php/Foscam Foscam] *x1*
+
+= Details =
+
+For the Logitech Orbit, I found an [http://wiki.brokennexus.com/Zoneminder_and_Motion_setup_for_Logitech_Orbit_Sphere_PTZ old guide], but things have changed for Oneiric and later.
+
+I wanted to enable Pan/Tilt control and toggle the LED light. First, I ran
+
+`uvcdynctrl --clist`
+
+to see whether those functions were supported. They were not. So I ran
+
+`uvcdynctrl --import=/usr/share/uvcdynctrl/data/046d/logitech.xml`
+
+The `--clist` option thereafter showed support for Pan/Tilt and LED control.
+
+To change the tilt, for example, I run
+
+`uvcdynctrl --set="Tilt (relative)" 100`
+
+The command spits out some warning messages, which you can ignore.
