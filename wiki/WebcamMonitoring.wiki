@@ -24,8 +24,8 @@ To change the tilt, for example, I run
 
 == LED Control ==
   * *OFF* `uvcdynctrl --set="LED1 Mode" 0`
-  * *BLINKING* `uvcdynctrl --set="LED1 Mode" 1`
-  * *ON* `uvcdynctrl --set="LED1 Mode" 2`
+  * *ON* `uvcdynctrl --set="LED1 Mode" 1`
+  * *BLINKING* `uvcdynctrl --set="LED1 Mode" 2`
 The command spits out some warning messages, which you can ignore.
 
 To tilt in the opposite direction:
