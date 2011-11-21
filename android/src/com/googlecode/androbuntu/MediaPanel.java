@@ -113,19 +113,16 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		public void start() {
 		}
 
-		@Override
 		public boolean canPause() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
-		@Override
 		public boolean canSeekBackward() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
-		@Override
 		public boolean canSeekForward() {
 			// TODO Auto-generated method stub
 			return false;
