@@ -4,7 +4,7 @@
   * [http://www.logitech.com/en-us/38/3480 046d:08cc Logitech Orbit (PTZ)] *x2*
   * [http://www.zoneminder.com/wiki/index.php/Foscam Foscam] *x1*
 
-= Details =
+= Controlling the Logitech Orbit =
 
 For the Logitech Orbit, I found an [http://wiki.brokennexus.com/Zoneminder_and_Motion_setup_for_Logitech_Orbit_Sphere_PTZ old guide], but things have changed for Oneiric and later.
 
@@ -22,6 +22,10 @@ To change the tilt, for example, I run
 
 `uvcdynctrl --set="Tilt (relative)" 100`
 
+== LED Control ==
+  * *OFF* `uvcdynctrl --set="LED1 Mode" 0`
+  * *BLINKING* `uvcdynctrl --set="LED1 Mode" 1`
+  * *ON* `uvcdynctrl --set="LED1 Mode" 2`
 The command spits out some warning messages, which you can ignore.
 
 To tilt in the opposite direction:
