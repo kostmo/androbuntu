@@ -20,14 +20,14 @@ The `--clist` option thereafter showed support for Pan/Tilt and LED control.
 
 To change the tilt, for example, I run
 
-`uvcdynctrl --set="Tilt (relative)" 100`
+`uvcdynctrl --device=video1 --set="Tilt (relative)" 100`
 
 == LED Control ==
-  * *OFF* `uvcdynctrl --set="LED1 Mode" 0`
-  * *ON* `uvcdynctrl --set="LED1 Mode" 1`
-  * *BLINKING* `uvcdynctrl --set="LED1 Mode" 2`
+  * *OFF* `uvcdynctrl --device=video1 --set="LED1 Mode" 0`
+  * *ON* `uvcdynctrl --device=video1 --set="LED1 Mode" 1`
+  * *BLINKING* `uvcdynctrl --device=video1 --set="LED1 Mode" 2`
 The command spits out some warning messages, which you can ignore.
 
 To tilt in the opposite direction:
 
-`uvcdynctrl --set="Tilt (relative)" -- -100`
+`uvcdynctrl --device=video1 --set="Tilt (relative)" -- -100`
