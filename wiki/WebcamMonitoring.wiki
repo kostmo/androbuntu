@@ -8,6 +8,13 @@
 
 For the Logitech Orbit, I found an [http://wiki.brokennexus.com/Zoneminder_and_Motion_setup_for_Logitech_Orbit_Sphere_PTZ old guide], but things have changed for Oneiric and later.
 
+== GUI Control ==
+The guvcview application allows pan-tilt control.
+
+`sudo apt-get install guvcview`
+
+
+== Command-line Control ==
 I wanted to enable Pan/Tilt control and toggle the LED light. First, I ran
 
 `uvcdynctrl --clist`
@@ -32,3 +39,8 @@ To tilt in the opposite direction:
   * *ON* `uvcdynctrl --device=video1 --set="LED1 Mode" 1`
   * *BLINKING* `uvcdynctrl --device=video1 --set="LED1 Mode" 2`
 The command spits out some warning messages, which you can ignore.
+
+== Zoneminder compatibility ==
+To retrieve Zoneminder info about your webcam:
+
+`zmu -d /dev/video0 -q -v`
