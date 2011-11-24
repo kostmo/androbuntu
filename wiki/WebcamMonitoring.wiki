@@ -44,3 +44,10 @@ The command spits out some warning messages, which you can ignore.
 To retrieve Zoneminder info about your webcam:
 
 `zmu -d /dev/video0 -q -v`
+
+= Streaming Video =
+== Source command ==
+`gst-launch v4l2src device=/dev/video0 ! 'video/x-raw-yuv,width=640,height=480,framerate=30/1' ! ffmpegcolorspace ! videoscale ! ffenc_h263 ! video/x-h263 ! rtph263ppay pt=96 ! udpsink host=localhost port=5000 sync=false`
+
+== Sink command ==
+gst-launch udpsrc port=5000 ! application/x-rtp, clock-rate=90000,payload=96,encoding-name=H263-2000 ! rtph263pdepay queue-delay=0 ! ffdec_h263 ! xvimagesink
