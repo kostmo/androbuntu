@@ -1,0 +1,6 @@
+#summary Using the TEMPer HID USB Hygrometer/Thermometer
+
+
+http://www.eanderalx.org/blog:linux:hid_temper_pc_sensor
+
+http://blog.svilen.com/
