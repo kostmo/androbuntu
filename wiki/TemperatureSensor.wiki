@@ -1,5 +1,8 @@
 #summary Using the TEMPer HID USB Hygrometer/Thermometer
 
+== Prerequisites ==
+
+`sudo apt-get install libusb-dev`
 
 http://www.eanderalx.org/blog:linux:hid_temper_pc_sensor
 
