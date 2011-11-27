@@ -4,3 +4,5 @@
 http://www.eanderalx.org/blog:linux:hid_temper_pc_sensor
 
 http://blog.svilen.com/
+
+After adding the rules.d file, unplug and re-plug the USB sensor.
