@@ -32,25 +32,18 @@ I tweaked [http://m.lemays.org/projects/x10-cm19a-linux-driver one of the severa
 
   * https://www.delcomproducts.com/products_usblmp.asp
     * 80-90 bucks
-
   * http://www.computercolorcannon.com/
     * 100 bucks
-
   * http://store.mp3car.com/USB_LED_1_RGB_LED_Controller_p/com-143.htm
     * 50 Bucks
     * not sure if Linux support
-
   * PacDrive: http://www.ultimarc.com/pacdrive.html
     * 30 bucks
-
-Order: http://www.ultimarc.com/JShopServer/section.php?xSec=5&xPage=1
-
-PacDrive is an HID device.
-
-
-USBMicro U401, U421, U451 - 30 bucks, 30 bucks, 40 bucks, respectively
-http://www.circuitgizmos.com/products.shtml
-
-These are HID devices.  The first two are Single In-line Package and Dual In-line Package of the same thing.  General purpose I/O.
-
-The U451 controls relays.
+    * PacDrive is an HID device.
+    * Order: http://www.ultimarc.com/JShopServer/section.php?xSec=5&xPage=1
+  * USBMicro U401, U421, U451
+    * 30 bucks, 30 bucks, 40 bucks, respectively
+    * These are HID devices.
+    * The first two are Single In-line Package and Dual In-line Package of the same thing.  General purpose I/O.
+    * http://www.circuitgizmos.com/products.shtml
+    * The U451 controls relays.
