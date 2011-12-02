@@ -23,7 +23,34 @@ ip neigh add 192.168.1.17 lladdr 90:e6:ba:5d:16:4e nud permanent dev br0
 }}}
 where `192.168.1.17` is the suspended computer's statically-assigned IP address and `90:e6:ba:5d:16:4e` is its MAC address.
 
-== Light Control ==
+== X10 Lighting Control ==
 I use a [http://www.x10.com/products/x10_cm19a.htm CM19A] (obtained [http://shop.ebay.com/?&_nkw=cm19a cheaply] on eBay), TM751 (X10 Wireless transceiver), and several lamp (LM465) and appliance (AM466) modules.
 
 I tweaked [http://m.lemays.org/projects/x10-cm19a-linux-driver one of the several] Python USB scripts for operating the CM19A.
+
+== USB LED indicators ==
+
+  * https://www.delcomproducts.com/products_usblmp.asp
+    * 80-90 bucks
+
+  * http://www.computercolorcannon.com/
+    * 100 bucks
+
+  * http://store.mp3car.com/USB_LED_1_RGB_LED_Controller_p/com-143.htm
+    * 50 Bucks
+    * not sure if Linux support
+
+  * PacDrive: http://www.ultimarc.com/pacdrive.html
+    * 30 bucks
+
+Order: http://www.ultimarc.com/JShopServer/section.php?xSec=5&xPage=1
+
+PacDrive is an HID device.
+
+
+USBMicro U401, U421, U451 - 30 bucks, 30 bucks, 40 bucks, respectively
+http://www.circuitgizmos.com/products.shtml
+
+These are HID devices.  The first two are Single In-line Package and Dual In-line Package of the same thing.  General purpose I/O.
+
+The U451 controls relays.
