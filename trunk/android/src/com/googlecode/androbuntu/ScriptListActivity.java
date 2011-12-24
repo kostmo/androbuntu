@@ -46,7 +46,8 @@ public class ScriptListActivity extends ListActivity {
     
 	   
 	   private ServiceConnection my_relay_service = new ServiceConnection() {
-	       public void onServiceConnected(ComponentName className, IBinder service) {
+	       @Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
 
 
 	    	   service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
@@ -65,7 +66,8 @@ public class ScriptListActivity extends ListActivity {
 			   
 	       }
 
-	       public void onServiceDisconnected(ComponentName componentName) {
+	       @Override
+		public void onServiceDisconnected(ComponentName componentName) {
 
 	    	   Log.d("forker", "SocketMonitor service disconnected.");
 	       }

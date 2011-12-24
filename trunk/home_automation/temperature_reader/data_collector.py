@@ -19,4 +19,4 @@ def collect_data(interval):
 
 if __name__=="__main__":
 
-	collect_data(2)
+	collect_data(120)

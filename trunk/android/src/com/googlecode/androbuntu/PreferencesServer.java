@@ -92,6 +92,7 @@ public class PreferencesServer extends PreferenceActivity {
 			trigger_reset.setEnabled(true);
 			trigger_reset.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
+				@Override
 				public boolean onPreferenceClick(Preference preference) {
 					settings.edit().remove(PreferencesServer.PREFKEY_LAST_ON_DATE_EPOCH).commit();
 					trigger_reset.setEnabled(false);

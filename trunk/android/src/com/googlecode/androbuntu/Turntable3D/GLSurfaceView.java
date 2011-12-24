@@ -102,16 +102,19 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         mGLThread.start();
     }
 
-    public void surfaceCreated(SurfaceHolder holder) {
+    @Override
+	public void surfaceCreated(SurfaceHolder holder) {
         mGLThread.surfaceCreated();
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    @Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
         // Surface will be destroyed when we return
         mGLThread.surfaceDestroyed();
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+    @Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         // Surface size or format has changed. This should not happen in this
         // example.
         mGLThread.onWindowResize(w, h);
