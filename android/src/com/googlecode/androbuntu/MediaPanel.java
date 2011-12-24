@@ -67,6 +67,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 
 
 	private View.OnClickListener media_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 
@@ -88,41 +89,51 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 
 	private MediaController.MediaPlayerControl player_interface = new MediaController.MediaPlayerControl() {
 
+		@Override
 		public int getBufferPercentage() {
 			return 75;
 		}
 
+		@Override
 		public int getCurrentPosition() {
 			return 25;
 		}
 
+		@Override
 		public int getDuration() {
 			return 180;
 		}
 
+		@Override
 		public boolean isPlaying() {
 			return true;
 		}
 
+		@Override
 		public void pause() {
 		}
 
+		@Override
 		public void seekTo(int pos) {
 		}
 
+		@Override
 		public void start() {
 		}
 
+		@Override
 		public boolean canPause() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean canSeekBackward() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean canSeekForward() {
 			// TODO Auto-generated method stub
 			return false;
@@ -130,6 +141,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 	};
 
 	private ServiceConnection my_relay_service = new ServiceConnection() {
+		@Override
 		public void onServiceConnected(ComponentName className, IBinder service) {
 
 
@@ -138,6 +150,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 			Log.d("forker", "Successfully connected to SocketMonitor service.");
 		}
 
+		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
 
 
@@ -150,6 +163,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 
 
 	private View.OnClickListener voldown_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 			String[] reply = service_binder.send_message("XF86AudioLowerVolume");    	
 			Toast.makeText(MediaPanel.this, reply[0], Toast.LENGTH_SHORT).show();
@@ -157,6 +171,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener volup_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			String reply[] = service_binder.send_message("XF86AudioRaiseVolume");    	
@@ -164,6 +179,7 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		}
 	};
 
+	@Override
 	public void onClick(View v) {
 
 		String reply[] = service_binder.send_message("XF86AudioMute");

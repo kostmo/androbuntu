@@ -108,6 +108,7 @@ public class ServiceBlankScreen extends Service {
 	}
 
 	private ServiceConnection my_relay_service = new ServiceConnection() {
+		@Override
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 			Log.d(TAG, "Successfully connected to SocketMonitor service.");
@@ -120,6 +121,7 @@ public class ServiceBlankScreen extends Service {
 			}
 		}
 
+		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
 			Log.d(TAG, "SocketMonitor service disconnected.");
 		}

@@ -74,7 +74,8 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	   
 	   
 	   private ServiceConnection my_relay_service = new ServiceConnection() {
-	       public void onServiceConnected(ComponentName className, IBinder service) {
+	       @Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
 
 
 	    	   service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
@@ -82,7 +83,8 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	    	   Log.d("forker", "Successfully connected to SocketMonitor service.");
 	       }
 
-	       public void onServiceDisconnected(ComponentName componentName) {
+	       @Override
+		public void onServiceDisconnected(ComponentName componentName) {
 
 
 	    	   Log.d("forker", "SocketMonitor service disconnected.");
@@ -93,7 +95,8 @@ public class TextFlingerPanel extends Activity implements View.OnClickListener {
 	   
 	   
 	
-	   public void onClick(View v) {
+	   @Override
+	public void onClick(View v) {
 		   String flingtext = et.getText().toString();
 		   
 		   String command = flinger_options[fling_menu.getSelectedItemPosition()];

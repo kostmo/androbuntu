@@ -93,6 +93,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 		Button wol_button = (Button) findViewById(R.id.wol_button);
 		wol_button.setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 
 				wake_and_turn_on_lights(AndroBuntu.this, service_binder);
@@ -107,7 +108,8 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		Log.d(TAG, "wake_and_turn_on_lights()");
 		
 		new WakeUpComputerTask(context, new Runnable() { 
-	         public void run() {
+	         @Override
+			public void run() {
 	    		List<String> messages = new ArrayList<String>();
 				SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 	    		if (settings.getBoolean(PreferencesServer.PREFKEY_HOME_ARRIVAL_TURN_ON_LIGHTS_ENABLE, PreferencesServer.DEFAULT_HOME_ARRIVAL_TURN_ON_LIGHTS_ENABLE))
@@ -119,12 +121,14 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	
 	private ServiceConnection my_relay_service = new ServiceConnection() {
+		@Override
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			
 			Log.d(TAG, "Successfully bound to socket service...");
 			service_binder = ((ServiceSocketMonitor.LocalBinder) service).getService();
 		}
 
+		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
 			Log.d(TAG, "Socket service disconnected.");
 		}
@@ -132,6 +136,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	
 	private View.OnClickListener screen_blank_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Log.d(TAG, "Will try to turn the lights off now.");
@@ -186,6 +191,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	}
 
 	private View.OnClickListener media_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Intent i = new Intent();
@@ -196,6 +202,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener x10_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Intent i = new Intent();
@@ -205,6 +212,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener logo_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Intent i = new Intent();
@@ -216,6 +224,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 
 	private View.OnClickListener scripts_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Intent i = new Intent();
@@ -225,6 +234,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener jotter_button_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			Intent i = new Intent();
@@ -243,6 +253,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		int itemid = item.getItemId();
@@ -264,6 +275,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 	}
 
 
+	@Override
 	public void onClick(View v) {
 
 		// FIXME
@@ -277,6 +289,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 
 	// TODO
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 

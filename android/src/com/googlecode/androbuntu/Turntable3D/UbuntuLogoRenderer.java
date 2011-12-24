@@ -114,7 +114,8 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
         
     }
 
-    public int[] getConfigSpec() {
+    @Override
+	public int[] getConfigSpec() {
         if (true) {
             // We want a depth buffer and an alpha buffer
             int[] configSpec = {
@@ -137,7 +138,8 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
         }
     }
 
-    public void surfaceCreated(GL10 gl) {
+    @Override
+	public void surfaceCreated(GL10 gl) {
         /*
          * By default, OpenGL enables features that improve quality
          * but reduce performance. One might want to tweak that
@@ -164,7 +166,8 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
 		gl.glLineWidth(10.0f);
     }
 
-    public void drawFrame(GL10 gl) {
+    @Override
+	public void drawFrame(GL10 gl) {
         /*
          * By default, OpenGL enables features that improve quality
          * but reduce performance. One might want to tweak that
@@ -246,7 +249,8 @@ public class UbuntuLogoRenderer implements GLSurfaceView.Renderer{
     }
 
 
-    public void sizeChanged(GL10 gl, int w, int h) {
+    @Override
+	public void sizeChanged(GL10 gl, int w, int h) {
 
         gl.glViewport(0, 0, w, h);
         mProjector.setCurrentView(0, 0, w, h);

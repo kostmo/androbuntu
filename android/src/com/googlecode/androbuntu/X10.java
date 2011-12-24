@@ -97,6 +97,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 
 	private OnSeekBarChangeListener seek_change_listen = new OnSeekBarChangeListener() {
+		@Override
 		public void  onProgressChanged  (SeekBar seekBar, int new_value, boolean fromUser) {
 
 			if (fromUser) {
@@ -131,11 +132,13 @@ public class X10 extends Activity implements View.OnClickListener {
 			}
 		}
 
+		@Override
 		public void onStartTrackingTouch(SeekBar seekBar) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			// TODO Auto-generated method stub
 
@@ -144,6 +147,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 
 	private ServiceConnection my_relay_service = new ServiceConnection() {
+		@Override
 		public void onServiceConnected(ComponentName className, IBinder service) {
 
 
@@ -152,6 +156,7 @@ public class X10 extends Activity implements View.OnClickListener {
 			Log.d("forker", "Successfully connected to SocketMonitor service.");
 		}
 
+		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
 
 
@@ -160,6 +165,7 @@ public class X10 extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener single_light_on_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			dimmer_bar.setSecondaryProgress( dimmer_bar.getMax() );
@@ -175,6 +181,7 @@ public class X10 extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener single_light_off_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			dimmer_bar.setSecondaryProgress(0);
@@ -191,6 +198,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 
 	private View.OnClickListener lightsoff_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			String housecode = (String) X10.this.housecode_selector.getSelectedItem();
@@ -200,6 +208,7 @@ public class X10 extends Activity implements View.OnClickListener {
 	};
 
 	private View.OnClickListener lightson_listener = new View.OnClickListener() {
+		@Override
 		public void onClick(View v) {
 
 			String housecode = (String) X10.this.housecode_selector.getSelectedItem();
@@ -212,6 +221,7 @@ public class X10 extends Activity implements View.OnClickListener {
 
 
 
+	@Override
 	public void onClick(View v) {
 
 

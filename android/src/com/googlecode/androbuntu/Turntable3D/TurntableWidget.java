@@ -37,7 +37,8 @@ public class TurntableWidget extends Activity {
         
         mGLSurfaceView = new GLSurfaceView(this);
         mGLSurfaceView.setGLWrapper(new GLSurfaceView.GLWrapper() {
-            public GL wrap(GL gl) {
+            @Override
+			public GL wrap(GL gl) {
                 return new MatrixTrackingGL(gl);
             }});
         spriterenderer = new UbuntuLogoRenderer(this);
@@ -115,7 +116,8 @@ public class TurntableWidget extends Activity {
 
         private float[] mPrev = new float[3];
 
-        public void onSensorChanged(int sensor, float[] values) {
+        @Override
+		public void onSensorChanged(int sensor, float[] values) {
             boolean show = false;
             float[] diff = new float[3];
 
@@ -164,7 +166,8 @@ public class TurntableWidget extends Activity {
 
         private long mLastGestureTime;
 
-        public void onAccuracyChanged(int sensor, int accuracy) {
+        @Override
+		public void onAccuracyChanged(int sensor, int accuracy) {
             // TODO Auto-generated method stub
 
         }
