@@ -16,6 +16,7 @@
 		<activity android:name="ScriptListActivity"/>
 		<activity android:name="MediaPanel"/>
 		<activity android:name="TextFlingerPanel"/>
+		<activity android:name="ScreenRotationPanel"/>
 
 		<service android:name="com.googlecode.androbuntu.services.ServiceSocketMonitor"/>
 		<service android:name="com.googlecode.androbuntu.services.ServiceBlankScreen"/>		

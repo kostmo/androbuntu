@@ -77,7 +77,15 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 		ImageButton x10_button = (ImageButton) findViewById(R.id.x10_button);
 		x10_button.setOnClickListener(x10_button_listener);
-
+		
+		findViewById(R.id.screen_rotation_button).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent();
+				i.setClass(AndroBuntu.this, ScreenRotationPanel.class);
+				startActivity(i);
+			}
+		});
+		
 
 		ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
 		logo_button.setOnClickListener(logo_button_listener);

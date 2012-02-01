@@ -200,6 +200,18 @@ class ServerThread(threading.Thread):
 
 			return ["On."]
 
+		elif command == "rotate_screen_left":
+			os.system( "xrandr -o left" )
+			return ["Left."]
+
+		elif command == "rotate_screen_right":
+			os.system( "xrandr -o right" )
+			return ["Right."]
+		
+		elif command == "rotate_screen_normal":
+			os.system( "xrandr -o normal" )
+			return ["Normal."]
+
 		elif command == "dimmer":
 
 			cmd = payload.split()
