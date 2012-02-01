@@ -29,6 +29,11 @@
     android:src="@drawable/lightbulb_off"
     android:id="@+id/x10_button"/>
     
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Rotate Monitor"
+    android:id="@+id/screen_rotation_button"/>
 
 <Button
     android:layout_width="fill_parent" 
