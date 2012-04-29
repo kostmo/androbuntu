@@ -1,1 +1,1 @@
-SYSFS{idVendor}=="0bc7", SYSFS{idProduct}=="0002", MODE="666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="0bc7", MODE="0666", GROUP="plugdev"
