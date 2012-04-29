@@ -8,7 +8,7 @@ Download the .tar.gz from SourceForge then install it with `sudo ./setup.py inst
 
 == Packaging and installing the server application ==
 
-`sudo apt-get install cdbs devscripts subversion`
+`sudo apt-get install cdbs devscripts gdebi subversion`
 
 `svn checkout https://androbuntu.googlecode.com/svn/trunk androbuntu`
 
