@@ -6,9 +6,6 @@
     android:layout_weight="1"
     >
 
-
-    
-    
 <ImageButton
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -35,26 +32,6 @@
     android:text="Rotate Monitor"
     android:id="@+id/screen_rotation_button"/>
 
-<Button
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Invoke Script"
-    android:id="@+id/scripts_button"/>
-    
-<Button
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Idea Jotter"
-    android:id="@+id/jotter_button"/>
-    
-    
-    <ImageButton
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:src="@drawable/minibuntu"
-    android:id="@+id/logo_button"/>
-    
-    
 <Button
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 

@@ -61,7 +61,7 @@ public class PreferencesServer extends PreferenceActivity {
 	public static boolean DEFAULT_BEDTIME_SUSPEND_COMPUTER_ENABLE = true;
 	
 	public static String PREFKEY_TRIGGER_WIFI_NETWORK = "trigger_wifi_network";
-	public static String DEFAULT_TRIGGER_WIFI_NETWORK = "our_house";
+	public static String DEFAULT_TRIGGER_WIFI_NETWORK = "shiznet";
 	
 	
 	public static String PREFKEY_LAST_ON_DATE_EPOCH = "last_on_date_epoch";
