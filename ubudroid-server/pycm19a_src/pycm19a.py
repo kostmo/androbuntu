@@ -152,7 +152,7 @@ class X10HACommand:
             raise ValueError('Invalid house code: ' + self.house)
 
         if not ((UNIT_MIN <= unit) and (unit <= UNIT_MAX)):
-            raise ValueError('Invalid unit code: ' + self.unit)
+            raise ValueError('Invalid unit code: ' + str(self.unit))
 
     def xmit(self, outEp):
         houseCode = HouseCodes[self.house]

@@ -38,12 +38,42 @@
     android:id="@+id/mute_button"/>
     
     
-    
+    <!-- 
     <Button
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="Media Status"
     android:layout_weight="1"
     android:id="@+id/media_player_button"/>
+ -->
+ 
+ 
+ 
+    <Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Beep PC speaker"
+    android:id="@+id/beep_pc_speaker"/>
+ 
+    <Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Launch VLC"
+    android:id="@+id/vlc_launch"/>
     
+    
+    
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Toggle Pause"
+    android:id="@+id/vlc_telnet_button_pause"/>
+    
+
+<Button
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Toggle Fullscreen"
+    android:id="@+id/vlc_telnet_button_fullscreen"/>
+
 </LinearLayout>

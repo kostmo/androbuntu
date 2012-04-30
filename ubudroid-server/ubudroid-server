@@ -212,6 +212,21 @@ class ServerThread(threading.Thread):
 			os.system( "xrandr -o normal" )
 			return ["Normal."]
 
+		elif command == "vlc_launch":
+		
+			print "About to launch VLC."
+			from subprocess import Popen
+			filepath = "/media/a464d3ae-a50f-408f-9deb-bac87a24e723/kostmo/video_not_yet_uploaded/Rurouni Kenshin (Dual-Audio)/Rurouni Kenshin 24 - Midnight Battle.mkv"
+			p = Popen(['vlc', filepath])
+			
+			print "Finished launching VLC."
+			
+			return ["Launched VLC."]
+
+		elif command == "beep":
+			os.system( "beep" )
+			return ["Beeped."]
+
 		elif command == "dimmer":
 
 			cmd = payload.split()
@@ -329,7 +344,7 @@ class ServerThread(threading.Thread):
 
 
 					results_list = self.dispatch_command( article_title, payload )
-
+					print "Results list of dispatching command", results_list
 
 					# TODO: Encapsulate all responses in XML
 					impl = getDOMImplementation()
@@ -344,19 +359,23 @@ class ServerThread(threading.Thread):
 
 						top_element.appendChild( tag )
 
-
+					print "Appended XML children..."
 
 					new_xml_string = newdoc.toxml()
 
 
-#					print "Here's the XML I'm about to send:", new_xml_string
+					print "Here's the XML I'm about to send:", new_xml_string
 					client.send(new_xml_string + "\n")
 
+					print "Sent to client."
 
 				client.close()
 
 			else:
 				client.close()
+				
+
+			print "Finished an iteration of the while loop."
 
 	def stop(self):
 		"""send QUIT request to http server running on localhost:<port>"""
@@ -502,8 +521,8 @@ class AndroBuntuServer(gtk.Window):
 		import socket
 
 
-#		host = 'localhost'
-		host = '192.168.0.9'
+		host = 'localhost'
+#		host = '192.168.1.17'
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect( (host, self.web_server_thread.connected_port) )

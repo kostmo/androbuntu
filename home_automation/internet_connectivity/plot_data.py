@@ -33,7 +33,14 @@ def make_chart():
 		time_24hr = splitted[1]
 		time_24hr_integral_seconds = time_24hr[:time_24hr.rfind(".") - 1]
 
+
+
+
 		fulltime = datetime.datetime.strptime(date + "-" + time_24hr_integral_seconds, "%Y-%m-%d-%H:%M:%S")
+		if fulltime < (datetime.datetime.now() - datetime.timedelta(hours=5)):
+			continue
+
+
 		xvals.append(fulltime)
 
 		ping_return_code = int(splitted[2])

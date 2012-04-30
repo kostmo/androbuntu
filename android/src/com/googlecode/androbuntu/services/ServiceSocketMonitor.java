@@ -34,6 +34,7 @@ import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 
@@ -105,8 +106,9 @@ public class ServiceSocketMonitor extends Service {
 	
 
 	public String[] send_message(String command) {
-		
-		return send_message(command, null);
+		String[] returned_array = send_message(command, null);
+		Log.d(TAG, "Returned string array: " + TextUtils.join(", ", returned_array));
+		return returned_array;
 	}
 	
 

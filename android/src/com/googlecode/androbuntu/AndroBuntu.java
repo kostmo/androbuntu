@@ -1,5 +1,7 @@
 package com.googlecode.androbuntu;
 
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ import com.googlecode.androbuntu.Turntable3D.TurntableWidget;
 import com.googlecode.androbuntu.services.ServiceSocketMonitor;
 import com.googlecode.androbuntu.task.SendServerCommandTask;
 import com.googlecode.androbuntu.task.WakeUpComputerTask;
+import com.googlecode.androbuntu.telnet.VlcTelnetHelper;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
@@ -64,16 +68,10 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 
 
 
-
-
 		setContentView(R.layout.main);
 
 		ImageButton screen_blank_button = (ImageButton) findViewById(R.id.screen_blank_button);
 		screen_blank_button.setOnClickListener(screen_blank_listener);
-
-
-		Button jotter_button = (Button) findViewById(R.id.jotter_button);
-		jotter_button.setOnClickListener(jotter_button_listener);
 
 		ImageButton x10_button = (ImageButton) findViewById(R.id.x10_button);
 		x10_button.setOnClickListener(x10_button_listener);
@@ -87,12 +85,12 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		});
 		
 
-		ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
-		logo_button.setOnClickListener(logo_button_listener);
+//		ImageButton logo_button = (ImageButton) findViewById(R.id.logo_button);
+//		logo_button.setOnClickListener(logo_button_listener);
 
-
-		Button scripts_button = (Button) findViewById(R.id.scripts_button);
-		scripts_button.setOnClickListener(scripts_button_listener);
+//
+//		Button scripts_button = (Button) findViewById(R.id.scripts_button);
+//		scripts_button.setOnClickListener(scripts_button_listener);
 
 
 		Button media_button = (Button) findViewById(R.id.media_button);

@@ -1,6 +1,7 @@
 package com.googlecode.androbuntu;
 
-import com.googlecode.androbuntu.services.ServiceSocketMonitor;
+import java.io.IOException;
+import java.net.SocketException;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -10,10 +11,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.Toast;
+
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
+import com.googlecode.androbuntu.task.SendGenericCommandTask;
+import com.googlecode.androbuntu.telnet.VlcTelnetHelper;
 
 
 public class MediaPanel extends Activity implements View.OnClickListener {
@@ -47,7 +52,47 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		volup_button.setOnClickListener(volup_listener);
 		//	        volup_button.setText("VolUp");
 
+		findViewById(R.id.beep_pc_speaker).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				new SendGenericCommandTask(MediaPanel.this, service_binder, "beep").execute();
+			}
+		});
+		
+		findViewById(R.id.vlc_launch).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				new SendGenericCommandTask(MediaPanel.this, service_binder, "vlc_launch").execute();
+			}
+		});
 
+		
+		findViewById(R.id.vlc_telnet_button_pause).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				try {
+					VlcTelnetHelper.sendCommand("pause");
+				} catch (SocketException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		findViewById(R.id.vlc_telnet_button_fullscreen).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				try {
+					VlcTelnetHelper.sendCommand("fullscreen");
+				} catch (SocketException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
+/*
 		View v = (View) findViewById(R.layout.media);
 		//	        View v = (View) findViewById(R.id.media_player_button);
 
@@ -57,11 +102,9 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		mc.setAnchorView(v);
 
 
-
-
-
 		Button media_player_button = (Button) findViewById(R.id.media_player_button);
 		media_player_button.setOnClickListener(media_button_listener);
+*/
 	}
 
 
