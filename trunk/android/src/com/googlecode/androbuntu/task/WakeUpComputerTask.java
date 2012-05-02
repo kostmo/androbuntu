@@ -3,6 +3,7 @@ package com.googlecode.androbuntu.task;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,17 +38,27 @@ public class WakeUpComputerTask extends AsyncTask<Void, Void, String> {
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		String mac_address_string = settings.getString(PreferencesServer.PREFKEY_WOL_MAC_ADDRESS, PreferencesServer.DEFAULT_WOL_MAC_ADDRESS);
-		String host_string = settings.getString(PreferencesServer.PREFKEY_HOSTNAME_OR_IP, PreferencesServer.DEFAULT_HOST_IP_ADDRESS);
+		String server_host_string = settings.getString(PreferencesServer.PREFKEY_HOSTNAME_OR_IP, PreferencesServer.DEFAULT_HOST_IP_ADDRESS);
+
+		Log.d(TAG, "About to send wake packet, with server address: " + server_host_string);
+		
+		String broadcast_address_string = null;
+		try {
+			byte[] address_bytes = InetAddress.getByName(server_host_string).getAddress();
+			address_bytes[3] = (byte) 0xFF;
+			broadcast_address_string = InetAddress.getByAddress(address_bytes).getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
 		
 		float wol_delay_seconds = settings.getFloat(PreferencesServer.PREFKEY_WOL_DELAY_SECONDS, PreferencesServer.DEFAULT_WOL_DELAY_SECONDS);
-
 		this.followup_delay_millis = (int) (wol_delay_seconds*1000);
 		
-		Log.d(TAG, "Sending wake packet...");
-		String response = WakeUpPC(host_string, mac_address_string);
+		Log.d(TAG, "Sending wake packet to " + broadcast_address_string + " with MAC address " + mac_address_string);
+		String response = WakeUpPC(broadcast_address_string, mac_address_string);
 		
 		Log.d(TAG, "Wake packet sent!");
-		
 		return response;
 	}
 
@@ -82,7 +93,7 @@ public class WakeUpComputerTask extends AsyncTask<Void, Void, String> {
 			socket.close();
 
 		} catch (Exception e) {
-            //System.out.println("Failed to send Wake-on-LAN packet: + e");
+            System.out.println("Failed to send Wake-on-LAN packet: + e");
         	error = e.getMessage();
         }
         
