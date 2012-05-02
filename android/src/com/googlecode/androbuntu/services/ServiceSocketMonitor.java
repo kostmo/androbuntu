@@ -107,8 +107,16 @@ public class ServiceSocketMonitor extends Service {
 
 	public String[] send_message(String command) {
 		String[] returned_array = send_message(command, null);
-		Log.d(TAG, "Returned string array: " + TextUtils.join(", ", returned_array));
-		return returned_array;
+		if (returned_array != null) {
+			Log.d(TAG, "Returned string array: " + TextUtils.join(", ", returned_array));
+			return returned_array;
+		} else {
+			
+			Log.w(TAG, "Array was null!");
+			
+			return new String[] {};
+		}
+		
 	}
 	
 
