@@ -14,7 +14,7 @@ I recommend installing the [http://www.dd-wrt.com/site/support/router-database D
 === Multi-router configuration ===
 Setting up WOL was somewhat complicated for my arrangement, as I have two "daisy-chained" WRT54GL routers, with DD-WRT on both.  Both routers use NAT.
 
-The "top-level" router provides wireless internet for the apartment, while the second router serves as a wireless client, providing hard-wired ethernet in my room.
+The "top-level" router provides wireless internet for the apartment, while the second router serves as a wireless *client*, providing hard-wired ethernet in my room.
 
 Since the Android device connects to the top-level router, the "Magic Packet" must be relayed across the second router. Normally, the magic packet is transmitted on the "broadcast address" of the subnet, but I was unable set up port forwarding to the broadcast address on the secondary router.  I was able to forward port 9 to a specific IP address on the subnet, but as I learned, the magic packet targets a specific MAC address, and the association between MAC and IP can be lost when a host is suspended.  To prevent this, I followed [http://www.dd-wrt.com/wiki/index.php/WOL#Remote_Wake_On_LAN_via_Port_Forwarding these instructions] to create a static ARP entry, using my own IP and MAC address:
 {{{
