@@ -1,6 +1,4 @@
 package com.googlecode.androbuntu.Turntable3D;
-import android.util.Log;
-
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -13,6 +11,8 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL10Ext;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
+
+import android.util.Log;
 
 /**
  * Allows retrieving the current matrix even if the current OpenGL ES

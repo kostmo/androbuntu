@@ -6,9 +6,9 @@ import java.util.GregorianCalendar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceClickListener;
 
 public class PreferencesServer extends PreferenceActivity {
 

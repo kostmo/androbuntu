@@ -1,7 +1,5 @@
 package com.googlecode.androbuntu;
 
-import java.io.IOException;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -28,7 +25,6 @@ import com.googlecode.androbuntu.Turntable3D.TurntableWidget;
 import com.googlecode.androbuntu.services.ServiceSocketMonitor;
 import com.googlecode.androbuntu.task.SendServerCommandTask;
 import com.googlecode.androbuntu.task.WakeUpComputerTask;
-import com.googlecode.androbuntu.telnet.VlcTelnetHelper;
 
 public class AndroBuntu extends Activity implements View.OnClickListener {
 
@@ -77,6 +73,7 @@ public class AndroBuntu extends Activity implements View.OnClickListener {
 		x10_button.setOnClickListener(x10_button_listener);
 		
 		findViewById(R.id.screen_rotation_button).setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				Intent i = new Intent();
 				i.setClass(AndroBuntu.this, ScreenRotationPanel.class);
