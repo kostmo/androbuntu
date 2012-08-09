@@ -1,19 +1,19 @@
 package com.googlecode.androbuntu;
 
-import com.googlecode.androbuntu.services.ServiceSocketMonitor;
-
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.os.Bundle;
-import android.os.IBinder;
+
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
 
 public class ScriptListActivity extends ListActivity {
 

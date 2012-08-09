@@ -1,7 +1,5 @@
 package com.googlecode.androbuntu;
 
-import com.googlecode.androbuntu.services.ServiceSocketMonitor;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -15,10 +13,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
 
 
 public class X10 extends Activity implements View.OnClickListener {

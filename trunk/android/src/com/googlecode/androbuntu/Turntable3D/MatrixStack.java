@@ -1,8 +1,8 @@
 package com.googlecode.androbuntu.Turntable3D;
-import android.opengl.Matrix;
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import android.opengl.Matrix;
 
 /**
  * A matrix stack, similar to OpenGL ES's internal matrix stack.

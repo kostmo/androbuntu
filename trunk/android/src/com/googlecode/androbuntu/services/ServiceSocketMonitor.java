@@ -2,15 +2,6 @@ package com.googlecode.androbuntu.services;
 
 
 import java.io.BufferedReader;
-
-
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,14 +10,16 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
-
-import com.googlecode.androbuntu.PreferencesServer;
 
 import android.app.Service;
 import android.content.Intent;
@@ -37,6 +30,8 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
+
+import com.googlecode.androbuntu.PreferencesServer;
 
 public class ServiceSocketMonitor extends Service {
 

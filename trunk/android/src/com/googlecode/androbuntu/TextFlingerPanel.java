@@ -1,7 +1,5 @@
 package com.googlecode.androbuntu;
 
-import com.googlecode.androbuntu.services.ServiceSocketMonitor;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -17,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.googlecode.androbuntu.services.ServiceSocketMonitor;
 
 
 public class TextFlingerPanel extends Activity implements View.OnClickListener {

@@ -1,7 +1,7 @@
 package com.googlecode.androbuntu.Turntable3D;
-import android.opengl.Matrix;
-
 import javax.microedition.khronos.opengles.GL10;
+
+import android.opengl.Matrix;
 
 /**
  * A utility that projects

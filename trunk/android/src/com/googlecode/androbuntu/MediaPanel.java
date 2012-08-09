@@ -53,12 +53,14 @@ public class MediaPanel extends Activity implements View.OnClickListener {
 		//	        volup_button.setText("VolUp");
 
 		findViewById(R.id.beep_pc_speaker).setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				new SendGenericCommandTask(MediaPanel.this, service_binder, "beep").execute();
 			}
 		});
 		
 		findViewById(R.id.vlc_launch).setOnClickListener(new View.OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				new SendGenericCommandTask(MediaPanel.this, service_binder, "vlc_launch").execute();
 			}
